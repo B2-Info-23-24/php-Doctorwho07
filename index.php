@@ -12,5 +12,5 @@ spl_autoload_register(function ($class) {
     include 'app/Controllers/' . $class . '.php';
 });
 
-// $route = $_SERVER['REQUEST_URI'];
-// Route($route);
+$route = $_SERVER['REQUEST_URI'];
+Route($route);

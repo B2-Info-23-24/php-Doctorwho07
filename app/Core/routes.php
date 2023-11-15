@@ -3,12 +3,10 @@
 
 function Route($route)
 {
-    echo "route";
     switch ($route) {
         case '/accueil':
-            echo "accueil";
-            // $controller = new AccueilController();
-            // $controller->index();
+            $controller = new AccueilController();
+            $controller->index();
             break;
 
         case '/inscription':
