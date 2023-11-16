@@ -28,16 +28,15 @@ class ConnexionController
     public function traitement()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $lastname = $_POST['lastname'];
-            $firstname = $_POST['firstname'];
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $addedSuccessfully = $this->userModel->AddUser($lastname, $firstname, $email, $password);
-            if ($addedSuccessfully) {
+            $checkedSuccessfull = $this->userModel->CheckUser($email, $password);
+            if ($checkedSuccessfull == true) {
                 header('Location: accueil');
                 exit();
             } else {
-                echo "Erreur lors de l'inscription.";
+                //echo "Email ou Mot de passe incorrect";
+                header('Location: /connexion');
             }
         } else {
             header('Location: /inscription');

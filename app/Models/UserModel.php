@@ -47,6 +47,24 @@ class UserModel
         }
     }
 
+    public function CheckUser($email, $password)
+    {
+        $exist = $this->CheckUserExists($email);
+        if ($exist == true) {
+            $hashedPassword = $this->GetHashedPassword($email);
+            if (!$this->VerifyPassword($password, $hashedPassword)) {
+                // echo "mot de passe incorrect";
+                return false;
+            } else {
+                $_SESSION['user'] = ['Email' => $email];
+                return true;
+            }
+        } else {
+            // echo "utilisateur introuvable";
+            return false;
+        }
+    }
+
     public function AddUser($lastname, $firstname, $email, $password)
     {
         $userExists = $this->CheckUserExists($email);
