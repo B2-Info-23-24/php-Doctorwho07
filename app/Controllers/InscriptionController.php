@@ -5,13 +5,13 @@
 // } else {
 //     die("Le fichier connexion_DB.php n'a pas été trouvé.");
 // }
-require_once "../Models/connexion_DB.php";
+require_once(dirname(__DIR__) . '/Models/connexion_DB.php');
 
 class InscriptionController
 {
     public function index()
     {
-        include('../Views/inscription.php');
+        require_once(dirname(__DIR__) . '/Views/inscription.php');
     }
 
     public function traitement()

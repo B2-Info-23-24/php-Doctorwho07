@@ -10,7 +10,6 @@ function Route($route)
             break;
 
         case '/inscription':
-            echo "bonjour";
             $controller = new InscriptionController();
             $controller->index();
             break;

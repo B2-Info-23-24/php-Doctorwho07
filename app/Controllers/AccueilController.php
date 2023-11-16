@@ -3,6 +3,6 @@ class AccueilController
 {
     public function index()
     {
-        require_once "./Views/Accueil.php";
+        require_once(dirname(__DIR__) . '/Views/Accueil.php');
     }
 }

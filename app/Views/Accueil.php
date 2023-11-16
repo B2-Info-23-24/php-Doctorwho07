@@ -1,5 +1,6 @@
 <?php
-require_once "app/Models/init_DB.php";
+require_once(dirname(__DIR__) . '/Models/init_DB.php');
+
 InitDB();
 // Connexion à la base de données
 $connexion = ConnectDB();

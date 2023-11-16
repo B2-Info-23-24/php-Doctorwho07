@@ -9,7 +9,7 @@ InitDB();
 // session_start();
 
 spl_autoload_register(function ($class) {
-    include 'app/Controllers/' . $class . '.php';
+    require(__DIR__ . '/app/Controllers/' . $class . '.php');
 });
 
 $route = $_SERVER['REQUEST_URI'];

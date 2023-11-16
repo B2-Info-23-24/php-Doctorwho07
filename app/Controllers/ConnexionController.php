@@ -3,7 +3,7 @@ class ConnexionController
 {
     public function index()
     {
-        include(__DIR__ . '/../Views/connexion.php');
+        require_once(dirname(__DIR__) . '/Views/connexion.php');
     }
 
     public function traitement()
