@@ -114,18 +114,55 @@ class UserModel
             return false;
         }
     }
+
+
+    public function GetUserById($userId)
+    {
+        try {
+            $sql = "SELECT * FROM users WHERE ID = '$userId'";
+            $userData = $this->connexion->query($sql)->fetch(PDO::FETCH_ASSOC);
+            return $userData !== false ? $userData : null;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération de l'utilisateur : " . $e->getMessage();
+            return null;
+        }
+    }
+    public function GetAllUsers()
+    {
+        try {
+            $sql = "SELECT * FROM users";
+            $userList = $this->connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            return $userList !== false ? $userList : array();
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
+            return array();
+        }
+    }
+
+
+    public function UpdateUserById($userId, $newUserData)
+    {
+        try {
+            $currentUserData = $this->GetUserById($userId);
+            if ($currentUserData) {
+                foreach ($newUserData as $key => $value) {
+                    $currentUserData[$key] = $value;
+                }
+                $sql = "UPDATE users SET ";
+                foreach ($currentUserData as $key => $value) {
+                    $sql .= "$key = '$value', ";
+                }
+                $sql = rtrim($sql, ", ");
+                $sql .= " WHERE ID = '$userId'";
+                $affectedRows = $this->connexion->exec($sql);
+                return $affectedRows !== false ? true : false;
+            } else {
+                echo "Utilisateur non trouvé.";
+                return false;
+            }
+        } catch (PDOException $e) {
+            echo "Erreur lors de la mise à jour de l'utilisateur : " . $e->getMessage();
+            return false;
+        }
+    }
 }
-
-
-
-
-
-// update user
-
-// get user
-
-// get all users
-
-// get user by id
-
-// get user by email
