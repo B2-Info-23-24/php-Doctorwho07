@@ -8,7 +8,7 @@ class ServiceModel
         $this->connexion = ConnectDB();
     }
 
-    public function getAllServicesTypes()
+    public function ReadServices()
     {
         try {
             $sql = "SELECT * FROM services";

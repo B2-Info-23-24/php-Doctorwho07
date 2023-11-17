@@ -114,7 +114,17 @@ class UserModel
             return false;
         }
     }
-
+    public function DeleteUserById($userId)
+    {
+        $sql = "DELETE FROM users WHERE Email = '$userId'";
+        $deleted = $this->connexion->exec($sql);
+        if ($deleted === false) {
+            echo "Erreur lors de la suppression de l'utilisateur";
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public function GetUserById($userId)
     {
