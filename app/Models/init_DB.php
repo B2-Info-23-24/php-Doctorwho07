@@ -40,6 +40,7 @@ function InitDB()
         ID INT PRIMARY KEY AUTO_INCREMENT,
         Start DATE,
         End DATE,
+        DateOrder DATE,
         Price INT,
         foreign_key_property INT,
         FOREIGN KEY (foreign_key_property) REFERENCES properties(id),
