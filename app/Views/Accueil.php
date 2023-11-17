@@ -6,10 +6,12 @@ if (!$connexion) {
     die("Erreur de connexion à la base de données.");
 }
 
-$sql = "SELECT * FROM users";
+$sqlUser = "SELECT * FROM users";
+$sqlProperties = "SELECT * FROM properties";
+
 
 try {
-    $resultat = $connexion->query($sql);
+    $resultat = $connexion->query($sqlUser);
 
     if ($resultat->rowCount() > 0) {
         echo "<h2>Informations des utilisateurs :</h2>";
@@ -25,6 +27,27 @@ try {
 
             echo "<td>" . (isset($row['Password']) ? $row['Password'] : "") . "</td>";
             echo "<td>" . (isset($row['IsAdmin']) ? $row['IsAdmin'] : "") . "</td";
+            echo "</tr>";
+        }
+
+        echo "</table>";
+    } else {
+        echo "Aucun résultat trouvé.";
+    }
+    $resultatProperties = $connexion->query($sqlProperties);
+    if ($resultatProperties->rowCount() > 0) {
+        echo "<h2>Informations des biens :</h2>";
+        echo "<table border='1'>";
+        echo "<tr><th>ID</th><th>Title</th><th>Description</th><th>Image</th><th>Price</th><th>Location</th></tr>";
+
+        while ($row = $resultatProperties->fetch(PDO::FETCH_ASSOC)) {
+            echo "<tr>";
+            echo "<td>{$row['ID']}</td>";
+            echo "<td>{$row['Title']}</td>";
+            echo "<td>{$row['Description']}</td>";
+            echo "<td>{$row['Image']}</td>";
+            echo "<td>{$row['Price']}</td>";
+            echo "<td>{$row['Location']}</td>";
             echo "</tr>";
         }
 

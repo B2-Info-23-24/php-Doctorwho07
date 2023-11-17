@@ -1,6 +1,6 @@
 <?php
 
-class UserModel
+class PropertiesModel
 {
     private $connexion;
 
@@ -63,17 +63,14 @@ class UserModel
             return false;
         }
     }
-    public function AddProperties($propertyData)
+    public function AddProperties($title, $description, $image, $price, $location)
     {
         try {
-            $columns = implode(", ", array_keys($propertyData));
-            $values = "'" . implode("', '", array_values($propertyData)) . "'";
-            $sql = "INSERT INTO properties ($columns) VALUES ($values)";
-            $affectedRows = $this->connexion->exec($sql);
-
-            return $affectedRows !== false ? true : false;
+            $sql = "INSERT INTO properties (Title, Description, Image, Price, Location) VALUES ('$title', '$description', '$image', '$price', '$location')";
+            $this->connexion->exec($sql);
+            return true;
         } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout de la propriété : " . $e->getMessage();
+            echo "Erreur lors de l'ajout du bien : " . $e->getMessage();
             return false;
         }
     }
@@ -90,10 +87,10 @@ class UserModel
             return array();
         }
     }
-    public function CheckPropertiesExist($propertyId)
+    public function CheckPropertiesExist($title)
     {
         try {
-            $sql = "SELECT COUNT(*) FROM properties WHERE ID = '$propertyId'";
+            $sql = "SELECT COUNT(*) FROM properties WHERE Title = '$title'";
             $result = $this->connexion->query($sql)->fetchColumn();
             return $result > 0;
         } catch (PDOException $e) {

@@ -2,7 +2,7 @@
 
 // index.php
 require_once(__DIR__ . '/vendor/autoload.php');
-require_once(__DIR__ . '/app/Core/routes.php');
+require_once(__DIR__ . '/app/Core/Route.php');
 require_once "app/Models/init_DB.php";
 
 InitDB();

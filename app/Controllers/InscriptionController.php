@@ -41,7 +41,7 @@ class InscriptionController
                 echo "Erreur lors de l'inscription.";
             }
         } else {
-            header('Location: /inscription');
+            header('Location: inscription');
             exit();
         }
     }
