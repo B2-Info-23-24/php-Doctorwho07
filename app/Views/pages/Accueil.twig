@@ -1,107 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        form {
-            width: 300px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            color: #555;
-        }
-
-        a {
-            width: 20% !important;
-            margin: 4%;
-            text-decoration: none;
-            background-color: #007bff;
-        }
-
-        input[type="text"],
-        input[type="tel"],
-        input[type="email"],
-        input[type="password"] {
-            width: calc(100% - 10px);
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }   
-
-        .signin-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            background-color: #28a745;
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            margin-top: 15px;
-        }
-
-        .signin-button:hover {
-            background-color: #218838;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      h2 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+      
+      form {
+        width: 300px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 10px;
+        color: #555;
+      }
+      
+      a {
+        width: 20% !important;
+        margin: 4%;
+        text-decoration: none;
+        background-color: #007bff;
+      }
+      
+      input[type='text'],
+      input[type='tel'],
+      input[type='email'],
+      input[type='password'] {
+        width: calc(100% - 10px);
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      
+      input[type='submit'] {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      
+      input[type='submit']:hover {
+        background-color: #0056b3;
+      }
+      
+      .signin-button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        background-color: #28a745;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        margin-top: 15px;
+      }
+      
+      .signin-button:hover {
+        background-color: #218838;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <h2>Connexion</h2>
-    <form action="/traitement_connexion" method="post">
-        <input type="email" id="email" name="email" placeholder="Email" required><br>
-        <input type="password" id="password" name="password" placeholder="Mot de passe" required><br>
-        <input type="submit" value="Se connecter">
-    </form>
+  <body>
+    {% include 'templates/navbar.twig' %}
+    <h2>home</h2>
     {% if nb_people == 20 %}
-    <a href="/inscription" class="signin-button">S'inscrire</a>
+      <a href="/inscription" class="signin-button">S'inscrire</a>
     {% endif %}
-    <a href="/inscription" class="signin-button">S'inscrire</a>
-
-    
-</body>
+    <tr>
+      <td>{{ Title }}</td>
+    </tr>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">The table header</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Title</td>
+          <td>Description</td>
+          <td>Image</td>
+          <td>Price</td>
+          <td>Location</td>
+          <td>City</td>
+        </tr>
+        {% for property in properties %}
+          <tr>
+            <td>{{ property.Title }}</td>
+            <td>{{ property.Description }}</td>
+            <td>
+              <img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" />
+            </td>
+            <td>{{ property.Price }}</td>
+            <td>{{ property.Location }}</td>
+            <td>{{ property.City }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
 </html>

@@ -2,17 +2,27 @@
 
 namespace Controllers;
 
+use Models\PropertiesModel;
+
 class AccueilTwig
 {
     public function index()
     {
+        $propertiesModel = new PropertiesModel();
+        $properties = $propertiesModel->GetAllProperties();
         $loader = new \Twig\Loader\FilesystemLoader("App/Views/pages/");
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load("Accueil.twig");
-        $_SESSION['isAdmin'] = 1;
-        echo $template->render(array(
-            "id" => "bob",
-            "isAdmin" => $_SESSION['isAdmin'],
-        ));
+
+        $navbarContent = $twig->render('templates/navbar.twig', [
+            'pageTitle' => 'Accueil', 
+            'userName' => 'JohnDoe'
+        ]);
+
+        $mainViewContent = $twig->render('Accueil.twig', [
+            'navbar' => $navbarContent,
+            'properties' => $properties
+        ]);
+
+        echo $mainViewContent;
     }
 }

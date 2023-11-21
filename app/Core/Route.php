@@ -12,31 +12,40 @@ use Controllers\PublierController;
 use Controllers\SearchController;
 use Controllers\UserController;
 
+
 class Route
 {
-
     static function Route($route)
     {
-        $routes = [
-            '/accueil' => ['controller' => 'AccueilController', 'method' => 'index'],
-            '/' => ['controller' => 'AccueilController', 'method' => 'index'],
-            '/inscription' => ['controller' => 'InscriptionController', 'method' => 'index'],
-            '/traitement_inscription' => ['controller' => 'InscriptionController', 'method' => 'traitement'],
-            '/connexion' => ['controller' => 'ConnexionController', 'method' => 'index'],
-            '/traitement_connexion' => ['controller' => 'ConnexionController', 'method' => 'traitement'],
-            '/publier' => ['controller' => 'PublierController', 'method' => 'index'],
-            '/traitement_publier' => ['controller' => 'PublierController', 'method' => 'traitement'],
-            '/PanelUser' => ['controller' => 'PanelUserController', 'method' => 'index'],
-            '/PanelAdmin' => ['controller' => 'PanelAdminController', 'method' => 'home'],
-            '/admin/users' => ['controller' => 'PanelAdminController', 'method' => 'user'],
-            '/admin/properties' => ['controller' => 'PanelAdminController', 'method' => 'properties'],
-            '/admin/admin' => ['controller' => 'PanelAdminController', 'method' => 'admin'],
-            '/search' => ['controller' => 'SearchController', 'method' => 'index'],
-            '/traitement_search' => ['controller' => 'SearchController', 'method' => 'traitement'],
-            '/disconnect' => ['controller' => 'UserController', 'method' => 'disconnect'],
-            '/delete' => ['controller' => 'UserController', 'method' => 'delete'],
-            '/twig' => ['controller' => 'AccueilTwig', 'method' => 'index']
+        $AccueilController = new AccueilController;
+        $AccueilTwig = new AccueilTwig;
+        $ConnexionController = new ConnexionController;
+        $InscriptionController = new InscriptionController;
+        $PanelAdminController = new PanelAdminController;
+        $PropertiesController = new PropertiesController;
+        $PublierController = new PublierController;
+        $SearchController = new SearchController;
+        $UserController = new UserController;
 
+        $routes = [
+            '/accueil' => ['controller' => $AccueilController, 'method' => 'index'],
+            '/' => ['controller' => $AccueilTwig, 'method' => 'index'],
+            '/inscription' => ['controller' => $InscriptionController, 'method' => 'index'],
+            '/traitement_inscription' => ['controller' => $InscriptionController, 'method' => 'traitement'],
+            '/connexion' => ['controller' => $ConnexionController, 'method' => 'index'],
+            '/traitement_connexion' => ['controller' => $ConnexionController, 'method' => 'traitement'],
+            '/publier' => ['controller' => $PublierController, 'method' => 'index'],
+            '/traitement_publier' => ['controller' => $PublierController, 'method' => 'traitement'],
+            // '/PanelUser' => ['controller' => $PanelUserController, 'method' => 'index'],
+            '/PanelAdmin' => ['controller' => $PanelAdminController, 'method' => 'home'],
+            '/admin/users' => ['controller' => $PanelAdminController, 'method' => 'user'],
+            '/admin/properties' => ['controller' => $PanelAdminController, 'method' => 'properties'],
+            '/admin/admin' => ['controller' => $PanelAdminController, 'method' => 'admin'],
+            '/search' => ['controller' => $SearchController, 'method' => 'index'],
+            '/traitement_search' => ['controller' => $SearchController, 'method' => 'traitement'],
+            '/disconnect' => ['controller' => $UserController, 'method' => 'disconnect'],
+            '/delete' => ['controller' => $UserController, 'method' => 'delete'],
+            '/twig' => ['controller' => $AccueilTwig, 'method' => 'index']
         ];
 
 
@@ -57,9 +66,8 @@ class Route
             return;
         }
         if (array_key_exists($route, $routes)) {
-            $controllerName = $routes[$route]['controller'];
             $methodName = $routes[$route]['method'];
-            $controller = new $controllerName();
+            $controller = $routes[$route]['controller'];
             $controller->$methodName();
         } else {
             include(__DIR__ . '/../Views/pages/404.php');

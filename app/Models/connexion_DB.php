@@ -1,4 +1,9 @@
 <?php
+
+namespace Models;
+
+use Dotenv, PDOException, PDO;
+
 function ConnectDB()
 {
     $dotenv = Dotenv\Dotenv::createImmutable('./');

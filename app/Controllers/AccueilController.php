@@ -1,4 +1,7 @@
 <?php
+
+namespace Controllers;
+
 class AccueilController
 {
     public function index()

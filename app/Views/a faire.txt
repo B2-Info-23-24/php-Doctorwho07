@@ -1,0 +1,12 @@
+// search bar
+// filter : prix input, type selector, equipements checkbox, services checkbox
+// admin panel : user, logements, avis, 
+// user panel : reservation, avis, favoris, inormations perso
+// more of properties : toutes les infos du logement, ajout en favoris, disponibilites, avis
+// reservation
+// gestion date dispo et reserve
+// upload img
+// afficher les img 
+// favoris
+
+// numero de telephone !!!!!!!!!
