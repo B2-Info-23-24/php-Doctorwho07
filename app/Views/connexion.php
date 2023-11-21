@@ -32,7 +32,21 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        a {
+            width: 20% !important;
+            margin: 4%;
+            text-decoration: none;
+            background-color: #007bff;
+        }
+
         input[type="text"],
+        input[type="tel"],
         input[type="email"],
         input[type="password"] {
             width: calc(100% - 10px);
@@ -54,21 +68,24 @@
 
         input[type="submit"]:hover {
             background-color: #0056b3;
-        }
+        }   
 
         .signin-button {
             display: block;
-            width: 20%;
-            margin: 4%;
-            text-decoration: none;
-            background-color: #007bff;
-            color: #fff;
+            width: 100%;
             padding: 10px;
+            border: none;
             border-radius: 4px;
+            background-color: #28a745;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
         }
 
         .signin-button:hover {
-            background-color: #0056b3;
+            background-color: #218838;
         }
     </style>
 </head>
@@ -80,7 +97,9 @@
         <input type="password" id="password" name="password" placeholder="Mot de passe" required><br>
         <input type="submit" value="Se connecter">
     </form>
-    <a href="/connexion" class="signin-button">Se connecter</a>
+    <a href="/inscription" class="signin-button">S'inscrire</a>
 </body>
 
 </html>
+
+

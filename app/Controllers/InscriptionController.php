@@ -1,26 +1,11 @@
 <?php
 
-$connexionDB = require_once(dirname(__DIR__) . '/Models/connexion_DB.php');
+namespace Controllers;
 
-if (!$connexionDB) {
-    echo "Le fichier connexion_DB.php n'a pas été trouvé.";
-}
-
-$connexionUser = require_once(dirname(__DIR__) . '/Models/UserModel.php');
-
-if (!$connexionUser) {
-    echo "Le fichier UserModel.php n'a pas été trouvé.";
-}
+use Models\UserModel;
 
 class InscriptionController
 {
-    private $userModel;
-
-    public function __construct()
-    {
-        $this->userModel = new UserModel();
-    }
-
     public function index()
     {
         require_once(dirname(__DIR__) . '/Views/inscription.php');
@@ -31,10 +16,13 @@ class InscriptionController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $lastname = $_POST['lastname'];
             $firstname = $_POST['firstname'];
+            $phone = $_POST['phone'];
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $addedSuccessfully = $this->userModel->AddUser($lastname, $firstname, $email, $password);
-            if ($addedSuccessfully) {
+            UserModel::AddUser($lastname, $firstname, $phone, $email, $password);
+            $checkedSuccessfull = UserModel::CheckUser($email, $password);
+            if ($checkedSuccessfull != false) {
+                $_SESSION['ID'] = $checkedSuccessfull;
                 header('Location: accueil');
                 exit();
             } else {

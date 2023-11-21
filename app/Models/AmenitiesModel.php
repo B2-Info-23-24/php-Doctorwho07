@@ -1,18 +1,18 @@
 <?php
+
+namespace Models;
+
+use PDOException, PDO;
+
 class AmenitiesModel
 {
-    private $connexion;
-
-    public function __construct()
-    {
-        $this->connexion = ConnectDB();
-    }
 
     public function getAllAmenitiesTypes()
     {
+        $connexion = ConnectDB();
         try {
             $sql = "SELECT * FROM amenities";
-            $amenitiesList = $this->connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            $amenitiesList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             return $amenitiesList !== false ? $amenitiesList : array();
         } catch (PDOException $e) {
             echo "Erreur lors de la récupération des types de services : " . $e->getMessage();

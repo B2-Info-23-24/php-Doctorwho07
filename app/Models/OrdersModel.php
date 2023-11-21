@@ -1,19 +1,18 @@
 <?php
 
+namespace Models;
+
+use PDOException, PDO;
+
 class OrdersModel
 {
-    private $connexion;
 
-    public function __construct()
+    static function AddOrders($StartDate, $EndDate, $DateOrder, $price)
     {
-        $this->connexion = ConnectDB();
-    }
-
-    public function AddOrders($StartDate, $EndDate, $DateOrder, $price)
-    {
+        $connexion = ConnectDB();
         try {
             $sql = "INSERT INTO orders (Start, End, DateOrder, Price, foreign_key_property,foreign_key_user) VALUES ('$StartDate','$EndDate', '$DateOrder', '$price')";
-            $this->connexion->exec($sql);
+            $connexion->exec($sql);
             return true;
         } catch (PDOException $e) {
             echo "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage();
@@ -21,22 +20,24 @@ class OrdersModel
         }
     }
 
-    public function GetOrderById($OrderId)
+    static function GetOrderById($OrderId)
     {
+        $connexion = ConnectDB();
         try {
             $sql = "SELECT * FROM orders WHERE ID = '$OrderId'";
-            $userData = $this->connexion->query($sql)->fetch(PDO::FETCH_ASSOC);
+            $userData = $connexion->query($sql)->fetch(PDO::FETCH_ASSOC);
             return $userData !== false ? $userData : null;
         } catch (PDOException $e) {
             echo "Erreur lors de la récupération de l'utilisateur : " . $e->getMessage();
             return null;
         }
     }
-    public function GetAllOrders()
+    static function GetAllOrders()
     {
+        $connexion = ConnectDB();
         try {
             $sql = "SELECT * FROM Orders";
-            $userList = $this->connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            $userList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             return $userList !== false ? $userList : array();
         } catch (PDOException $e) {
             echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
@@ -45,10 +46,11 @@ class OrdersModel
     }
 
 
-    public function UpdateOrdersById($OrderId, $newOrderData)
+    static function UpdateOrdersById($OrderId, $newOrderData)
     {
+        $connexion = ConnectDB();
         try {
-            $currentUserData = $this->GetOrderById($OrderId);
+            $currentUserData = OrdersModel::GetOrderById($OrderId);
             if ($currentUserData) {
                 foreach ($newOrderData as $key => $value) {
                     $currentUserData[$key] = $value;
@@ -59,7 +61,7 @@ class OrdersModel
                 }
                 $sql = rtrim($sql, ", ");
                 $sql .= " WHERE ID = '$OrderId'";
-                $affectedRows = $this->connexion->exec($sql);
+                $affectedRows = $connexion->exec($sql);
                 return $affectedRows !== false ? true : false;
             } else {
                 echo "Utilisateur non trouvé.";

@@ -46,6 +46,7 @@
         }
 
         input[type="text"],
+        input[type="tel"],
         input[type="email"],
         input[type="password"] {
             width: calc(100% - 10px);
@@ -93,7 +94,8 @@
     <h2>Inscription</h2>
     <form action="/traitement_inscription" method="post">
         <input type="text" id="lastname" name="lastname" placeholder="Nom" required><br>
-        <input type="text" id="firstname" name="firstname" placeholder="Prenom" required><br>
+        <input type="text" id="firstname" name="firstname" placeholder="Prénom" required><br>
+        <input type="tel" id="phone" name="phone" placeholder="Numéro de téléphone" pattern="[0-9]{10}" title="Le numéro de téléphone doit comporter 10 chiffres" required><br>
         <input type="email" id="email" name="email" placeholder="Email" required><br>
         <input type="password" id="password" name="password" placeholder="Mot de passe" required><br>
         <input type="submit" value="S'inscrire">

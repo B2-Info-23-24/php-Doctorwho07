@@ -1,39 +1,33 @@
 <?php
-$connexionDB = require_once(dirname(__DIR__) . '/Models/connexion_DB.php');
 
-if (!$connexionDB) {
-    echo "Le fichier connexion_DB.php n'a pas été trouvé.";
-}
+namespace Controllers;
 
-$publierModel = require_once(dirname(__DIR__) . '/Models/PropertiesModel.php');
-
-if (!$publierModel) {
-    echo "Le fichier BienModel.php n'a pas été trouvé.";
-}
+use Models\PropertiesModel;
 
 class PublierController
 {
-    private $propertiesModel;
-
-    public function __construct()
-    {
-        $this->propertiesModel = new PropertiesModel();
-    }
-
     public function index()
     {
         require_once(dirname(__DIR__) . '/Views/addProperties.php');
     }
-
     public function traitement()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $title = $_POST['Title'];
             $description = $_POST['Description'];
-            $image = $_POST['Image'];
+            $image = $_FILES['Image'];
             $price = $_POST['Price'];
-            $location = $_POST['Location'];
-            $propertyAdded = $this->propertiesModel->AddProperties($title, $description, $image, $price, $location);
+            $location = $_POST['Location'] . $_POST['City'];
+            $city = $_POST['City'];
+            $uploadDirectory = (__DIR__ . '../../../public/images/');
+            $tempName = $image['tmp_name'];
+            $fileName = basename($image['name']);
+            $destination = $uploadDirectory . $fileName;
+            if (!move_uploaded_file($tempName, $destination)) {
+                echo "Une erreur est survenue lors du téléchargement de l'image.";
+                exit;
+            }
+            $propertyAdded = PropertiesModel::AddProperties($title, $description, $fileName, $price, $location, $city);
             if ($propertyAdded) {
                 header('Location: accueil');
             } else {

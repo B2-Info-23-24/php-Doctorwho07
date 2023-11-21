@@ -15,3 +15,4 @@ function ConnectDB()
         echo "Erreur de connexion : " . $e->getMessage();
     }
 }
+InitDB();

@@ -4,8 +4,9 @@ namespace Models;
 
 use PDOException, PDO;
 
-class UserModel
+class AdminModel
 {
+
     static function HashPassword($password)
     {
         $options = [
@@ -37,9 +38,9 @@ class UserModel
     {
         $connexion = ConnectDB();
         try {
-            $sql = "SELECT ID FROM users WHERE Email = '$email'";
+            $sql = "SELECT COUNT(*) FROM users WHERE Email = '$email'";
             $result = $connexion->query($sql)->fetchColumn();
-            return $result;
+            return $result > 0;
         } catch (PDOException $e) {
             echo "Erreur lors de la vérification de l'utilisateur : " . $e->getMessage();
             return false;
@@ -48,29 +49,31 @@ class UserModel
 
     static function CheckUser($email, $password)
     {
-        $id = UserModel::CheckUserExists($email);
-        if ($id != false) {
-            $hashedPassword = UserModel::GetHashedPassword($email);
-            if (!UserModel::VerifyPassword($password, $hashedPassword)) {
+        $exist = AdminModel::CheckUserExists($email);
+        if ($exist == true) {
+            $hashedPassword = AdminModel::GetHashedPassword($email);
+            if (!AdminModel::VerifyPassword($password, $hashedPassword)) {
                 // echo "mot de passe incorrect";
                 return false;
             } else {
-                return $id;
+                $_SESSION['user'] = ['Email' => $email];
+                return true;
             }
         } else {
             // echo "utilisateur introuvable";
             return false;
         }
     }
+
     static function AddUser($lastname, $firstname, $phone, $email, $password)
     {
-        $userExists = UserModel::CheckUserExists($email);
+        $userExists = AdminModel::CheckUserExists($email);
         $connexion = ConnectDB();
         if ($userExists) {
             echo "Adresse email déjà utilisée. Veuillez en choisir une autre.";
             return false;
         } else {
-            $hashedPassword = UserModel::HashPassword($password);
+            $hashedPassword = AdminModel::HashPassword($password);
             $isAdmin = 0;
             try {
                 $sql = "INSERT INTO users (Lastname, Firstname,phone, Email, IsAdmin, Password) VALUES ('$lastname', '$firstname','$phone', '$email', '$isAdmin', '$hashedPassword')";
@@ -87,10 +90,10 @@ class UserModel
     {
         $connexion = ConnectDB();
         try {
-            $userExists = UserModel::CheckUserExists($email);
+            $userExists = AdminModel::CheckUserExists($email);
             if ($userExists) {
-                $hashedPasswordFromDB = UserModel::GetHashedPassword($email);
-                if (UserModel::VerifyPassword($password, $hashedPasswordFromDB)) {
+                $hashedPasswordFromDB = AdminModel::GetHashedPassword($email);
+                if (AdminModel::VerifyPassword($password, $hashedPasswordFromDB)) {
                     $sql = "DELETE FROM users WHERE Email = '$email'";
                     $deleted = $connexion->exec($sql);
                     if ($deleted === false) {
@@ -155,7 +158,7 @@ class UserModel
     {
         $connexion = ConnectDB();
         try {
-            $currentUserData = UserModel::GetUserById($userId);
+            $currentUserData = AdminModel::GetUserById($userId);
             if ($currentUserData) {
                 foreach ($newUserData as $key => $value) {
                     $currentUserData[$key] = $value;
@@ -176,13 +179,5 @@ class UserModel
             echo "Erreur lors de la mise à jour de l'utilisateur : " . $e->getMessage();
             return false;
         }
-    }
-
-    static function IsAdmin($id)
-    {
-        $connexion = ConnectDB();
-        $sql = "SELECT IsAdmin FROM users WHERE ID = '$id'";
-        $isAdmin = $connexion->query($sql)->fetchColumn();
-        return $isAdmin !== 1 ? $isAdmin : 0;
     }
 }

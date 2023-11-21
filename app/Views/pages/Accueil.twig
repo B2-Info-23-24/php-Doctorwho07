@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publier</title>
+    <title>Inscription</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -46,7 +46,9 @@
         }
 
         input[type="text"],
-        input[type="number"] {
+        input[type="tel"],
+        input[type="email"],
+        input[type="password"] {
             width: calc(100% - 10px);
             padding: 8px;
             margin-bottom: 15px;
@@ -66,7 +68,7 @@
 
         input[type="submit"]:hover {
             background-color: #0056b3;
-        }
+        }   
 
         .signin-button {
             display: block;
@@ -89,19 +91,17 @@
 </head>
 
 <body>
-    <h2>Publier un Logement</h2>
-    <form action="/traitement_publier" method="post" enctype="multipart/form-data">
-        <input type="text" id="Title" name="Title" placeholder="Title" required><br>
-        <input type="text" id="Description" name="Description" placeholder="Description" required><br>
-        <input type="number" id="Price" name="Price" placeholder="Price" required><br>
-        <input type="text" id="Location" name="Location" placeholder="Location" required><br>
-        <input type="text" id="City" name="City" placeholder="City" required><br>
-        <input type="file" name="Image" accept="image/*">
-        <input type="submit" value="Publier">
+    <h2>Connexion</h2>
+    <form action="/traitement_connexion" method="post">
+        <input type="email" id="email" name="email" placeholder="Email" required><br>
+        <input type="password" id="password" name="password" placeholder="Mot de passe" required><br>
+        <input type="submit" value="Se connecter">
     </form>
+    {% if nb_people == 20 %}
+    <a href="/inscription" class="signin-button">S'inscrire</a>
+    {% endif %}
+    <a href="/inscription" class="signin-button">S'inscrire</a>
 
-    <a href="/connexion" class="signin-button">Se connecter</a>
-
+    
 </body>
-
 </html>
