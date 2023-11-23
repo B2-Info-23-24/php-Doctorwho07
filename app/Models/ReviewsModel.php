@@ -8,7 +8,8 @@ class ReviewsModel
 {
     static function getAllReviews()
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM reviews";
             $reviewsList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -21,7 +22,8 @@ class ReviewsModel
 
     static function AddReviews($Title, $Comment, $Rating)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "INSERT INTO reviews (Title, Comment, Rating, foreign_key_property, foreign_key_user) VALUES ('$Title', '$Comment', '$Rating', NULL, NULL)";
             $connexion->exec($sql);
@@ -33,7 +35,8 @@ class ReviewsModel
     }
     static function DeleteReviews($ID)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "DELETE FROM reviews WHERE ID = '$ID'";
             $connexion->exec($sql);
@@ -45,7 +48,8 @@ class ReviewsModel
     }
     static function GetReviewsById($reviewsId)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM users WHERE ID = '$reviewsId'";
             $userData = $connexion->query($sql)->fetch(PDO::FETCH_ASSOC);

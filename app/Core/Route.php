@@ -3,7 +3,6 @@
 namespace Core;
 
 use Controllers\AccueilController;
-use Controllers\AccueilTwig;
 use Controllers\ConnexionController;
 use Controllers\InscriptionController;
 use Controllers\PanelAdminController;
@@ -11,6 +10,8 @@ use Controllers\PropertiesController;
 use Controllers\PublierController;
 use Controllers\SearchController;
 use Controllers\UserController;
+use Controllers\User;
+use Controllers\ControllerErreur;
 
 
 class Route
@@ -18,25 +19,26 @@ class Route
     static function Route($route)
     {
         $AccueilController = new AccueilController;
-        $AccueilTwig = new AccueilTwig;
         $ConnexionController = new ConnexionController;
         $InscriptionController = new InscriptionController;
         $PanelAdminController = new PanelAdminController;
+        $PanelUserController = new PanelAdminController;
         $PropertiesController = new PropertiesController;
         $PublierController = new PublierController;
         $SearchController = new SearchController;
         $UserController = new UserController;
+        $User = new User;
 
         $routes = [
             '/accueil' => ['controller' => $AccueilController, 'method' => 'index'],
-            '/' => ['controller' => $AccueilTwig, 'method' => 'index'],
+            '/' => ['controller' => $AccueilController, 'method' => 'index'],
             '/inscription' => ['controller' => $InscriptionController, 'method' => 'index'],
             '/traitement_inscription' => ['controller' => $InscriptionController, 'method' => 'traitement'],
             '/connexion' => ['controller' => $ConnexionController, 'method' => 'index'],
             '/traitement_connexion' => ['controller' => $ConnexionController, 'method' => 'traitement'],
             '/publier' => ['controller' => $PublierController, 'method' => 'index'],
             '/traitement_publier' => ['controller' => $PublierController, 'method' => 'traitement'],
-            // '/PanelUser' => ['controller' => $PanelUserController, 'method' => 'index'],
+            '/PanelUser' => ['controller' => $PanelUserController, 'method' => 'index'],
             '/PanelAdmin' => ['controller' => $PanelAdminController, 'method' => 'home'],
             '/admin/users' => ['controller' => $PanelAdminController, 'method' => 'user'],
             '/admin/properties' => ['controller' => $PanelAdminController, 'method' => 'properties'],
@@ -45,7 +47,7 @@ class Route
             '/traitement_search' => ['controller' => $SearchController, 'method' => 'traitement'],
             '/disconnect' => ['controller' => $UserController, 'method' => 'disconnect'],
             '/delete' => ['controller' => $UserController, 'method' => 'delete'],
-            '/twig' => ['controller' => $AccueilTwig, 'method' => 'index']
+            '/user' => ['controller' => $User, 'method' => 'index']
         ];
 
 
@@ -70,7 +72,8 @@ class Route
             $controller = $routes[$route]['controller'];
             $controller->$methodName();
         } else {
-            include(__DIR__ . '/../Views/pages/404.php');
+            $controller = new ControllerErreur();
+            $controller->index();
         }
     }
 }

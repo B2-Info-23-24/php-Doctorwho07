@@ -22,7 +22,8 @@ class UserModel
     }
     static function GetHashedPassword($email)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT Password FROM users WHERE Email = '$email'";
             $hashedPassword = $connexion->query($sql)->fetchColumn();
@@ -35,7 +36,8 @@ class UserModel
 
     static function CheckUserExists($email)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT ID FROM users WHERE Email = '$email'";
             $result = $connexion->query($sql)->fetchColumn();
@@ -65,7 +67,8 @@ class UserModel
     static function AddUser($lastname, $firstname, $phone, $email, $password)
     {
         $userExists = UserModel::CheckUserExists($email);
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         if ($userExists) {
             echo "Adresse email déjà utilisée. Veuillez en choisir une autre.";
             return false;
@@ -85,7 +88,8 @@ class UserModel
 
     static function DeleteUser($email, $password)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $userExists = UserModel::CheckUserExists($email);
             if ($userExists) {
@@ -114,7 +118,8 @@ class UserModel
     }
     static function DeleteUserById($userId)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         $sql = "DELETE FROM users WHERE Email = '$userId'";
         $deleted = $connexion->exec($sql);
         if ($deleted === false) {
@@ -127,7 +132,8 @@ class UserModel
 
     static function GetUserById($userId)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM users WHERE ID = '$userId'";
             $userData = $connexion->query($sql)->fetch(PDO::FETCH_ASSOC);
@@ -139,7 +145,8 @@ class UserModel
     }
     static function GetAllUsers()
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM users";
             $userList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -153,7 +160,8 @@ class UserModel
 
     static function UpdateUserById($userId, $newUserData)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $currentUserData = UserModel::GetUserById($userId);
             if ($currentUserData) {
@@ -180,7 +188,8 @@ class UserModel
 
     static function IsAdmin($id)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         $sql = "SELECT IsAdmin FROM users WHERE ID = '$id'";
         $isAdmin = $connexion->query($sql)->fetchColumn();
         return $isAdmin !== 1 ? $isAdmin : 0;

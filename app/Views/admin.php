@@ -1,10 +1,10 @@
 <?php
 
-$connexion = ConnectDB();
+namespace Views;
 
-if (!$connexion) {
-    die("Erreur de connexion à la base de données.");
-}
+use Models\ConnectDB, PDO, PDOException;
+
+$connexion = ConnectDB::getConnection();
 
 $sqlUser = "SELECT * FROM users WHERE IsAdmin = 1;";
 

@@ -1,31 +1,28 @@
-.navbar {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  color: #fff;
-  padding: 10px 20px;
+  padding: 15px;
+  background-color: #f0f0f0;
 }
 
-.logo {
-  width: 40px;
-  height: auto;
+.header-left a,
+.header-right a {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
 }
 
-.navbar-title {
+.header-title {
   margin-left: 10px;
 }
 
-.navbar-center {
-  flex-grow: 1;
-  text-align: center;
+.page-name {
+  font-weight: bold;
 }
 
 .user-icon {
-  width: 30px;
-  height: auto;
-}
-
-.user-name {
-  margin-right: 10px;
+  margin-right: 5px;
 }

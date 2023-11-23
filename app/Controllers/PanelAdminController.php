@@ -3,12 +3,23 @@
 namespace Controllers;
 
 use Models\UserModel;
+use Models\PropertiesModel;
+
 
 class PanelAdminController
 {
     public function home()
     {
-        require_once(dirname(__DIR__) . '/Views/AdminPanel.php');
+        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $twig = new \Twig\Environment($loader);
+        $template = $twig->load('pages/AdminPanel.html.twig');
+        echo $template->display(
+            [
+                'title' => "Panel Admin",
+                'properties' => PropertiesModel::GetAllProperties(),
+                'users' => UserModel::GetAllUsers(),
+            ]
+        );
     }
     public function user()
     {

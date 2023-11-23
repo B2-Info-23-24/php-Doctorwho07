@@ -9,7 +9,8 @@ class AmenitiesModel
 
     public function getAllAmenitiesTypes()
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM amenities";
             $amenitiesList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);

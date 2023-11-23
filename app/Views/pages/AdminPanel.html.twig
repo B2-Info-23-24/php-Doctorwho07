@@ -1,0 +1,72 @@
+{% extends 'templates/header.html.twig' %}
+{% block title %}
+  {{ Title }}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="public/css/navbar.css" />
+  <link rel="stylesheet" href="public/css/accueil.css" />
+{% endblock %}
+{% block body %}
+  <body>
+    <tr>
+      <td>{{ title }}</td>
+    </tr>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">The Properties Table</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Title</td>
+          <td>Description</td>
+          <td>Image</td>
+          <td>Price</td>
+          <td>Location</td>
+          <td>City</td>
+        </tr>
+        {% for property in properties %}
+          <tr>
+            <td>{{ property.Title }}</td>
+            <td>{{ property.Description }}</td>
+            <td>
+              <img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" />
+            </td>
+            <td>{{ property.Price }}</td>
+            <td>{{ property.Location }}</td>
+            <td>{{ property.City }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">The Users Table</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>LastName</td>
+          <td>FirstName</td>
+          <td>Phone</td>
+          <td>Email</td>
+          <td>IsAdmin</td>
+          <td>Password</td>
+        </tr>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.Lastname }}</td>
+            <td>{{ user.Firstname }}</td>
+            <td>{{ user.Phone }}</td>
+            <td>{{ user.Email }}</td>
+            <td>{{ user.IsAdmin }}</td>
+            <td>{{ user.Password }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+{% endblock %}

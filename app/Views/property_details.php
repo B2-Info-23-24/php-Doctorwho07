@@ -1,5 +1,11 @@
 <?php
-require_once(dirname(__DIR__) . '/Models/PropertiesModel.php');
+
+namespace Views;
+
+use Models\ConnectDB;
+use Models\PropertiesModel;
+
+$connexion = ConnectDB::getConnection();
 
 $url = $_SERVER['REQUEST_URI'];
 $parts = explode('/', $url);

@@ -8,7 +8,7 @@ class PropertiesModel
 {
     static function GetPropertiesById($propertyId)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
         try {
             $sql = "SELECT * FROM properties WHERE ID = '$propertyId'";
             $propertyData = $connexion->query($sql)->fetch(PDO::FETCH_ASSOC);
@@ -21,7 +21,8 @@ class PropertiesModel
 
     static function UpdatePropertiesById($propertyId, $newPropertyData)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $currentPropertyData = PropertiesModel::GetPropertiesById($propertyId);
             if ($currentPropertyData) {
@@ -47,7 +48,8 @@ class PropertiesModel
     }
     static function DeletePropertiesById($propertyId)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "DELETE FROM properties WHERE ID = '$propertyId'";
             $affectedRows = $connexion->exec($sql);
@@ -59,7 +61,8 @@ class PropertiesModel
     }
     static function AddProperties($title, $description, $image, $price, $location, $city)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "INSERT INTO properties (Title, Description, Image, Price, Location, City) 
                 VALUES ('$title', '$description', '$image', '$price', '$location', LOWER('$city'))";
@@ -72,7 +75,8 @@ class PropertiesModel
     }
     static function GetAllProperties()
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM properties";
             $propertyList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -84,7 +88,8 @@ class PropertiesModel
     }
     static function CheckPropertiesExist($id)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT COUNT(*) FROM properties WHERE ID = '$id'";
             $result = $connexion->query($sql)->fetchColumn();
@@ -97,7 +102,8 @@ class PropertiesModel
 
     static function GetPropertiesByTitle($propertyTitle)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM properties WHERE Title = LOWER('$propertyTitle')";
             $propertyData = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -109,7 +115,8 @@ class PropertiesModel
     }
     static function getProperties($searchTerm = '')
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         $sql = "SELECT * FROM properties";
         if (!empty($searchTerm)) {
             $searchTerm = $connexion->quote("%$searchTerm%");
@@ -121,7 +128,8 @@ class PropertiesModel
 
     static function SearchProperties($search)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM properties WHERE Title LIKE :searchTerm";
             $stmt = $connexion->prepare($sql);
@@ -137,7 +145,8 @@ class PropertiesModel
     }
     static function getPropertyDetailsById($propertyId)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM properties WHERE ID = :propertyId";
             $stmt = $connexion->prepare($sql);

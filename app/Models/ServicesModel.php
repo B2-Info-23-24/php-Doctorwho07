@@ -8,7 +8,7 @@ class ServiceModel
 {
     public function ReadServices()
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
         try {
             $sql = "SELECT * FROM services";
             $servicesList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
