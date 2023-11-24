@@ -8,10 +8,13 @@
 {% endblock %}
 {% block body %}
   <body>
-    <form action="/search" method="post">
-      <input type="text" name="search" id="search" placeholder="search" />
-      <input type="submit" value="search" />
+    <form id="searchForm" action="/traitement_search" method="post">
+      <input type="text" id="search" name="search" placeholder="Name" required />
+      <div id="searchResults"></div>
+      <input type="submit" value="Envoyer" />
     </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/public/js/search.js"></script>
 
     <table>
       <thead>
@@ -33,7 +36,7 @@
             <td>{{ property.Title }}</td>
             <td>{{ property.Description }}</td>
             <td>
-              <img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" />
+              <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
             </td>
             <td>{{ property.Price }}</td>
             <td>{{ property.Location }}</td>

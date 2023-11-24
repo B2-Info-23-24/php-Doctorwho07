@@ -1,0 +1,26 @@
+{% extends 'templates/header.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="public/css/navbar.css" />
+{% endblock %}
+{% block body %}
+  <body>
+    <p>ID:</p>
+    <p>Nom: {{ Lastname }}</p>
+    <p>Prenom: {{ Firstname }}</p>
+    <p>telephone: {{ Phone }}</p>
+    <p>Email: {{ Email }}</p>
+    <p>Admin: {{ IsAdmin }}</p>
+    <p>Mot de passe: {{ Password }}</p>
+    <form action="/delete" method="post">
+      <input type="email" id="email" name="email" placeholder="Email" required /><br />
+      <input type="password" id="password" name="password" placeholder="Mot de passe" required /><br />
+      <input type="submit" value="Supprimer mon compte définitivement" />
+    </form>
+    <a href="/disconnect" class="signin-button">Se deconnecter</a>
+    <a href="/modify" class="signin-button">Modifier</a>
+  </body>
+{% endblock %}

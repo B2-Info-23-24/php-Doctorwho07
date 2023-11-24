@@ -8,7 +8,10 @@ class InscriptionController
 {
     public function index()
     {
-        require_once(dirname(__DIR__) . '/Views/inscription.php');
+        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $twig = new \Twig\Environment($loader);
+        $template = $twig->load('pages/inscription.html.twig');
+        echo $template->display();
     }
 
     public function traitement()
@@ -23,6 +26,7 @@ class InscriptionController
             $checkedSuccessfull = UserModel::CheckUser($email, $password);
             if ($checkedSuccessfull != false) {
                 $_SESSION['ID'] = $checkedSuccessfull;
+                $_SESSION['user'] = UserModel::GetUserById($_SESSION['ID']);
                 header('Location: accueil');
                 exit();
             } else {

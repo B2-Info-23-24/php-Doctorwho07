@@ -1,6 +1,6 @@
 {% block html %}
   <!DOCTYPE html>
-  <html lang="en">
+  <html lang="fr">
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,6 +25,11 @@
   <div class="header-center">
     <div class="page-name">{{ title }}</div>
   </div>
+  {% if user == true %}
+    <div class="admin">
+      <a href="/admin/home">panel admin</a>
+    </div>
+  {% endif %}
   <div class="header-right">
     <a href="/user">
       <img src="path_to_user_icon" alt="User Icon" class="user-icon" />

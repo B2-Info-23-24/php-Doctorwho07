@@ -9,7 +9,8 @@ class OrdersModel
 
     static function AddOrders($StartDate, $EndDate, $DateOrder, $price)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "INSERT INTO orders (Start, End, DateOrder, Price, foreign_key_property,foreign_key_user) VALUES ('$StartDate','$EndDate', '$DateOrder', '$price')";
             $connexion->exec($sql);
@@ -22,7 +23,8 @@ class OrdersModel
 
     static function GetOrderById($OrderId)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM orders WHERE ID = '$OrderId'";
             $userData = $connexion->query($sql)->fetch(PDO::FETCH_ASSOC);
@@ -34,7 +36,8 @@ class OrdersModel
     }
     static function GetAllOrders()
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $sql = "SELECT * FROM Orders";
             $userList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -48,7 +51,8 @@ class OrdersModel
 
     static function UpdateOrdersById($OrderId, $newOrderData)
     {
-        $connexion = ConnectDB();
+        $connexion = ConnectDB::getConnection();
+
         try {
             $currentUserData = OrdersModel::GetOrderById($OrderId);
             if ($currentUserData) {

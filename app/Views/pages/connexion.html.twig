@@ -1,0 +1,19 @@
+{% block title %}
+  {{ Title }}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="public/css/navbar.css" />
+  <link rel="stylesheet" href="public/css/accueil.css" />
+  <link rel="stylesheet" href="public/css/connexion.css" />
+{% endblock %}
+{% block body %}
+  <body>
+    <h2>Connexion</h2>
+    <form action="/traitement_connexion" method="post">
+      <input type="email" id="email" name="email" placeholder="Email" required /><br />
+      <input type="password" id="password" name="password" placeholder="Mot de passe" required /><br />
+      <input type="submit" value="Se connecter" />
+    </form>
+    <a href="/inscription" class="signin-button">S'inscrire</a>
+  </body>
+{% endblock %}

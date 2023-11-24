@@ -1,0 +1,20 @@
+{% extends 'templates/header.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="public/css/navbar.css" />
+{% endblock %}
+{% block body %}
+  <body>
+    <h1>{{ Title }}</h1>
+    <p>ID: {{ ID }}</p>
+    <p>Title: {{ Title }}</p>
+    <p>Description: {{ Description }}</p>
+    <img src="/public/images/{{ Image }}" />
+    <p>Price: {{ Price }}</p>
+    <p>Location: {{ Location }}</p>
+    <p>City: {{ City }}</p>
+  </body>
+{% endblock %}

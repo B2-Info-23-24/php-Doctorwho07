@@ -158,32 +158,12 @@ class UserModel
     }
 
 
-    static function UpdateUserById($userId, $newUserData)
+    public static function updateUserById($newUserData)
     {
         $connexion = ConnectDB::getConnection();
-
-        try {
-            $currentUserData = UserModel::GetUserById($userId);
-            if ($currentUserData) {
-                foreach ($newUserData as $key => $value) {
-                    $currentUserData[$key] = $value;
-                }
-                $sql = "UPDATE users SET ";
-                foreach ($currentUserData as $key => $value) {
-                    $sql .= "$key = '$value', ";
-                }
-                $sql = rtrim($sql, ", ");
-                $sql .= " WHERE ID = '$userId'";
-                $affectedRows = $connexion->exec($sql);
-                return $affectedRows !== false ? true : false;
-            } else {
-                echo "Utilisateur non trouvé.";
-                return false;
-            }
-        } catch (PDOException $e) {
-            echo "Erreur lors de la mise à jour de l'utilisateur : " . $e->getMessage();
-            return false;
-        }
+        $query = $connexion->prepare("UPDATE users SET Lastname = ?, Firstname = ?, Phone = ?, Email = ?, IsAdmin = ?, Password = ? WHERE ID = ?");
+        $query->execute([$newUserData['lastname'], $newUserData['firstname'], intval($newUserData['phone']), $newUserData['email'], $newUserData['IsAdmin'], $newUserData['password'], $newUserData['ID']]);
+        return true;
     }
 
     static function IsAdmin($id)

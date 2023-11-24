@@ -8,5 +8,12 @@
 // upload img
 // afficher les img 
 // favoris
+// jwt
 
 // numero de telephone !!!!!!!!!
+
+
+
+select commandes.* from commande inner join commande_produit on commandes.id = commande_produit.commandeId where commande_produit.productId = 1
+
+UNIQUE

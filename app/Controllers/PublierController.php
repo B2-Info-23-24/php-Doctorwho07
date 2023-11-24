@@ -8,7 +8,10 @@ class PublierController
 {
     public function index()
     {
-        require_once(dirname(__DIR__) . '/Views/addProperties.php');
+        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $twig = new \Twig\Environment($loader);
+        $template = $twig->load('pages/addProperty.html.twig');
+        echo $template->display();
     }
     public function traitement()
     {
