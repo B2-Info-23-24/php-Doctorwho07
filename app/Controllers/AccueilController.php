@@ -2,8 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel;
-use Models\UserModel;
+use Models\PropertiesModel, Models\UserModel, Models\FavoriteModel;
 
 
 class AccueilController
@@ -20,12 +19,17 @@ class AccueilController
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/accueil.html.twig');
+        $userId = $_SESSION['user']['ID'] ?? null;
+        $properties = PropertiesModel::GetAllProperties();
         echo $template->display(
             [
                 'title' => "Home",
-                'properties' => PropertiesModel::GetAllProperties(),
+                'properties' => $properties,
                 'users' => $users,
                 'user' =>  $user,
+                'propertyIsFavorite' => function ($propertyId) use ($userId) {
+                    FavoriteModel::isPropertyFavoritedByUser($userId, $propertyId);
+                },
             ]
         );
     }

@@ -1,0 +1,22 @@
+{% extends 'templates/header.html.twig' %}
+{% block title %}
+  {{ Title }}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/accueil.css" />
+  <link rel="stylesheet" href="/public/css/inscription.css" />
+{% endblock %}
+{% block body %}
+  <body>
+    <h2>Ajouter un utilisateur</h2>
+    <form action="/traitement_user" method="post" enctype="multipart/form-data">
+      <input type="text" id="LastName" name="LastName" placeholder="LastName" required /><br />
+      <input type="text" id="FirstName" name="FirstName" placeholder="FirstName" required /><br />
+      <input type="tel" id="Phone" name="Phone" placeholder="Phone" required /><br />
+      <input type="email" id="Email" name="Email" placeholder="Email" required /><br />
+      <input type="text" id="Password" name="Password" placeholder="Password" required /><br />
+      <input type="submit" value="Ajouter" />
+    </form>
+  </body>
+{% endblock %}

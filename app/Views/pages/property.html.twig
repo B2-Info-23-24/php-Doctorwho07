@@ -1,10 +1,9 @@
 {% extends 'templates/header.html.twig' %}
-
 {% block title %}
-
+  {{ Title }}
 {% endblock %}
 {% block css %}
-  <link rel="stylesheet" href="public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/navbar.css" />
 {% endblock %}
 {% block body %}
   <body>
@@ -12,9 +11,25 @@
     <p>ID: {{ ID }}</p>
     <p>Title: {{ Title }}</p>
     <p>Description: {{ Description }}</p>
-    <img src="/public/images/{{ Image }}" />
+    <img src="/public/images/{{ Image }}" width="50px" />
     <p>Price: {{ Price }}</p>
     <p>Location: {{ Location }}</p>
     <p>City: {{ City }}</p>
+    {% if propertyIsFavorite %}
+      <p>Cette propriété est dans vos favoris.</p>
+    {% else %}
+      <p>Cette propriété n'est pas dans vos favoris.</p>
+    {% endif %}
+    {% if propertyIsFavorite %}
+      <form action="/revokeFavorite" method="post">
+        <input type="hidden" name="ID" value="{{ ID }}" />
+        <button type="submit">Retirer des favoris</button>
+      </form>
+    {% else %}
+      <form action="/favorite" method="post">
+        <input type="hidden" name="ID" value="{{ ID }}" />
+        <button type="submit">Ajouter aux favoris</button>
+      </form>
+    {% endif %}
   </body>
 {% endblock %}

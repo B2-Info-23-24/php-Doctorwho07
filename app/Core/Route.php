@@ -10,6 +10,7 @@ use Controllers\PublierController;
 use Controllers\SearchController;
 use Controllers\UserController;
 use Controllers\ControllerErreur;
+use Controllers\FavoritesController;
 use Controllers\PropertiesController;
 
 
@@ -21,66 +22,70 @@ class Route
         session_start();
 
 
-        $AccueilController = new AccueilController;
-        $ConnexionController = new ConnexionController;
-        $InscriptionController = new InscriptionController;
-        $PanelAdminController = new AdminPanelController;
-        $PublierController = new PublierController;
-        $SearchController = new SearchController;
-        $UserController = new UserController;
+        $Accueil = new AccueilController;
+        $Connexion = new ConnexionController;
+        $Inscription = new InscriptionController;
+        $PanelAdmin = new AdminPanelController;
+        $Publier = new PublierController;
+        $Search = new SearchController;
+        $User = new UserController;
         $ControllerErreur = new ControllerErreur;
-        $PropertiesController = new PropertiesController;
+        $Properties = new PropertiesController;
+        $Favorites = new FavoritesController;
 
         $routes = [
             //---------- Accueil ---------//
-            '/accueil' => ['controller' => $AccueilController, 'method' => 'index'],
-            '/' => ['controller' => $AccueilController, 'method' => 'index'],
+            '/accueil' => ['controller' => $Accueil, 'method' => 'index'],
+            '/' => ['controller' => $Accueil, 'method' => 'index'],
             //---------- Inscription ---------//
-            '/inscription' => ['controller' => $InscriptionController, 'method' => 'index'],
-            '/traitement_inscription' => ['controller' => $InscriptionController, 'method' => 'traitement'],
+            '/inscription' => ['controller' => $Inscription, 'method' => 'index'],
+            '/traitement_inscription' => ['controller' => $Inscription, 'method' => 'traitement'],
             //---------- Connexion ---------//
-            '/connexion' => ['controller' => $ConnexionController, 'method' => 'index'],
-            '/traitement_connexion' => ['controller' => $ConnexionController, 'method' => 'traitement'],
+            '/connexion' => ['controller' => $Connexion, 'method' => 'index'],
+            '/traitement_connexion' => ['controller' => $Connexion, 'method' => 'traitement'],
             //---------- Disconnect ---------//
-            '/disconnect' => ['controller' => $UserController, 'method' => 'disconnect'],
+            '/disconnect' => ['controller' => $User, 'method' => 'disconnect'],
             //---------- User Account ---------//
-            '/delete' => ['controller' => $UserController, 'method' => 'delete'],
-            '/user' => ['controller' => $UserController, 'method' => 'home'],
-            '/modify' => ['controller' => $UserController, 'method' => 'Modify'],
+            '/delete' => ['controller' => $User, 'method' => 'delete'],
+            '/user' => ['controller' => $User, 'method' => 'home'],
+            '/modify' => ['controller' => $User, 'method' => 'Modify'],
+            '/favorite' => ['controller' => $Favorites, 'method' => 'favorite'],
+            '/revokeFavorite' => ['controller' => $Favorites, 'method' => 'revokeFavorite'],
 
 
             //---------- Admin Account ---------//
-            '/admin/home' => ['controller' => $PanelAdminController, 'method' => 'home'],
-            '/admin/users' => ['controller' => $PanelAdminController, 'method' => 'users'],
-            '/admin/properties' => ['controller' => $PanelAdminController, 'method' => 'properties'],
-            '/admin/reservation' => ['controller' => $PanelAdminController, 'method' => 'reservation'],
-            '/admin/publish' => ['controller' => $PublierController, 'method' => 'index'],
-            '/traitement_publier' => ['controller' => $PublierController, 'method' => 'traitement'],
-
-
-
-            '/search' => ['controller' => $SearchController, 'method' => 'index'],
-            '/traitement_search' => ['controller' => $SearchController, 'method' => 'traitement']
+            '/admin/home' => ['controller' => $PanelAdmin, 'method' => 'home'],
+            '/admin/users' => ['controller' => $PanelAdmin, 'method' => 'users'],
+            '/admin/admin' => ['controller' => $PanelAdmin, 'method' => 'admin'],
+            '/admin/properties' => ['controller' => $PanelAdmin, 'method' => 'properties'],
+            '/admin/reservation' => ['controller' => $PanelAdmin, 'method' => 'reservation'],
+            '/admin/addProperty' => ['controller' => $Publier, 'method' => 'addProperty'],
+            '/admin/addUser' => ['controller' => $Publier, 'method' => 'addUser'],
+            '/traitement_property' => ['controller' => $Publier, 'method' => 'traitementProperty'],
+            '/traitement_user' => ['controller' => $Publier, 'method' => 'traitementUser'],
+            '/admin/grantAdminRole' => ['controller' => $PanelAdmin, 'method' => 'grantAdminRole'],
+            '/admin/revokeAdminRole' => ['controller' => $PanelAdmin, 'method' => 'revokeAdminRole'],
+            '/admin/deleteUsers' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
+            '/admin/deleteProperties' => ['controller' => $PanelAdmin, 'method' => 'deleteProperty'],
+            '/search' => ['controller' => $Search, 'method' => 'index'],
+            '/traitement_search' => ['controller' => $Search, 'method' => 'traitement']
         ];
         if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {
             header("Location: /");
             exit;
         }
         if (($route == "/user") && (isset($_SESSION['user']) == False)) {
-            $InscriptionController->index();
+            $Inscription->index();
             exit;
         }
         if (strpos($route, '/property/') === 0) {
             $propertyId = substr($route, strlen('/property/'));
-            $PropertiesController->showProperty($propertyId);
+            $Properties->showProperty($propertyId);
             return;
         }
         if (strpos($route, '/user/') === 0) {
             $userId = substr($route, strlen('/user/'));
-            $controllerName = 'UserController';
-            $methodName = 'showUser';
-            $controller = new $controllerName();
-            $controller->$methodName($userId);
+            $User->showUser($userId);
             return;
         }
         if (array_key_exists($route, $routes)) {
@@ -90,5 +95,25 @@ class Route
         } else {
             $ControllerErreur->index();
         }
+        // foreach ($routes as $routePattern => $routeConfig) {
+        //     if ($route === $routePattern) {
+        //         $controller = $routeConfig['controller'];
+        //         $method = $routeConfig['method'];
+
+        //         // Pour les routes /admin/grantAdminRole et /admin/revokeAdminRole
+        //         if ($route === '/admin/grantAdminRole') {
+        //             $userID = intval($_POST['userID'] ?? 0);
+        //             $controller->$method($userID);
+        //         } elseif ($route === '/admin/revokeAdminRole') {
+        //             $userID = intval($_POST['userID'] ?? 0);
+        //             $controller->$method($userID);
+        //         } else {
+        //             $controller->$method();
+        //         }
+        //         return;
+        //     }
+        // }
+
+        // $ControllerErreur->index();
     }
 }

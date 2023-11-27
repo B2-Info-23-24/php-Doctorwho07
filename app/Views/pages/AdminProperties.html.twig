@@ -3,23 +3,46 @@
   {{ Title }}
 {% endblock %}
 {% block css %}
-  <link rel="stylesheet" href="public/css/navbar.css" />
-  <link rel="stylesheet" href="public/css/accueil.css" />
-  <link rel="stylesheet" href="public/css/addproperties.css" />
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/accueil.css" />
+  <link rel="stylesheet" href="/public/css/addproperties.css" />
 {% endblock %}
 {% block body %}
   <body>
-    <h1>{{ Title }}</h1>
-    <div>
-      <button onclick="redirectTo('/admin/users')">Utilisateurs</button>
-      <button onclick="redirectTo('/admin/properties')">Logements</button>
-      <button onclick="redirectTo('/admin/admin')">Administrateurs</button>
-    </div>
-
-    <script>
-      function redirectTo(route) {
-        window.location.href = route
-      }
-    </script>
+    <h2>{{ Title }}</h2>
+    <a href="/admin/addProperty">Publier un nouveau logement</a>
+    <form action="/admin/deleteProperties" method="post">
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Photo</th>
+          <th>Prix par nuitée</th>
+          <th>Adresse</th>
+          <th>Ville</th>
+        </tr>
+        {% for property in properties %}
+          <tr>
+            <td>{{ property.ID }}</td>
+            <td>{{ property.Title }}</td>
+            <td>{{ property.Description }}</td>
+            <td>
+              <img src="/public/images/{{ property.Image }}" width="50px" alt="photo" />
+            </td>
+            <td>{{ property.Price }}</td>
+            <td>{{ property.Location }}</td>
+            <td>{{ property.City }}</td>
+            <td>
+              <a href="/property/{{ property.ID }}"><button>Voir détails</button></a>
+            </td>
+            <td>
+              <input type="checkbox" name="propertiesIDs[]" value="{{ property.ID }}" />
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+      <button type="submit">Supprimer les utilisateurs sélectionnés</button>
+    </form>
   </body>
 {% endblock %}

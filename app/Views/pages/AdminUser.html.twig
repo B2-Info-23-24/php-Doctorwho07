@@ -3,23 +3,46 @@
   {{ Title }}
 {% endblock %}
 {% block css %}
-  <link rel="stylesheet" href="public/css/navbar.css" />
-  <link rel="stylesheet" href="public/css/accueil.css" />
-  <link rel="stylesheet" href="public/css/addproperties.css" />
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/accueil.css" />
+  <link rel="stylesheet" href="/public/css/addproperties.css" />
 {% endblock %}
 {% block body %}
   <body>
-    <h1>{{ Title }}</h1>
-    <div>
-      <button onclick="redirectTo('/admin/users')">Utilisateurs</button>
-      <button onclick="redirectTo('/admin/properties')">Logements</button>
-      <button onclick="redirectTo('/admin/admin')">Administrateurs</button>
-    </div>
-
-    <script>
-      function redirectTo(route) {
-        window.location.href = route
-      }
-    </script>
+    <h2>{{ Title }}</h2>
+    <a href="/admin/addUser">Ajouter un nouvel utilisateur</a>
+    <form action="/admin/deleteUsers" method="post">
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Email</th>
+          <th>Téléphone</th>
+          <th>Mot de passe</th>
+          <th>IsAdmin</th>
+          <th>Informations</th>
+          <th>Supprimer</th>
+        </tr>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.ID }}</td>
+            <td>{{ user.Lastname }}</td>
+            <td>{{ user.FirstName }}</td>
+            <td>{{ user.Email }}</td>
+            <td>{{ user.Phone }}</td>
+            <td>{{ user.Password }}</td>
+            <td>{{ user.IsAdmin }}</td>
+            <td>
+              <a href="/user/{{ user.ID }}">Voir l'utilisateur</a>
+            </td>
+            <td>
+              <input type="checkbox" name="userIDs[]" value="{{ user.ID }}" />
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+      <button type="submit">Supprimer les utilisateurs sélectionnés</button>
+    </form>
   </body>
 {% endblock %}

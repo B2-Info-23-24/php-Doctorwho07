@@ -3,8 +3,8 @@
   {{ title }}
 {% endblock %}
 {% block css %}
-  <link rel="stylesheet" href="public/css/navbar.css" />
-  <link rel="stylesheet" href="public/css/accueil.css" />
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/accueil.css" />
 {% endblock %}
 {% block body %}
   <body>
@@ -30,6 +30,7 @@
           <td>Price</td>
           <td>Location</td>
           <td>City</td>
+          <td>favoris</td>
         </tr>
         {% for property in properties %}
           <tr>
@@ -41,6 +42,17 @@
             <td>{{ property.Price }}</td>
             <td>{{ property.Location }}</td>
             <td>{{ property.City }}</td>
+            {% if propertyIsFavorite %}
+              <form action="/revokeFavorite" method="post">
+                <input type="hidden" name="ID" value="{{ ID }}" />
+                <button type="submit">Retirer des favoris</button>
+              </form>
+            {% else %}
+              <form action="/favorite" method="post">
+                <input type="hidden" name="ID" value="{{ ID }}" />
+                <button type="submit">Ajouter aux favoris</button>
+              </form>
+            {% endif %}
           </tr>
         {% endfor %}
       </tbody>

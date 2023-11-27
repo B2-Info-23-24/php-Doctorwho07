@@ -71,8 +71,8 @@ class InitDB
             ID INT PRIMARY KEY AUTO_INCREMENT,
             Lastname VARCHAR(255),
             Firstname VARCHAR(255),
-            Phone VARCHAR(255),
-            Email VARCHAR(255),
+            Phone VARCHAR(255) UNIQUE,
+            Email VARCHAR(255) UNIQUE,
             IsAdmin BOOLEAN,
             Password VARCHAR(255))");
 

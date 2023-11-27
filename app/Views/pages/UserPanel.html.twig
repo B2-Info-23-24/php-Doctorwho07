@@ -4,11 +4,11 @@
 
 {% endblock %}
 {% block css %}
-  <link rel="stylesheet" href="public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/navbar.css" />
 {% endblock %}
 {% block body %}
   <body>
-    <p>ID:</p>
+    <p>ID: {{ ID }}</p>
     <p>Nom: {{ Lastname }}</p>
     <p>Prenom: {{ Firstname }}</p>
     <p>telephone: {{ Phone }}</p>
@@ -22,5 +22,6 @@
     </form>
     <a href="/disconnect" class="signin-button">Se deconnecter</a>
     <a href="/modify" class="signin-button">Modifier</a>
+    <a href="/favoriteProperty" class="signin-button">Favoris</a>
   </body>
 {% endblock %}

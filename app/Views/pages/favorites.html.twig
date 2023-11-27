@@ -1,0 +1,39 @@
+{% extends 'templates/header.html.twig' %}
+{% block title %}
+  {{ Title }}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/accueil.css" />
+{% endblock %}
+{% block body %}
+  <body>
+    <h2>{{ Title }}</h2>
+    <a href="/admin/addProperty">Publier un nouveau logement</a>
+    <form action="/admin/deleteProperties" method="post">
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Photo</th>
+          <th>Prix par nuitée</th>
+          <th>Adresse</th>
+          <th>Ville</th>
+        </tr>
+        {% if propertyIsFavorite %}
+          <form action="/revokeFavorite" method="post">
+            <input type="hidden" name="ID" value="{{ ID }}" />
+            <button type="submit">Retirer des favoris</button>
+          </form>
+        {% else %}
+          <form action="/favorite" method="post">
+            <input type="hidden" name="ID" value="{{ ID }}" />
+            <button type="submit">Ajouter aux favoris</button>
+          </form>
+        {% endif %}
+      </table>
+      <button type="submit">Supprimer les utilisateurs sélectionnés</button>
+    </form>
+  </body>
+{% endblock %}

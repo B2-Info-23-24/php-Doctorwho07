@@ -46,17 +46,18 @@ class PropertiesModel
             return false;
         }
     }
+
     static function DeletePropertiesById($propertyId)
     {
         $connexion = ConnectDB::getConnection();
 
-        try {
-            $sql = "DELETE FROM properties WHERE ID = '$propertyId'";
-            $affectedRows = $connexion->exec($sql);
-            return $affectedRows !== false ? true : false;
-        } catch (PDOException $e) {
-            echo "Erreur lors de la suppression de la propriété : " . $e->getMessage();
+        $sql = "DELETE FROM properties WHERE ID = '$propertyId'";
+        $deleted = $connexion->exec($sql);
+        if ($deleted === false) {
+            echo "Erreur lors de la suppression de l'utilisateur";
             return false;
+        } else {
+            return true;
         }
     }
     static function AddProperties($title, $description, $image, $price, $location, $city)

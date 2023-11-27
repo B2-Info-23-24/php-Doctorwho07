@@ -3,17 +3,25 @@
 namespace Controllers;
 
 use Models\PropertiesModel;
+use Models\UserModel;
 
 class PublierController
 {
-    public function index()
+    public function addProperty()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/addProperty.html.twig');
         echo $template->display();
     }
-    public function traitement()
+    public function addUser()
+    {
+        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $twig = new \Twig\Environment($loader);
+        $template = $twig->load('pages/addUser.html.twig');
+        echo $template->display();
+    }
+    public function traitementProperty()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $title = $_POST['Title'];
@@ -35,6 +43,25 @@ class PublierController
                 header('Location: accueil');
             } else {
                 header('Location: publier');
+            }
+        } else {
+            header('Location: publier');
+            exit();
+        }
+    }
+    public function traitementUser()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $LastName = $_POST['LastName'];
+            $FirstName = $_POST['FirstName'];
+            $Phone = $_FILES['Phone'];
+            $Email = $_POST['Email'];
+            $Password = $_POST['Password'];
+            $userAdded = UserModel::AddUser($LastName, $FirstName, $Phone, $Email, $Password);
+            if ($userAdded) {
+                header('Location: /admin/users');
+            } else {
+                header('Location: /publier');
             }
         } else {
             header('Location: publier');

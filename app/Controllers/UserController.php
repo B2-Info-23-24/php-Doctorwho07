@@ -32,14 +32,22 @@ class UserController
     static function showUser($userId)
     {
         $user = UserModel::GetUserById($userId);
+        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $twig = new \Twig\Environment($loader);
+        $template = $twig->load('pages/UserPanel.html.twig');
 
-        if ($user) {
-            require_once(dirname(__DIR__) . '/Views/user_details.php');
-        } else {
-            header('Location: /');
-            exit();
-        }
+        echo $template->render([
+            'title' => "Informations utilisateur",
+            'ID' => $user['ID'],
+            'Lastname' => $user['Lastname'],
+            'Firstname' => $user['Firstname'],
+            'Phone' => $user['Phone'],
+            'Email' => $user['Email'],
+            'IsAdmin' => $user['IsAdmin'],
+            'Password' => $user['Password'],
+        ]);
     }
+
     static function extractuserId($route)
     {
         $parts = explode('/', $route);
@@ -69,7 +77,9 @@ class UserController
             header("Location: /connexion");
             exit;
         }
+
         $olddata = $_SESSION['user'];
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newUserData = [
                 'ID' => $_SESSION['user']['ID'],
@@ -79,6 +89,7 @@ class UserController
                 'email' => $_POST['email'],
                 'IsAdmin' => $_SESSION['user']['IsAdmin'],
                 'password' => $_POST['password'],
+                'confirmPassword' => $_POST['confirmPassword']
             ];
 
             if (UserModel::updateUserById($newUserData)) {
@@ -88,20 +99,20 @@ class UserController
                 $_SESSION['user']['Email'] = $newUserData['email'];
                 $_SESSION['user']['IsAdmin'] = $newUserData['IsAdmin'];
                 $_SESSION['user']['Password'] = $newUserData['password'];
-
                 header("Location: /user");
                 exit;
             } else {
                 header("Location: /modify");
-                // Gérer l'échec de la mise à jour (redirection ou message d'erreur)
             }
         }
+
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/AccountModify.html.twig');
         echo $template->display(
             [
                 'title' => "Panel Utilisateur",
+                'ID' => $olddata['ID'],
                 'Lastname' => $olddata['Lastname'],
                 'Firstname' => $olddata['Firstname'],
                 'Phone' =>  $olddata['Phone'],

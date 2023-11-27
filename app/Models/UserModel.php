@@ -23,16 +23,18 @@ class UserModel
     static function GetHashedPassword($email)
     {
         $connexion = ConnectDB::getConnection();
-
         try {
-            $sql = "SELECT Password FROM users WHERE Email = '$email'";
-            $hashedPassword = $connexion->query($sql)->fetchColumn();
+            $sql = "SELECT Password FROM users WHERE Email = ?";
+            $stmt = $connexion->prepare($sql);
+            $stmt->execute([$email]);
+            $hashedPassword = $stmt->fetchColumn();
             return $hashedPassword !== false ? $hashedPassword : null;
         } catch (PDOException $e) {
             echo "Erreur lors de la récupération du mot de passe haché : " . $e->getMessage();
             return null;
         }
     }
+
 
     static function CheckUserExists($email)
     {
@@ -50,20 +52,32 @@ class UserModel
 
     static function CheckUser($email, $password)
     {
-        $id = UserModel::CheckUserExists($email);
-        if ($id != false) {
-            $hashedPassword = UserModel::GetHashedPassword($email);
-            if (!UserModel::VerifyPassword($password, $hashedPassword)) {
-                // echo "mot de passe incorrect";
-                return false;
-            } else {
-                return $id;
+        $hashedPassword = UserModel::GetHashedPassword($email); // Récupération du mot de passe haché pour l'email
+        if ($hashedPassword !== null) {
+            // Comparaison du mot de passe saisi avec le mot de passe haché
+            if (UserModel::VerifyPassword($password, $hashedPassword)) {
+                // Si les mots de passe correspondent, récupérer l'ID de l'utilisateur
+                return UserModel::GetUserByEmail($email)['ID'];
             }
-        } else {
-            // echo "utilisateur introuvable";
-            return false;
+        }
+        return false;
+    }
+
+    static function GetUserByEmail($email)
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $sql = "SELECT * FROM users WHERE Email = ?";
+            $stmt = $connexion->prepare($sql);
+            $stmt->execute([$email]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération de l'utilisateur par email : " . $e->getMessage();
+            return null;
         }
     }
+
+
     static function AddUser($lastname, $firstname, $phone, $email, $password)
     {
         $userExists = UserModel::CheckUserExists($email);
@@ -120,6 +134,19 @@ class UserModel
     {
         $connexion = ConnectDB::getConnection();
 
+        $sql = "DELETE FROM users WHERE ID = '$userId'";
+        $deleted = $connexion->exec($sql);
+        if ($deleted === false) {
+            echo "Erreur lors de la suppression de l'utilisateur";
+            return false;
+        } else {
+            return true;
+        }
+    }
+    static function DeleteUserByEmail($userId)
+    {
+        $connexion = ConnectDB::getConnection();
+
         $sql = "DELETE FROM users WHERE Email = '$userId'";
         $deleted = $connexion->exec($sql);
         if ($deleted === false) {
@@ -161,10 +188,36 @@ class UserModel
     public static function updateUserById($newUserData)
     {
         $connexion = ConnectDB::getConnection();
-        $query = $connexion->prepare("UPDATE users SET Lastname = ?, Firstname = ?, Phone = ?, Email = ?, IsAdmin = ?, Password = ? WHERE ID = ?");
-        $query->execute([$newUserData['lastname'], $newUserData['firstname'], intval($newUserData['phone']), $newUserData['email'], $newUserData['IsAdmin'], $newUserData['password'], $newUserData['ID']]);
-        return true;
+        $hashedPassword = null;
+
+        if (!empty($newUserData['password']) && !empty($newUserData['confirmPassword'])) {
+            if ($newUserData['password'] === $newUserData['confirmPassword']) {
+                $hashedPassword = UserModel::HashPassword($newUserData['password']);
+            } else {
+                echo "Les mots de passe ne correspondent pas.";
+                return false;
+            }
+        }
+
+        try {
+            $query = ($hashedPassword !== null)
+                ? $connexion->prepare("UPDATE users SET Lastname = ?, Firstname = ?, Phone = ?, Email = ?, IsAdmin = ?, Password = ? WHERE ID = ?")
+                : $connexion->prepare("UPDATE users SET Lastname = ?, Firstname = ?, Phone = ?, Email = ?, IsAdmin = ? WHERE ID = ?");
+
+            if ($hashedPassword !== null) {
+                $query->execute([$newUserData['lastname'], $newUserData['firstname'], intval($newUserData['phone']), $newUserData['email'], $newUserData['IsAdmin'], $hashedPassword, $newUserData['ID']]);
+            } else {
+                $query->execute([$newUserData['lastname'], $newUserData['firstname'], intval($newUserData['phone']), $newUserData['email'], $newUserData['IsAdmin'], $newUserData['ID']]);
+            }
+
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la mise à jour de l'utilisateur : " . $e->getMessage();
+            return false;
+        }
     }
+
+
 
     static function IsAdmin($id)
     {

@@ -188,4 +188,40 @@ class AdminModel
             return false;
         }
     }
+    public static function grantAdminRole($userID)
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $query = $connexion->prepare("UPDATE users SET IsAdmin = 1 WHERE ID = ?");
+            $success = $query->execute([$userID]);
+            if ($success) {
+                header("Location: /admin/admin");
+                exit();
+            } else {
+                echo "La mise à jour a échoué.";
+                // Gérer l'erreur ou afficher un message approprié
+            }
+        } catch (PDOException $e) {
+            echo "Erreur : " . $e->getMessage();
+            // Gérer l'erreur en cas de problème avec la requête SQL
+            // Peut-être rediriger vers une page d'erreur ou afficher un message
+            exit();
+        }
+    }
+
+    public static function revokeAdminRole($userID)
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $query = $connexion->prepare("UPDATE users SET IsAdmin = 0 WHERE ID = ?");
+            $query->execute([$userID]);
+            header("Location: /admin/admin");
+            exit();
+        } catch (PDOException $e) {
+            // Gérer l'erreur en cas de problème avec la requête SQL
+            // Peut-être rediriger vers une page d'erreur ou afficher un message
+            echo "Erreur : " . $e->getMessage();
+            exit();
+        }
+    }
 }

@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Models\UserModel;
+use Handler\EmailHandler;
 
 class InscriptionController
 {
@@ -23,15 +24,9 @@ class InscriptionController
             $email = $_POST['email'];
             $password = $_POST['password'];
             UserModel::AddUser($lastname, $firstname, $phone, $email, $password);
-            $checkedSuccessfull = UserModel::CheckUser($email, $password);
-            if ($checkedSuccessfull != false) {
-                $_SESSION['ID'] = $checkedSuccessfull;
-                $_SESSION['user'] = UserModel::GetUserById($_SESSION['ID']);
-                header('Location: accueil');
-                exit();
-            } else {
-                echo "Erreur lors de l'inscription.";
-            }
+            header('Location: home');
+
+            exit();
         } else {
             header('Location: inscription');
             exit();

@@ -1,0 +1,54 @@
+{% extends 'templates/header.html.twig' %}
+{% block title %}
+  {{ Title }}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/accueil.css" />
+  <link rel="stylesheet" href="/public/css/addproperties.css" />
+{% endblock %}
+{% block body %}
+  <body>
+    <h2>{{ Title }}</h2>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Statut</th>
+        <th>Changer le Statut</th>
+      </tr>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.ID }}</td>
+          <td>{{ user.Lastname }}</td>
+          <td>{{ user.FirstName }}</td>
+          <td>{{ user.Email }}</td>
+          <td>{{ user.Phone }}</td>
+          <td>
+            {% if user.IsAdmin %}
+              <p>Admin</p>
+            {% else %}
+              <p>Utilisateur</p>
+            {% endif %}
+          </td>
+          <td>
+            {% if not user.IsAdmin %}
+              <form action="/admin/grantAdminRole" method="post">
+                <input type="hidden" name="userID" value="{{ user.ID }}" />
+                <button type="submit">Attribuer Admin</button>
+              </form>
+            {% else %}
+              <form action="/admin/revokeAdminRole" method="post">
+                <input type="hidden" name="userID" value="{{ user.ID }}" />
+                <button type="submit">Révoquer Admin</button>
+              </form>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </body>
+{% endblock %}

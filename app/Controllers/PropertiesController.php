@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel;
+use Models\PropertiesModel, Models\FavoriteModel;
 
 
 class PropertiesController
@@ -13,22 +13,21 @@ class PropertiesController
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/property.html.twig');
+        $userId = $_SESSION['user']['ID'];
+        $propertyIsFavorite = false;
+        $propertyIsFavorite = FavoriteModel::isPropertyFavoritedByUser($userId, $propertyId);
         echo $template->display(
             [
                 'property' => $property,
-                'ID' => $propertyId,
+                'ID' => $property['ID'],
                 'Title' => $property['Title'],
                 'Description' => $property['Description'],
                 'Image' => $property['Image'],
                 'Price' => $property['Price'],
                 'Location' => $property['Location'],
                 'City' => $property['City'],
+                'propertyIsFavorite' => $propertyIsFavorite
             ]
         );
-    }
-    public function extractPropertyId($route)
-    {
-        $parts = explode('/', $route);
-        return end($parts);
     }
 }
