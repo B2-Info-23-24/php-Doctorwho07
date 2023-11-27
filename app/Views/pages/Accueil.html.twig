@@ -42,17 +42,19 @@
             <td>{{ property.Price }}</td>
             <td>{{ property.Location }}</td>
             <td>{{ property.City }}</td>
-            {% if propertyIsFavorite %}
-              <form action="/revokeFavorite" method="post">
-                <input type="hidden" name="ID" value="{{ ID }}" />
-                <button type="submit">Retirer des favoris</button>
-              </form>
-            {% else %}
-              <form action="/favorite" method="post">
-                <input type="hidden" name="ID" value="{{ ID }}" />
-                <button type="submit">Ajouter aux favoris</button>
-              </form>
-            {% endif %}
+            <td>
+              {% if property.isFavorite %}
+                <form action="/revokeFavorite" method="post">
+                  <input type="hidden" name="ID" value="{{ property.ID }}" />
+                  <button type="submit">Retirer des favoris</button>
+                </form>
+              {% else %}
+                <form action="/favorite" method="post">
+                  <input type="hidden" name="ID" value="{{ property.ID }}" />
+                  <button type="submit">Ajouter aux favoris</button>
+                </form>
+              {% endif %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>

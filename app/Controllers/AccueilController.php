@@ -19,17 +19,24 @@ class AccueilController
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/accueil.html.twig');
-        $userId = $_SESSION['user']['ID'] ?? null;
         $properties = PropertiesModel::GetAllProperties();
+        $propertiesandfavorites = array();
+        foreach ($properties as $property) {
+            if (isset($_SESSION['user'])) {
+                $isFavorite = FavoriteModel::isPropertyFavoritedByUser($_SESSION['user']['ID'], $property['ID']);
+            } else {
+                $isFavorite = false;
+            }
+
+            $accommodationAndFavorite = array('isFavorite' => $isFavorite) + $property;
+            array_push($propertiesandfavorites, $accommodationAndFavorite);
+        }
         echo $template->display(
             [
                 'title' => "Home",
-                'properties' => $properties,
+                'properties' => $propertiesandfavorites,
                 'users' => $users,
                 'user' =>  $user,
-                'propertyIsFavorite' => function ($propertyId) use ($userId) {
-                    FavoriteModel::isPropertyFavoritedByUser($userId, $propertyId);
-                },
             ]
         );
     }
