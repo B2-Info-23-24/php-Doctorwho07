@@ -9,23 +9,17 @@
 {% endblock %}
 {% block body %}
   <body>
-    <form id="searchForm" action="/traitement_search" method="post">
-      <input type="text" id="search" name="search" placeholder="Name" required />
-      <div id="searchResults"></div>
-      <input type="submit" value="Envoyer" />
-    </form>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/public/js/search.js"></script>
     <table>
       <thead>
         <tr>
-          <th colspan="2">The Properties Table</th>
+          <th colspan="2">Vos reservations effectuées</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Nom du logement</td>
           <td>Dates</td>
+          <td>Dates de la reservation</td>
           <td>Nombre de nuitées</td>
           <td>Montant total</td>
           <td>Localisation</td>
@@ -33,12 +27,12 @@
         </tr>
         {% for reservation in reservations %}
           <tr>
-            <td>{{ property.Title }}</td>
-            <td>{{ property.Dates }}</td>
-            <td>{{ property.Night }}</td>
-            <td>{{ property.Cost }}</td>
-            <td>{{ property.Location }}</td>
-            <td>{{ property.Statut }}</td>
+            <td>{{ reservation.Title }}</td>
+            <td>{{ reservation.Start }} - {{ reservation.End }}</td>
+            <td>{{ reservation.DateOrder }}</td>
+            <td>{{ reservation.NumberOfNights }}</td>
+            <td>{{ reservation.Price }}</td>
+            <td>{{ reservation.Location }}</td>
           </tr>
         {% endfor %}
       </tbody>

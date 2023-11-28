@@ -9,13 +9,10 @@
 {% endblock %}
 {% block body %}
   <body>
-    <p>ID: {{ ID }}</p>
     <p>Nom: {{ Lastname }}</p>
     <p>Prenom: {{ Firstname }}</p>
     <p>telephone: {{ Phone }}</p>
     <p>Email: {{ Email }}</p>
-    <p>Admin: {{ IsAdmin }}</p>
-    <p>Mot de passe: {{ Password }}</p>
     <form action="/delete" method="post">
       <input type="email" id="email" name="email" placeholder="Email" required /><br />
       <input type="password" id="password" name="password" placeholder="Mot de passe" required /><br />

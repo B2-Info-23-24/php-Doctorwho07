@@ -13,6 +13,7 @@ use Controllers\ControllerErreur;
 use Controllers\FavoritesController;
 use Controllers\PropertiesController;
 use Controllers\ReviewsController;
+use Controllers\ReservationController;
 
 
 
@@ -34,6 +35,7 @@ class Route
         $Properties = new PropertiesController;
         $Favorites = new FavoritesController;
         $Review = new ReviewsController;
+        $Reservation = new ReservationController;
 
         $routes = [
             //---------- Accueil ---------//
@@ -54,7 +56,9 @@ class Route
             '/favorite' => ['controller' => $Favorites, 'method' => 'favorite'],
             '/revokeFavorite' => ['controller' => $Favorites, 'method' => 'revokeFavorite'],
             '/favoriteProperty' => ['controller' => $Favorites, 'method' => 'favoriteProperty'],
-            '/reservation' => ['controller' => $Properties, 'method' => 'Reservation'],
+            '/reservation' => ['controller' => $Reservation, 'method' => 'Reservation'],
+            '/Orders' => ['controller' => $Reservation, 'method' => 'ReservationsProperty'],
+
 
             //---------- Admin Account ---------//
             '/admin/home' => ['controller' => $PanelAdmin, 'method' => 'home'],

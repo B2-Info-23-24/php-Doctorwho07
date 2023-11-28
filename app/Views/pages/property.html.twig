@@ -9,13 +9,13 @@
 {% block body %}
   <body>
     <h1>{{ Title }}</h1>
-    <p>ID: {{ ID }}</p>
-    <p>Title: {{ Title }}</p>
     <p>Description: {{ Description }}</p>
     <img src="/public/images/{{ Image }}" width="50px" />
-    <p>Price: {{ Price }}€</p>
-    <p>Location: {{ Location }}</p>
-    <p>City: {{ City }}</p>
+    <p>Prix pour la nuit : {{ Price }}€</p>
+    <p>Adresse : {{ Location }}</p>
+    <p>Ville : {{ City }}</p>
+    <hr />
+
     {% if connected %}
       <form action="/publishReview" method="post">
         <input type="hidden" name="propertyId" value="{{ ID }}" />
@@ -26,10 +26,16 @@
       </form>
       <form action="/reservation" method="post">
         <input type="hidden" name="propertyId" value="{{ ID }}" />
-        <input type="date" id="startDate" name="startDate" placeholder="startDate" required /><br />
-        <input type="date" id="endDate" name="endDate" placeholder="endDate" required /><br />
+        <input type="date" id="startDate" name="startDate" placeholder="startDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />
+        <input type="date" id="endDate" name="endDate" placeholder="endDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />
         <button type="submit">envoyer</button>
       </form>
+      <div id="errorPopup" style="display: none;">
+        <div>
+          <p id="errorMessage"></p>
+          <button onclick="closePopup()">Fermer</button>
+        </div>
+      </div>
       {% if propertyIsFavorite %}
         <p>Cette propriété est dans vos favoris.</p>
         <form action="/revokeFavorite" method="post" id="revokeFavorite">
@@ -46,15 +52,6 @@
     {% else %}
       <p>Vous devez être connecté pour l'ajouter aux favoris, mettre un commentaire ou effectuer une reservation</p>
     {% endif %}
-    <script>
-      document.getElementById('revokeFavorite').addEventListener('submit', function () {
-        var currentPage = window.location.href
-        document.getElementById('currentPage').value = currentPage
-      })
-      document.getElementById('favorite').addEventListener('submit', function () {
-        var currentPage = window.location.href
-        document.getElementById('currentPage').value = currentPage
-      })
-    </script>
+    <script></script>
   </body>
 {% endblock %}

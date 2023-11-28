@@ -16,20 +16,19 @@ class FavoritesController
             FavoriteModel::addToFavorites($userId, $propertyId);
         }
 
-        header("Location: ");
+        header("Location: /");
         exit();
     }
 
     public function revokeFavorite()
     {
-        $currentPage = $_POST['currentPage'] ?? '/';
         $userId = $_SESSION['user']['ID'] ?? null;
         $propertyId = $_POST['ID'] ?? null;
 
         if ($userId && $propertyId) {
             FavoriteModel::removeFromFavorites($userId, $propertyId);
         }
-        header("Location: $currentPage");
+        header("Location: /");
         exit();
     }
     public function isPropertyFavorited()

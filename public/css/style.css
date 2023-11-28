@@ -2,3 +2,40 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.date-range-picker {
+  position: relative;
+  width: 300px;
+  margin: 20px auto;
+}
+
+#dateRangeInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Style du calendrier (à adapter selon la librairie utilisée) */
+.calendar {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  display: none;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.calendar.active {
+  display: block;
+}
+
+/* Style des jours sélectionnés */
+.calendar .selected {
+  background-color: #367bff;
+  color: #fff;
+}
