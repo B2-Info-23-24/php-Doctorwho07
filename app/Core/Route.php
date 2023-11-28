@@ -12,6 +12,7 @@ use Controllers\UserController;
 use Controllers\ControllerErreur;
 use Controllers\FavoritesController;
 use Controllers\PropertiesController;
+use Controllers\ReviewsController;
 
 
 
@@ -32,6 +33,7 @@ class Route
         $ControllerErreur = new ControllerErreur;
         $Properties = new PropertiesController;
         $Favorites = new FavoritesController;
+        $Review = new ReviewsController;
 
         $routes = [
             //---------- Accueil ---------//
@@ -51,7 +53,8 @@ class Route
             '/modify' => ['controller' => $User, 'method' => 'Modify'],
             '/favorite' => ['controller' => $Favorites, 'method' => 'favorite'],
             '/revokeFavorite' => ['controller' => $Favorites, 'method' => 'revokeFavorite'],
-
+            '/favoriteProperty' => ['controller' => $Favorites, 'method' => 'favoriteProperty'],
+            '/reservation' => ['controller' => $Properties, 'method' => 'Reservation'],
 
             //---------- Admin Account ---------//
             '/admin/home' => ['controller' => $PanelAdmin, 'method' => 'home'],
@@ -68,7 +71,8 @@ class Route
             '/admin/deleteUsers' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
             '/admin/deleteProperties' => ['controller' => $PanelAdmin, 'method' => 'deleteProperty'],
             '/search' => ['controller' => $Search, 'method' => 'index'],
-            '/traitement_search' => ['controller' => $Search, 'method' => 'traitement']
+            '/traitement_search' => ['controller' => $Search, 'method' => 'traitement'],
+            '/publishReview' => ['controller' => $Review, 'method' => 'PublishReview']
         ];
         if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {
             header("Location: /");

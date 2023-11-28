@@ -3,7 +3,6 @@
 namespace Controllers;
 
 use Models\UserModel;
-use Handler\EmailHandler;
 
 class InscriptionController
 {

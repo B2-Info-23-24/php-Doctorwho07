@@ -4,6 +4,7 @@
 {% endblock %}
 {% block css %}
   <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/style.css" />
 {% endblock %}
 {% block body %}
   <body>
@@ -12,24 +13,48 @@
     <p>Title: {{ Title }}</p>
     <p>Description: {{ Description }}</p>
     <img src="/public/images/{{ Image }}" width="50px" />
-    <p>Price: {{ Price }}</p>
+    <p>Price: {{ Price }}€</p>
     <p>Location: {{ Location }}</p>
     <p>City: {{ City }}</p>
-    {% if propertyIsFavorite %}
-      <p>Cette propriété est dans vos favoris.</p>
-    {% else %}
-      <p>Cette propriété n'est pas dans vos favoris.</p>
-    {% endif %}
-    {% if propertyIsFavorite %}
-      <form action="/revokeFavorite" method="post">
-        <input type="hidden" name="ID" value="{{ ID }}" />
-        <button type="submit">Retirer des favoris</button>
+    {% if connected %}
+      <form action="/publishReview" method="post">
+        <input type="hidden" name="propertyId" value="{{ ID }}" />
+        <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
+        <input type="text" id="Comment" name="Comment" placeholder="Comment" required /><br />
+        <input type="range" id="Rating" name="Rating" placeholder="Rating" required step="1" min="0" max="5" /><br />
+        <button type="submit">envoyer</button>
       </form>
-    {% else %}
-      <form action="/favorite" method="post">
-        <input type="hidden" name="ID" value="{{ ID }}" />
-        <button type="submit">Ajouter aux favoris</button>
+      <form action="/reservation" method="post">
+        <input type="hidden" name="propertyId" value="{{ ID }}" />
+        <input type="date" id="startDate" name="startDate" placeholder="startDate" required /><br />
+        <input type="date" id="endDate" name="endDate" placeholder="endDate" required /><br />
+        <button type="submit">envoyer</button>
       </form>
+      {% if propertyIsFavorite %}
+        <p>Cette propriété est dans vos favoris.</p>
+        <form action="/revokeFavorite" method="post" id="revokeFavorite">
+          <input type="hidden" name="ID" value="{{ ID }}" />
+          <button type="submit">Retirer des favoris</button>
+        </form>
+      {% else %}
+        <p>Cette propriété n'est pas dans vos favoris.</p>
+        <form action="/favorite" method="post" id="favorite">
+          <input type="hidden" name="ID" value="{{ ID }}" />
+          <button type="submit">Ajouter aux favoris</button>
+        </form>
+      {% endif %}
+    {% else %}
+      <p>Vous devez être connecté pour l'ajouter aux favoris, mettre un commentaire ou effectuer une reservation</p>
     {% endif %}
+    <script>
+      document.getElementById('revokeFavorite').addEventListener('submit', function () {
+        var currentPage = window.location.href
+        document.getElementById('currentPage').value = currentPage
+      })
+      document.getElementById('favorite').addEventListener('submit', function () {
+        var currentPage = window.location.href
+        document.getElementById('currentPage').value = currentPage
+      })
+    </script>
   </body>
 {% endblock %}

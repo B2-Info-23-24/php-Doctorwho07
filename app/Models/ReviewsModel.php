@@ -9,7 +9,6 @@ class ReviewsModel
     static function getAllReviews()
     {
         $connexion = ConnectDB::getConnection();
-
         try {
             $sql = "SELECT * FROM reviews";
             $reviewsList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -19,20 +18,21 @@ class ReviewsModel
             return [];
         }
     }
-
-    static function AddReviews($Title, $Comment, $Rating)
+    static function addReview($userId, $propertyId, $title, $comment, $rating)
     {
         $connexion = ConnectDB::getConnection();
 
         try {
-            $sql = "INSERT INTO reviews (Title, Comment, Rating, foreign_key_property, foreign_key_user) VALUES ('$Title', '$Comment', '$Rating', NULL, NULL)";
-            $connexion->exec($sql);
+            $sql = "INSERT INTO reviews (Title, Comment, Rating, foreign_key_property, foreign_key_user) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $connexion->prepare($sql);
+            $stmt->execute([$title, $comment, $rating, $propertyId, $userId]);
             return true;
         } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage();
+            echo "Erreur lors de l'ajout de l'avis : " . $e->getMessage();
             return false;
         }
     }
+
     static function DeleteReviews($ID)
     {
         $connexion = ConnectDB::getConnection();

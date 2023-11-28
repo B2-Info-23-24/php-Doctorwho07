@@ -6,7 +6,7 @@ use Models\UserModel;
 
 class ConnexionController
 {
-    public function index()
+    static public function index()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
@@ -14,7 +14,7 @@ class ConnexionController
         echo $template->display();
     }
 
-    public function traitement()
+    static public function traitement()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
@@ -32,6 +32,14 @@ class ConnexionController
         } else {
             header('Location: inscription');
             exit();
+        }
+    }
+    static public function isConnected()
+    {
+        if (isset($_SESSION['user'])) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

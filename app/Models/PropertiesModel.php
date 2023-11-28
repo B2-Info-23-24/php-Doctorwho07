@@ -160,6 +160,40 @@ class PropertiesModel
             return null;
         }
     }
+    static function getPropertiesPrice($propertyId)
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $sql = "SELECT Price FROM properties WHERE ID = '$propertyId'";
+            $propertyPrice = $connexion->query($sql)->fetch(PDO::FETCH_ASSOC);
+            return isset($propertyPrice['Price']) ? (int) $propertyPrice['Price'] : 0;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération du prix de la propriété : " . $e->getMessage();
+            return 0;
+        }
+    }
+
+    static function AddReservation($reservation)
+    {
+        $connexion = ConnectDB::getConnection();
+
+        try {
+            $sql = "INSERT INTO orders (Start, End, DateOrder, Price, foreign_key_property, foreign_key_user) 
+                    VALUES (
+                        '{$reservation['startDate']}',
+                        '{$reservation['endDate']}',
+                        '{$reservation['DateOrder']}',
+                        '{$reservation['price']}',
+                        '{$reservation['propertyId']}',
+                        '{$reservation['userId']}'
+                    )";
+            $connexion->exec($sql);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de l'ajout du bien : " . $e->getMessage();
+            return false;
+        }
+    }
 }
 
 

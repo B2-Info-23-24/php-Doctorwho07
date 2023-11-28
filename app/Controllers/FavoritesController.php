@@ -3,12 +3,12 @@
 namespace Controllers;
 
 use Models\FavoriteModel;
+use Models\PropertiesModel;
 
 class FavoritesController
 {
     public function favorite()
     {
-        $currentPage = $_POST['currentPage'] ?? '/';
         $userId = $_SESSION['user']['ID'] ?? null;
         $propertyId = $_POST['ID'] ?? null;
 
@@ -16,7 +16,7 @@ class FavoritesController
             FavoriteModel::addToFavorites($userId, $propertyId);
         }
 
-        header("Location:$currentPage");
+        header("Location: ");
         exit();
     }
 
@@ -38,5 +38,28 @@ class FavoritesController
         $propertyId = $_POST['ID'] ?? null;
         $isFavorite = FavoriteModel::isPropertyFavoritedByUser($userId, $propertyId);
         return $isFavorite;
+    }
+
+    public function favoriteProperty()
+    {
+        $userId = $_SESSION['user']['ID'] ?? null;
+
+        $properties = PropertiesModel::GetAllProperties();
+        $propertiesandfavorites = array();
+        foreach ($properties as $property) {
+            $isFavorite = FavoriteModel::isPropertyFavoritedByUser($userId, $property['ID']);
+            $accommodationAndFavorite = array('isFavorite' => $isFavorite) + $property;
+            array_push($propertiesandfavorites, $accommodationAndFavorite);
+        }
+        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $twig = new \Twig\Environment($loader);
+        echo $twig->render(
+            'pages/favoriteProperties.html.twig',
+            [
+                'title' => "Favorite",
+                'properties' => $propertiesandfavorites,
+            ]
+        );
+        exit();
     }
 }

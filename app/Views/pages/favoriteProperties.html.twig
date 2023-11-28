@@ -17,7 +17,6 @@
     </form>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/public/js/search.js"></script>
-
     <table>
       <thead>
         <tr>
@@ -35,29 +34,31 @@
           <td>favoris</td>
         </tr>
         {% for property in properties %}
-          <tr>
-            <td>{{ property.Title }}</td>
-            <td>{{ property.Description }}</td>
-            <td>
-              <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
-            </td>
-            <td>{{ property.Price }}</td>
-            <td>{{ property.Location }}</td>
-            <td>{{ property.City }}</td>
-            <td>
-              {% if property.isFavorite %}
-                <form action="/revokeFavorite" method="post">
-                  <input type="hidden" name="ID" value="{{ property.ID }}" />
-                  <button type="submit">Retirer des favoris</button>
-                </form>
-              {% else %}
-                <form action="/favorite" method="post">
-                  <input type="hidden" name="ID" value="{{ property.ID }}" />
-                  <button type="submit">Ajouter aux favoris</button>
-                </form>
-              {% endif %}
-            </td>
-          </tr>
+          {% if property.isFavorite %}
+            <tr>
+              <td>{{ property.Title }}</td>
+              <td>{{ property.Description }}</td>
+              <td>
+                <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
+              </td>
+              <td>{{ property.Price }}</td>
+              <td>{{ property.Location }}</td>
+              <td>{{ property.City }}</td>
+              <td>
+                {% if property.isFavorite %}
+                  <form action="/revokeFavorite" method="post">
+                    <input type="hidden" name="ID" value="{{ property.ID }}" />
+                    <button type="submit">Retirer des favoris</button>
+                  </form>
+                {% else %}
+                  <form action="/favorite" method="post">
+                    <input type="hidden" name="ID" value="{{ property.ID }}" />
+                    <button type="submit">Ajouter aux favoris</button>
+                  </form>
+                {% endif %}
+              </td>
+            </tr>
+          {% endif %}
         {% endfor %}
       </tbody>
     </table>
