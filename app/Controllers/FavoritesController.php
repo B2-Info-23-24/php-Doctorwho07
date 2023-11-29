@@ -2,8 +2,7 @@
 
 namespace Controllers;
 
-use Models\FavoriteModel;
-use Models\PropertiesModel;
+use Models\FavoriteModel, Models\PropertiesModel;
 
 class FavoritesController
 {

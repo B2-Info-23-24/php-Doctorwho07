@@ -2,8 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel;
-use Models\UserModel;
+use Models\PropertiesModel, Models\UserModel;
 
 class PublierController
 {

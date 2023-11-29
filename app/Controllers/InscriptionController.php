@@ -23,7 +23,16 @@ class InscriptionController
             $email = $_POST['email'];
             $password = $_POST['password'];
             UserModel::AddUser($lastname, $firstname, $phone, $email, $password);
-            header('Location: home');
+            $checkedSuccessfull = UserModel::CheckUser($email, $password);
+            if ($checkedSuccessfull != false) {
+                $_SESSION['ID'] = $checkedSuccessfull;
+                $_SESSION['user'] = UserModel::GetUserById($_SESSION['ID']);
+                header('Location: /');
+                exit();
+            } else {
+                header('Location: connexion');
+                //echo "Email ou Mot de passe incorrect";
+            }
 
             exit();
         } else {

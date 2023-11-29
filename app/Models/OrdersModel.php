@@ -19,24 +19,23 @@ class OrdersModel
         $userId = $reservation['userId'];
 
         try {
-            // Ajout de la réservation dans la table 'orders'
-            $sql = "INSERT INTO orders (Start, End, DateOrder, Price, foreign_key_property, foreign_key_user) VALUES ('$startDate', '$endDate', '$dateOrder', '$price', '$propertyId', '$userId')";
-            $connexion->exec($sql);
-
-            // Ajout des disponibilités pour chaque jour entre les dates de début et de fin dans 'orders'
-            $availableDates = new \DatePeriod(new DateTime($startDate), new \DateInterval('P1D'), new DateTime($endDate));
-            foreach ($availableDates as $date) {
-                $formattedDate = $date->format('Y-m-d');
-                $sql = "INSERT INTO orders (Start, End, DateOrder, Price, foreign_key_property, foreign_key_user) VALUES ('$formattedDate', '$formattedDate', '$dateOrder', '0', '$propertyId', '$userId')";
+            // Vérifier la disponibilité avant d'insérer la réservation
+            if (self::checkAvailability($propertyId, $startDate, $endDate)) {
+                // Ajout de la réservation dans la table 'orders'
+                $sql = "INSERT INTO orders (Start, End, DateOrder, Price, foreign_key_property, foreign_key_user) VALUES ('$startDate', '$endDate', '$dateOrder', '$price', '$propertyId', '$userId')";
                 $connexion->exec($sql);
-            }
 
-            return true;
+                return true;
+            } else {
+                echo "Le logement n'est pas disponible pour les dates sélectionnées.";
+                return false;
+            }
         } catch (PDOException $e) {
             echo "Erreur lors de l'ajout de la réservation : " . $e->getMessage();
             return false;
         }
     }
+
 
     static function GetOrderById($OrderId)
     {

@@ -23,7 +23,6 @@ class Route
     {
         session_start();
 
-
         $Accueil = new AccueilController;
         $Connexion = new ConnexionController;
         $Inscription = new InscriptionController;
@@ -57,7 +56,7 @@ class Route
             '/revokeFavorite' => ['controller' => $Favorites, 'method' => 'revokeFavorite'],
             '/favoriteProperty' => ['controller' => $Favorites, 'method' => 'favoriteProperty'],
             '/reservation' => ['controller' => $Reservation, 'method' => 'Reservation'],
-            '/Orders' => ['controller' => $Reservation, 'method' => 'ReservationsProperty'],
+            '/orders' => ['controller' => $Reservation, 'method' => 'ReservationsProperty'],
 
 
             //---------- Admin Account ---------//
