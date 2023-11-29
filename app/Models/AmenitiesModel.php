@@ -2,22 +2,29 @@
 
 namespace Models;
 
-use PDOException, PDO;
+use PDOException;
+use PDO;
 
 class AmenitiesModel
 {
-
     public function getAllAmenitiesTypes()
     {
-        $connexion = ConnectDB::getConnection();
-
         try {
+            $connexion = ConnectDB::getConnection();
+            if (!$connexion) {
+                throw new PDOException("Erreur de connexion à la base de données.");
+            }
+
             $sql = "SELECT * FROM amenities";
             $amenitiesList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-            return $amenitiesList !== false ? $amenitiesList : array();
+
+            if ($amenitiesList === false) {
+                throw new PDOException("Erreur lors de la récupération des données.");
+            }
+
+            return $amenitiesList;
         } catch (PDOException $e) {
-            echo "Erreur lors de la récupération des types de services : " . $e->getMessage();
-            return [];
+            return ['error' => true, 'message' => $e->getMessage()];
         }
     }
 }

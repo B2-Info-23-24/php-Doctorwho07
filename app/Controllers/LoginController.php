@@ -4,25 +4,21 @@ namespace Controllers;
 
 use Models\UserModel;
 
-class InscriptionController
+class LoginController
 {
-    public function index()
+    static public function index()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/inscription.html.twig');
+        $template = $twig->load('pages/Login.html.twig');
         echo $template->display();
     }
 
-    public function traitement()
+    static public function traitement()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $lastname = $_POST['lastname'];
-            $firstname = $_POST['firstname'];
-            $phone = $_POST['phone'];
             $email = $_POST['email'];
             $password = $_POST['password'];
-            UserModel::AddUser($lastname, $firstname, $phone, $email, $password);
             $checkedSuccessfull = UserModel::CheckUser($email, $password);
             if ($checkedSuccessfull != false) {
                 $_SESSION['ID'] = $checkedSuccessfull;
@@ -30,14 +26,20 @@ class InscriptionController
                 header('Location: /');
                 exit();
             } else {
-                header('Location: connexion');
+                header('Location: Connexion');
                 //echo "Email ou Mot de passe incorrect";
             }
-
-            exit();
         } else {
-            header('Location: inscription');
+            header('Location: Inscription');
             exit();
+        }
+    }
+    static public function isConnected()
+    {
+        if (isset($_SESSION['user'])) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

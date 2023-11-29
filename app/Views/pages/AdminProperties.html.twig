@@ -11,8 +11,8 @@
 {% block body %}
   <body>
     <h2>{{ Title }}</h2>
-    <a href="/admin/addProperty">Publier un nouveau logement</a>
-    <form action="/admin/deleteProperties" method="post">
+    <a href="/Admin/Publier_Logement">Publier un nouveau logement</a>
+    <form action="/Admin/Supprimer_logement" method="post">
       <table>
         <thead>
           <tr>
@@ -34,7 +34,7 @@
               <td>{{ property.Title }}</td>
               <td>{{ property.Description }}</td>
               <td>
-                <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
+                <a href="/Logements/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
               </td>
               <td>{{ property.Price }}</td>
               <td>{{ property.Location }}</td>

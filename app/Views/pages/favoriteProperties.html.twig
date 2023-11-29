@@ -10,7 +10,7 @@
 {% endblock %}
 {% block body %}
   <body>
-    <form id="searchForm" action="/traitement_search" method="post">
+    <form id="searchForm" action="/Traitement_recherche" method="post">
       <input type="text" id="search" name="search" placeholder="Name" required />
       <div id="searchResults"></div>
       <input type="submit" value="Envoyer" />
@@ -39,19 +39,19 @@
               <td>{{ property.Title }}</td>
               <td>{{ property.Description }}</td>
               <td>
-                <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
+                <a href="/Logements/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
               </td>
               <td>{{ property.Price }}</td>
               <td>{{ property.Location }}</td>
               <td>{{ property.City }}</td>
               <td>
                 {% if property.isFavorite %}
-                  <form action="/revokeFavorite" method="post">
+                  <form action="/Retirer_Favorite" method="post">
                     <input type="hidden" name="ID" value="{{ property.ID }}" />
                     <button type="submit">Retirer des favoris</button>
                   </form>
                 {% else %}
-                  <form action="/favorite" method="post">
+                  <form action="/Favoris" method="post">
                     <input type="hidden" name="ID" value="{{ property.ID }}" />
                     <button type="submit">Ajouter aux favoris</button>
                   </form>

@@ -5,7 +5,7 @@ namespace Controllers;
 use Models\PropertiesModel, Models\UserModel, Models\FavoriteModel;
 
 
-class AccueilController
+class HomeController
 {
     public function index()
     {
@@ -18,12 +18,13 @@ class AccueilController
         }
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/accueil.html.twig');
+        $template = $twig->load('pages/Home.html.twig');
         $properties = PropertiesModel::GetAllProperties();
         $propertiesandfavorites = array();
+        $connected = LoginController::isConnected();
         foreach ($properties as $property) {
             if (isset($_SESSION['user'])) {
-                $isFavorite = FavoriteModel::isPropertyFavoritedByUser($_SESSION['user']['ID'], $property['ID']);
+                $isFavorite = FavoriteModel::checkFavoriteExists($_SESSION['user']['ID'], $property['ID']);
             } else {
                 $isFavorite = false;
             }
@@ -37,6 +38,7 @@ class AccueilController
                 'properties' => $propertiesandfavorites,
                 'users' => $users,
                 'user' =>  $user,
+                'connected' => $connected,
             ]
         );
     }

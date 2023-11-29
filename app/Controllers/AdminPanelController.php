@@ -24,7 +24,7 @@ class AdminPanelController
         $template = $twig->load('pages/AdminUser.html.twig');
         echo $template->display(
             [
-                'title' => "Home",
+                'title' => "Gestion de vos Utilisateurs",
                 'users' => UserModel::GetAllUsers(),
             ]
         );
@@ -36,7 +36,7 @@ class AdminPanelController
         $template = $twig->load('pages/AdminProperties.html.twig');
         echo $template->display(
             [
-                'title' => "Home",
+                'title' => "Gestion de vos Logements",
                 'properties' => PropertiesModel::GetAllProperties(),
             ]
         );
@@ -48,7 +48,7 @@ class AdminPanelController
         $template = $twig->load('pages/AdminAdmin.html.twig');
         echo $template->display(
             [
-                'title' => "Home",
+                'title' => "Gestion de vos administrateurs",
                 'users' => UserModel::GetAllUsers(),
             ]
         );
@@ -57,16 +57,16 @@ class AdminPanelController
     {
         $userID = intval($_POST['userID'] ?? 0);
 
-        AdminModel::grantAdminRole($userID);
-        header("Location: /admin/admin");
+        AdminModel::grantAdminPrivileges($userID);
+        header("Location: Admin/Admin");
         exit();
     }
 
     public function revokeAdminRole()
     {
         $userID = intval($_POST['userID'] ?? 0);
-        AdminModel::revokeAdminRole($userID);
-        header("Location: /admin/admin");
+        AdminModel::revokeAdminPrivileges($userID);
+        header("Location: /Admin/Admin");
         exit();
     }
     public function deleteUsers()
@@ -77,7 +77,7 @@ class AdminPanelController
                 UserModel::DeleteUserById($userID);
             }
             // Rediriger vers la page admin ou une autre page après la suppression
-            header("Location: /admin/users");
+            header("Location: Admin/Users");
             exit();
         } else {
             // Gérer le cas où rien n'est coché ou aucune donnée n'est transmise
@@ -91,7 +91,7 @@ class AdminPanelController
             foreach ($propertiesIDs as $userID) {
                 PropertiesModel::DeletePropertiesById($userID);
             }
-            header("Location: /admin/properties");
+            header("Location: /Admin/Properties");
             exit();
         } else {
             // Gérer le cas où rien n'est coché ou aucune donnée n'est transmise
@@ -102,7 +102,7 @@ class AdminPanelController
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/addUser.html.twig');
+        $template = $twig->load('pages/AddUser.html.twig');
         echo $template->display();
     }
 }

@@ -38,12 +38,12 @@
           </td>
           <td>
             {% if not user.IsAdmin %}
-              <form action="/admin/grantAdminRole" method="post">
+              <form action="/Admin/Ajouter_admin" method="post">
                 <input type="hidden" name="userID" value="{{ user.ID }}" />
                 <button type="submit">Attribuer Admin</button>
               </form>
             {% else %}
-              <form action="/admin/revokeAdminRole" method="post">
+              <form action="/Admin/Supprimer_admin" method="post">
                 <input type="hidden" name="userID" value="{{ user.ID }}" />
                 <button type="submit">Révoquer Admin</button>
               </form>

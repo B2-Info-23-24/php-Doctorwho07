@@ -17,7 +17,7 @@
 {% endblock %}
 <header class="header">
   <div class="header-left">
-    <a href="/accueil">
+    <a href="/">
       <img src="path_to_your_logo_image" alt="Logo" class="logo" />
       <span class="header-title">Troc Mon Toit</span>
     </a>
@@ -27,11 +27,11 @@
   </div>
   {% if user == true %}
     <div class="admin">
-      <a href="/admin/home">panel admin</a>
+      <a href="/Admin/Accueil">panel admin</a>
     </div>
   {% endif %}
   <div class="header-right">
-    <a href="/user">
+    <a href="/Utilisateur">
       <img src="path_to_user_icon" alt="User Icon" class="user-icon" />
       <span class="user-name">{{ userName }}</span>
     </a>

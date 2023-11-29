@@ -2,24 +2,25 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\FavoriteModel, Controllers\ConnexionController, DateTime;
+use Models\PropertiesModel, Models\FavoriteModel, Controllers\LoginController;
 
 
 class PropertiesController
 {
     public function showProperty($propertyId)
     {
-        $connected = ConnexionController::isConnected();
+        $connected = LoginController::isConnected();
         if ($connected) {
             $userId = $_SESSION['user']['ID'];
-            $propertyIsFavorite = FavoriteModel::isPropertyFavoritedByUser($userId, $propertyId);
+            $propertyIsFavorite = FavoriteModel::checkFavoriteExists($userId, $propertyId);
         } else {
             $propertyIsFavorite = false;
         }
         $property = PropertiesModel::GetPropertiesById($propertyId);
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/property.html.twig');
+        $template = $twig->load('pages/Property.html.twig');
+        $order = ReservationController::isOrder();
         echo $template->display(
             [
                 'property' => $property,
@@ -32,6 +33,7 @@ class PropertiesController
                 'City' => $property['City'],
                 'propertyIsFavorite' => $propertyIsFavorite,
                 'connected' => $connected,
+                'order' => $order,
             ]
         );
     }

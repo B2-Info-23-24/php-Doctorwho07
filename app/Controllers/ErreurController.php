@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-class ControllerErreur
+class ErreurController
 {
     public function index()
     {

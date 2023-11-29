@@ -9,7 +9,7 @@ class SearchController
 
     static function index()
     {
-        require_once(dirname(__DIR__) . '/Views/search.php');
+        require_once(dirname(__DIR__) . '/Views/Search.php');
     }
 
     static function traitement()
@@ -26,7 +26,7 @@ class SearchController
 
             echo $output;
         } else {
-            header('Location: search');
+            header('Location: Recherche');
             exit();
         }
     }

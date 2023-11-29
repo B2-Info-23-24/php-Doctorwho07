@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="/public/css/navbar.css" />
   <link rel="stylesheet" href="/public/css/accueil.css" />
   <link rel="stylesheet" href="/public/css/style.css" />
-
 {% endblock %}
 {% block body %}
   <body>
@@ -32,31 +31,35 @@
           <td>Price</td>
           <td>Location</td>
           <td>City</td>
-          <td>favoris</td>
+          {% if connected %}
+            <td>favoris</td>
+          {% endif %}
         </tr>
         {% for property in properties %}
           <tr>
             <td>{{ property.Title }}</td>
             <td>{{ property.Description }}</td>
             <td>
-              <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
+              <a href="/Logements/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
             </td>
             <td>{{ property.Price }}</td>
             <td>{{ property.Location }}</td>
             <td>{{ property.City }}</td>
-            <td>
-              {% if property.isFavorite %}
-                <form action="/revokeFavorite" method="post">
-                  <input type="hidden" name="ID" value="{{ property.ID }}" />
-                  <button type="submit">Retirer des favoris</button>
-                </form>
-              {% else %}
-                <form action="/favorite" method="post">
-                  <input type="hidden" name="ID" value="{{ property.ID }}" />
-                  <button type="submit">Ajouter aux favoris</button>
-                </form>
-              {% endif %}
-            </td>
+            {% if connected %}
+              <td>
+                {% if property.isFavorite %}
+                  <form action="/Retirer_Favorite" method="post">
+                    <input type="hidden" name="ID" value="{{ property.ID }}" />
+                    <button type="submit">Retirer des favoris</button>
+                  </form>
+                {% else %}
+                  <form action="/Favoris" method="post">
+                    <input type="hidden" name="ID" value="{{ property.ID }}" />
+                    <button type="submit">Ajouter aux favoris</button>
+                  </form>
+                {% endif %}
+              </td>
+            {% endif %}
           </tr>
         {% endfor %}
       </tbody>

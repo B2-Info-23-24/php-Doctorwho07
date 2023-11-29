@@ -127,9 +127,7 @@ class OrdersModel
 
         $connexion = ConnectDB::getConnection();
 
-        $query = "SELECT COUNT(*) AS count FROM orders 
-                  WHERE foreign_key_property = :propertyId 
-                  AND Start <= :End AND End >= :Start";
+        $query = "SELECT COUNT(*) AS count FROM orders WHERE foreign_key_property = :propertyId AND Start <= :End AND End >= :Start";
 
         $stmt = $connexion->prepare($query);
         $stmt->bindParam(':propertyId', $propertyId);

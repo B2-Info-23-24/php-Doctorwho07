@@ -67,19 +67,19 @@ class UserController
             UserController::Disconnect();
             header('Location: /');
         } else {
-            header('Location: inscription');
+            header('Location: Inscription');
             exit();
         }
     }
     public static function modify()
     {
         if (!isset($_SESSION['user'])) {
-            header("Location: /connexion");
+            header("Location: Login");
             exit;
         }
 
         $olddata = $_SESSION['user'];
-
+        $userId = $_SESSION['user']['ID'];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newUserData = [
                 'ID' => $_SESSION['user']['ID'],
@@ -92,17 +92,17 @@ class UserController
                 'confirmPassword' => $_POST['confirmPassword']
             ];
 
-            if (UserModel::updateUserById($newUserData)) {
+            if (UserModel::updateUserById($userId, $newUserData)) {
                 $_SESSION['user']['Lastname'] = $newUserData['lastname'];
                 $_SESSION['user']['Firstname'] = $newUserData['firstname'];
                 $_SESSION['user']['Phone'] = intval($newUserData['phone']);
                 $_SESSION['user']['Email'] = $newUserData['email'];
                 $_SESSION['user']['IsAdmin'] = $newUserData['IsAdmin'];
                 $_SESSION['user']['Password'] = $newUserData['password'];
-                header("Location: /user");
+                header("Location: Utilisateur");
                 exit;
             } else {
-                header("Location: /modify");
+                header("Location: Modifier");
             }
         }
 

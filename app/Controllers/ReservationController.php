@@ -58,7 +58,7 @@ class ReservationController
 
         OrdersModel::AddOrder($reservation);
 
-        header('Location: /orders');
+        header('Location: Orders');
         exit();
     }
 
@@ -75,7 +75,7 @@ class ReservationController
         $OrderId = $_POST['ID'] ?? null;
         //_________________ Update Order and Redirect _________________//
         OrdersModel::UpdateOrdersById($OrderId, $newOrderData);
-        header("Location: /user");
+        header("Location: Utilisateur");
         exit();
     }
 
@@ -120,5 +120,7 @@ class ReservationController
             ]
         );
         exit();
+    }
+    static function isOrder(){
     }
 }

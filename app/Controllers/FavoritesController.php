@@ -12,7 +12,7 @@ class FavoritesController
         $propertyId = $_POST['ID'] ?? null;
 
         if ($userId && $propertyId) {
-            FavoriteModel::addToFavorites($userId, $propertyId);
+            FavoriteModel::addFavorite($userId, $propertyId);
         }
 
         header("Location: /");
@@ -25,7 +25,7 @@ class FavoritesController
         $propertyId = $_POST['ID'] ?? null;
 
         if ($userId && $propertyId) {
-            FavoriteModel::removeFromFavorites($userId, $propertyId);
+            FavoriteModel::deleteFavorite($userId, $propertyId);
         }
         header("Location: /");
         exit();
@@ -34,7 +34,7 @@ class FavoritesController
     {
         $userId = $_SESSION['user']['ID'] ?? null;
         $propertyId = $_POST['ID'] ?? null;
-        $isFavorite = FavoriteModel::isPropertyFavoritedByUser($userId, $propertyId);
+        $isFavorite = FavoriteModel::checkFavoriteExists($userId, $propertyId);
         return $isFavorite;
     }
 
@@ -45,16 +45,16 @@ class FavoritesController
         $properties = PropertiesModel::GetAllProperties();
         $propertiesandfavorites = array();
         foreach ($properties as $property) {
-            $isFavorite = FavoriteModel::isPropertyFavoritedByUser($userId, $property['ID']);
+            $isFavorite = FavoriteModel::checkFavoriteExists($userId, $property['ID']);
             $accommodationAndFavorite = array('isFavorite' => $isFavorite) + $property;
             array_push($propertiesandfavorites, $accommodationAndFavorite);
         }
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         echo $twig->render(
-            'pages/favoriteProperties.html.twig',
+            'pages/FavoriteProperties.html.twig',
             [
-                'title' => "Favorite",
+                'title' => "Vos Logements favoris",
                 'properties' => $propertiesandfavorites,
             ]
         );

@@ -69,7 +69,7 @@
 
 <body>
     <h2>Search Properties</h2>
-    <form id="searchForm" action="/traitement_search" method="post">
+    <form id="searchForm" action="/Traitement_recherche" method="post">
         <input type="text" id="search" name="search" placeholder="Name" required>
         <div id="searchResults"></div>
         <input type="submit" value="Envoyer">
