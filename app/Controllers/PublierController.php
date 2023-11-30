@@ -2,8 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel;
-use Models\UserModel;
+use Models\PropertiesModel, Models\UserModel;
 
 class PublierController
 {
@@ -11,14 +10,14 @@ class PublierController
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/addProperty.html.twig');
+        $template = $twig->load('pages/AddProperty.html.twig');
         echo $template->display();
     }
     public function addUser()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/addUser.html.twig');
+        $template = $twig->load('pages/AddUser.html.twig');
         echo $template->display();
     }
     public function traitementProperty()
@@ -38,14 +37,14 @@ class PublierController
                 echo "Une erreur est survenue lors du téléchargement de l'image.";
                 exit;
             }
-            $propertyAdded = PropertiesModel::AddProperties($title, $description, $fileName, $price, $location, $city);
+            $propertyAdded = PropertiesModel::addProperties($title, $description, $fileName, $price, $location, $city);
             if ($propertyAdded) {
-                header('Location: accueil');
+                header('Location: /');
             } else {
-                header('Location: publier');
+                header('Location: /admin/property_publish');
             }
         } else {
-            header('Location: publier');
+            header('Location: /admin/property_publish');
             exit();
         }
     }
@@ -57,14 +56,14 @@ class PublierController
             $Phone = $_FILES['Phone'];
             $Email = $_POST['Email'];
             $Password = $_POST['Password'];
-            $userAdded = UserModel::AddUser($LastName, $FirstName, $Phone, $Email, $Password);
+            $userAdded = UserModel::createUser($LastName, $FirstName, $Phone, $Email, $Password);
             if ($userAdded) {
-                header('Location: /admin/users');
+                header('Location: admin/users');
             } else {
-                header('Location: /publier');
+                header('Location: /admin/user_add');
             }
         } else {
-            header('Location: publier');
+            header('Location: /admin/user_add');
             exit();
         }
     }

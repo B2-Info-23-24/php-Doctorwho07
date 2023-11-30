@@ -6,12 +6,11 @@
   <link rel="stylesheet" href="/public/css/accueil.css" />
   <link rel="stylesheet" href="/public/css/inscription.css" />
   <link rel="stylesheet" href="/public/css/style.css" />
-
 {% endblock %}
 {% block body %}
   <body>
     <h2>Inscription</h2>
-    <form action="/traitement_inscription" method="post">
+    <form action="/register_post" method="post">
       <input type="text" id="firstname" name="firstname" placeholder="Prénom" required /><br />
       <input type="text" id="lastname" name="lastname" placeholder="Nom" required /><br />
       <input type="tel" id="phone" name="phone" placeholder="Numéro de téléphone" required /><br />
@@ -19,6 +18,6 @@
       <input type="password" id="password" name="password" placeholder="Mot de passe" required /><br />
       <input type="submit" value="S'inscrire" />
     </form>
-    <a href="/connexion" class="signin-button">Se connecter</a>
+    <a href="/login" class="signin-button">Se connecter</a>
   </body>
 {% endblock %}

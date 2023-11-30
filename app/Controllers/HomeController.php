@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\UserModel, Models\FavoriteModel;
+use Models\PropertiesModel, Models\UserModel, Models\FavoriteModel, Controllers\LoginController;
 
 
 class HomeController
@@ -24,7 +24,7 @@ class HomeController
         $connected = LoginController::isConnected();
         foreach ($properties as $property) {
             if (isset($_SESSION['user'])) {
-                $isFavorite = FavoriteModel::checkFavoriteExists($_SESSION['user']['ID'], $property['ID']);
+                $isFavorite = FavoriteModel::isPropertyFavoritedByUser($_SESSION['user']['ID'], $property['ID']);
             } else {
                 $isFavorite = false;
             }

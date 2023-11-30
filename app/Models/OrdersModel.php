@@ -2,24 +2,40 @@
 
 namespace Models;
 
-use PDOException, PDO;
+use PDOException, PDO, DateTime;
 
 class OrdersModel
 {
 
-    static function AddOrders($StartDate, $EndDate, $DateOrder, $price)
+    static function AddOrder($reservation)
     {
         $connexion = ConnectDB::getConnection();
 
+        $startDate = $reservation['startDate'];
+        $endDate = $reservation['endDate'];
+        $dateOrder = $reservation['DateOrder'];
+        $price = $reservation['price'];
+        $propertyId = $reservation['propertyId'];
+        $userId = $reservation['userId'];
+
         try {
-            $sql = "INSERT INTO orders (Start, End, DateOrder, Price, foreign_key_property,foreign_key_user) VALUES ('$StartDate','$EndDate', '$DateOrder', '$price')";
-            $connexion->exec($sql);
-            return true;
+            // Vérifier la disponibilité avant d'insérer la réservation
+            if (self::checkAvailability($propertyId, $startDate, $endDate)) {
+                // Ajout de la réservation dans la table 'orders'
+                $sql = "INSERT INTO orders (Start, End, DateOrder, Price, foreign_key_property, foreign_key_user) VALUES ('$startDate', '$endDate', '$dateOrder', '$price', '$propertyId', '$userId')";
+                $connexion->exec($sql);
+
+                return true;
+            } else {
+                echo "Le logement n'est pas disponible pour les dates sélectionnées.";
+                return false;
+            }
         } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage();
+            echo "Erreur lors de l'ajout de la réservation : " . $e->getMessage();
             return false;
         }
     }
+
 
     static function GetOrderById($OrderId)
     {
@@ -39,7 +55,7 @@ class OrdersModel
         $connexion = ConnectDB::getConnection();
 
         try {
-            $sql = "SELECT * FROM Orders";
+            $sql = "SELECT * FROM orders";
             $userList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
             return $userList !== false ? $userList : array();
         } catch (PDOException $e) {
@@ -75,5 +91,55 @@ class OrdersModel
             echo "Erreur lors de la mise à jour de l'utilisateur : " . $e->getMessage();
             return false;
         }
+    }
+    static function isPropertyOrderByUser($UserId, $propertyId)
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $sql = "SELECT * FROM orders WHERE foreign_key_user = '$UserId' AND foreign_key_property = '$propertyId'";
+            $userData = $connexion->query($sql)->fetch(PDO::FETCH_ASSOC);
+            return $userData;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération de l'utilisateur : " . $e->getMessage();
+            return false;
+        }
+    }
+    static function GetAllOrdersWithDetails()
+    {
+        $connexion = ConnectDB::getConnection();
+
+        try {
+            $sql = "SELECT o.ID, p.Title, o.Start, o.End, o.DateOrder, o.Price, p.Location
+                FROM orders o
+                INNER JOIN properties p ON o.foreign_key_property = p.ID";
+
+            $userList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            return $userList !== false ? $userList : array();
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
+            return array();
+        }
+    }
+    public static function checkAvailability($propertyId, $Start, $End)
+    {
+        // Assurez-vous de sécuriser les entrées pour éviter les injections SQL
+        // Ici, $propertyId, $startDate et $endDate doivent être sécurisés contre les injections SQL avant utilisation dans la requête.
+
+        $connexion = ConnectDB::getConnection();
+
+        $query = "SELECT COUNT(*) AS count FROM orders WHERE foreign_key_property = :propertyId AND Start <= :End AND End >= :Start";
+
+        $stmt = $connexion->prepare($query);
+        $stmt->bindParam(':propertyId', $propertyId);
+        $stmt->bindParam(':Start', $Start);
+        $stmt->bindParam(':End', $End);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $count = (int)$result['count'];
+
+        // Si count > 0, cela signifie qu'il y a des réservations pour ces dates et cette propriété
+        // Donc le logement n'est pas disponible
+        return $count === 0;
     }
 }

@@ -2,8 +2,7 @@
 
 namespace Controllers;
 
-use Models\FavoriteModel;
-use Models\PropertiesModel;
+use Models\FavoriteModel, Models\PropertiesModel;
 
 class FavoritesController
 {
@@ -15,8 +14,7 @@ class FavoritesController
         if ($userId && $propertyId) {
             FavoriteModel::addToFavorites($userId, $propertyId);
         }
-
-        header("Location: ");
+        header("Location: /");
         exit();
     }
 

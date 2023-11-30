@@ -9,7 +9,7 @@
 {% endblock %}
 {% block body %}
   <body>
-    <form id="searchForm" action="/traitement_search" method="post">
+    <form id="searchForm" action="/search_post" method="post">
       <input type="text" id="search" name="search" placeholder="Name" required />
       <div id="searchResults"></div>
       <input type="submit" value="Envoyer" />
@@ -26,6 +26,7 @@
         <tr>
           <td>Nom du logement</td>
           <td>Dates</td>
+          <td>Date de réservation</td>
           <td>Nombre de nuitées</td>
           <td>Montant total</td>
           <td>Localisation</td>
@@ -33,12 +34,12 @@
         </tr>
         {% for reservation in reservations %}
           <tr>
-            <td>{{ property.Title }}</td>
-            <td>{{ property.Dates }}</td>
-            <td>{{ property.Night }}</td>
-            <td>{{ property.Cost }}</td>
-            <td>{{ property.Location }}</td>
-            <td>{{ property.Statut }}</td>
+            <td>{{ reservation.Title }}</td>
+            <td>{{ reservation.Start }} - {{ reservation.End }}</td>
+            <td>{{ reservation.DateOrder }}</td>
+            <td>{{ reservation.NumberOfNights }}</td>
+            <td>{{ reservation.Price }}</td>
+            <td>{{ reservation.Location }}</td>
           </tr>
         {% endfor %}
       </tbody>

@@ -4,42 +4,40 @@ namespace Controllers;
 
 use Models\UserModel;
 
-class ConnexionController
+class RegisterController
 {
-    static public function index()
+    public function index()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/connexion.html.twig');
+        $template = $twig->load('pages/register.html.twig');
         echo $template->display();
     }
 
-    static public function traitement()
+    public function traitement()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $lastname = $_POST['lastname'];
+            $firstname = $_POST['firstname'];
+            $phone = $_POST['phone'];
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $checkedSuccessfull = UserModel::CheckUser($email, $password);
+            UserModel::createUser($lastname, $firstname, $phone, $email, $password);
+            $checkedSuccessfull = UserModel::checkUser($email, $password);
             if ($checkedSuccessfull != false) {
                 $_SESSION['ID'] = $checkedSuccessfull;
-                $_SESSION['user'] = UserModel::GetUserById($_SESSION['ID']);
+                $_SESSION['user'] = UserModel::getUserById($_SESSION['ID']);
                 header('Location: /');
                 exit();
             } else {
-                header('Location: connexion');
+                header('Location: login');
                 //echo "Email ou Mot de passe incorrect";
             }
-        } else {
-            header('Location: inscription');
+
             exit();
-        }
-    }
-    static public function isConnected()
-    {
-        if (isset($_SESSION['user'])) {
-            return true;
         } else {
-            return false;
+            header('Location: register');
+            exit();
         }
     }
 }

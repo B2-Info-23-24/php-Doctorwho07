@@ -2,17 +2,18 @@
 
 namespace Core;
 
-use Controllers\AccueilController;
-use Controllers\ConnexionController;
-use Controllers\InscriptionController;
+use Controllers\HomeController;
 use Controllers\AdminPanelController;
 use Controllers\PublierController;
 use Controllers\SearchController;
 use Controllers\UserController;
 use Controllers\ControllerErreur;
 use Controllers\FavoritesController;
+use Controllers\LoginController;
 use Controllers\PropertiesController;
+use Controllers\RegisterController;
 use Controllers\ReviewsController;
+use Controllers\OrderController;
 
 
 
@@ -23,28 +24,30 @@ class Route
         session_start();
 
 
-        $Accueil = new AccueilController;
-        $Connexion = new ConnexionController;
-        $Inscription = new InscriptionController;
+        $Home = new HomeController;
+        $Login = new LoginController;
+        $Register = new RegisterController;
         $PanelAdmin = new AdminPanelController;
-        $Publier = new PublierController;
+        $Publish = new PublierController;
         $Search = new SearchController;
         $User = new UserController;
         $ControllerErreur = new ControllerErreur;
         $Properties = new PropertiesController;
         $Favorites = new FavoritesController;
         $Review = new ReviewsController;
+        $Order = new OrderController;
+
 
         $routes = [
             //---------- Accueil ---------//
-            '/home' => ['controller' => $Accueil, 'method' => 'index'],
-            '/' => ['controller' => $Accueil, 'method' => 'index'],
+            '/home' => ['controller' => $Home, 'method' => 'index'],
+            '/' => ['controller' => $Home, 'method' => 'index'],
             //---------- Inscription ---------//
-            '/inscription' => ['controller' => $Inscription, 'method' => 'index'],
-            '/traitement_inscription' => ['controller' => $Inscription, 'method' => 'traitement'],
+            '/register' => ['controller' => $Register, 'method' => 'index'],
+            '/register_post' => ['controller' => $Register, 'method' => 'traitement'],
             //---------- Connexion ---------//
-            '/connexion' => ['controller' => $Connexion, 'method' => 'index'],
-            '/traitement_connexion' => ['controller' => $Connexion, 'method' => 'traitement'],
+            '/login' => ['controller' => $Login, 'method' => 'index'],
+            '/login_push' => ['controller' => $Login, 'method' => 'traitement'],
             //---------- Disconnect ---------//
             '/disconnect' => ['controller' => $User, 'method' => 'disconnect'],
             //---------- User Account ---------//
@@ -54,7 +57,9 @@ class Route
             '/favorite' => ['controller' => $Favorites, 'method' => 'favorite'],
             '/revokeFavorite' => ['controller' => $Favorites, 'method' => 'revokeFavorite'],
             '/favoriteProperty' => ['controller' => $Favorites, 'method' => 'favoriteProperty'],
-            '/reservation' => ['controller' => $Properties, 'method' => 'Reservation'],
+            '/order' => ['controller' => $Order, 'method' => 'reservation'],
+            '/orders' => ['controller' => $Order, 'method' => 'reservationsProperty'],
+            '/review_push' => ['controller' => $Review, 'method' => 'publishReview'],
 
             //---------- Admin Account ---------//
             '/admin/home' => ['controller' => $PanelAdmin, 'method' => 'home'],
@@ -62,16 +67,16 @@ class Route
             '/admin/admin' => ['controller' => $PanelAdmin, 'method' => 'admin'],
             '/admin/properties' => ['controller' => $PanelAdmin, 'method' => 'properties'],
             '/admin/reservation' => ['controller' => $PanelAdmin, 'method' => 'reservation'],
-            '/admin/addProperty' => ['controller' => $Publier, 'method' => 'addProperty'],
-            '/admin/addUser' => ['controller' => $Publier, 'method' => 'addUser'],
-            '/traitement_property' => ['controller' => $Publier, 'method' => 'traitementProperty'],
-            '/traitement_user' => ['controller' => $Publier, 'method' => 'traitementUser'],
+            '/admin/addProperty' => ['controller' => $Publish, 'method' => 'addProperty'],
+            '/admin/addUser' => ['controller' => $Publish, 'method' => 'addUser'],
+            '/property_push' => ['controller' => $Publish, 'method' => 'traitementProperty'],
+            '/user_push' => ['controller' => $Publish, 'method' => 'traitementUser'],
             '/admin/grantAdminRole' => ['controller' => $PanelAdmin, 'method' => 'grantAdminRole'],
             '/admin/revokeAdminRole' => ['controller' => $PanelAdmin, 'method' => 'revokeAdminRole'],
             '/admin/deleteUsers' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
             '/admin/deleteProperties' => ['controller' => $PanelAdmin, 'method' => 'deleteProperty'],
             '/search' => ['controller' => $Search, 'method' => 'index'],
-            '/traitement_search' => ['controller' => $Search, 'method' => 'traitement'],
+            '/search_post' => ['controller' => $Search, 'method' => 'traitement'],
             '/publishReview' => ['controller' => $Review, 'method' => 'PublishReview']
         ];
         if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {
@@ -79,7 +84,7 @@ class Route
             exit;
         }
         if (($route == "/user") && (isset($_SESSION['user']) == False)) {
-            $Inscription->index();
+            $Register->index();
             exit;
         }
         if (strpos($route, '/property/') === 0) {
