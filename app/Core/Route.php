@@ -37,7 +37,7 @@ class Route
 
         $routes = [
             //---------- Accueil ---------//
-            '/accueil' => ['controller' => $Accueil, 'method' => 'index'],
+            '/home' => ['controller' => $Accueil, 'method' => 'index'],
             '/' => ['controller' => $Accueil, 'method' => 'index'],
             //---------- Inscription ---------//
             '/inscription' => ['controller' => $Inscription, 'method' => 'index'],

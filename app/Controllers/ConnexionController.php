@@ -23,7 +23,7 @@ class ConnexionController
             if ($checkedSuccessfull != false) {
                 $_SESSION['ID'] = $checkedSuccessfull;
                 $_SESSION['user'] = UserModel::GetUserById($_SESSION['ID']);
-                header('Location: accueil');
+                header('Location: /');
                 exit();
             } else {
                 header('Location: connexion');
