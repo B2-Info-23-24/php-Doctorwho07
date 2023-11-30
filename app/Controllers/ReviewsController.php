@@ -22,7 +22,5 @@ class ReviewsController
         ReviewsModel::addReview($userId, $propertyId, $title, $comment, $rating);
         header("Location: /property/$propertyId");
         exit();
-        header("Location: /error");
-        exit();
     }
 }

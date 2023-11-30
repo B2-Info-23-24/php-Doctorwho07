@@ -7,12 +7,11 @@
   <link rel="stylesheet" href="/public/css/accueil.css" />
   <link rel="stylesheet" href="/public/css/inscription.css" />
   <link rel="stylesheet" href="/public/css/style.css" />
-
 {% endblock %}
 {% block body %}
   <body>
     <h2>Ajouter un utilisateur</h2>
-    <form action="/traitement_user" method="post" enctype="multipart/form-data">
+    <form action="/user_push" method="post">
       <input type="text" id="LastName" name="LastName" placeholder="LastName" required /><br />
       <input type="text" id="FirstName" name="FirstName" placeholder="FirstName" required /><br />
       <input type="tel" id="Phone" name="Phone" placeholder="Phone" required /><br />

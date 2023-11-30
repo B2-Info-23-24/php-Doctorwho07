@@ -9,17 +9,24 @@
 {% endblock %}
 {% block body %}
   <body>
+    <form id="searchForm" action="/search_post" method="post">
+      <input type="text" id="search" name="search" placeholder="Name" required />
+      <div id="searchResults"></div>
+      <input type="submit" value="Envoyer" />
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/public/js/search.js"></script>
     <table>
       <thead>
         <tr>
-          <th colspan="2">Vos reservations effectuées</th>
+          <th colspan="2">The Properties Table</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>Nom du logement</td>
           <td>Dates</td>
-          <td>Dates de la reservation</td>
+          <td>Date de réservation</td>
           <td>Nombre de nuitées</td>
           <td>Montant total</td>
           <td>Localisation</td>

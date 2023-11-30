@@ -4,17 +4,17 @@ namespace Controllers;
 
 use Models\UserModel;
 
-class ConnexionController
+class LoginController
 {
     static public function index()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/connexion.html.twig');
+        $template = $twig->load('pages/login.html.twig');
         echo $template->display();
     }
 
-    static public function traitement()
+    static public function push()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
@@ -23,14 +23,14 @@ class ConnexionController
             if ($checkedSuccessfull != false) {
                 $_SESSION['ID'] = $checkedSuccessfull;
                 $_SESSION['user'] = UserModel::GetUserById($_SESSION['ID']);
-                header('Location: accueil');
+                header('Location: /');
                 exit();
             } else {
-                header('Location: connexion');
+                header('Location: login');
                 //echo "Email ou Mot de passe incorrect";
             }
         } else {
-            header('Location: inscription');
+            header('Location: register');
             exit();
         }
     }

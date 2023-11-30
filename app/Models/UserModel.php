@@ -78,7 +78,7 @@ class UserModel
     }
 
 
-    static function AddUser($lastname, $firstname, $phone, $email, $password)
+    static function createUser($lastname, $firstname, $phone, $email, $password)
     {
         $userExists = UserModel::CheckUserExists($email);
         $connexion = ConnectDB::getConnection();

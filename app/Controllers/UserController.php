@@ -67,14 +67,14 @@ class UserController
             UserController::Disconnect();
             header('Location: /');
         } else {
-            header('Location: inscription');
+            header('Location: register');
             exit();
         }
     }
     public static function modify()
     {
         if (!isset($_SESSION['user'])) {
-            header("Location: /connexion");
+            header("Location: /login");
             exit;
         }
 

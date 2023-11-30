@@ -2,26 +2,31 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel;
-use Models\UserModel;
+use Models\PropertiesModel, Models\UserModel, Models\PropertiesTypeModel;
 
-class PublierController
+class PublishController
 {
     public function addProperty()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/addProperty.html.twig');
-        echo $template->display();
+        $template = $twig->load('pages/AddProperty.html.twig');
+        $propertiesTypes = PropertiesTypeModel::getAllPropertiesType();
+        echo $template->display(
+            [
+                'title' => "Publier un logement",
+                'propertiesTypes' => $propertiesTypes,
+            ]
+        );
     }
     public function addUser()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/addUser.html.twig');
+        $template = $twig->load('pages/AddUser.html.twig');
         echo $template->display();
     }
-    public function traitementProperty()
+    public function pushProperty()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $title = $_POST['Title'];
@@ -30,6 +35,7 @@ class PublierController
             $price = $_POST['Price'];
             $location = $_POST['Location'] . $_POST['City'];
             $city = $_POST['City'];
+            $PropertyType = $_POST['PropertyType'];
             $uploadDirectory = (__DIR__ . '../../../public/images/');
             $tempName = $image['tmp_name'];
             $fileName = basename($image['name']);
@@ -38,33 +44,33 @@ class PublierController
                 echo "Une erreur est survenue lors du téléchargement de l'image.";
                 exit;
             }
-            $propertyAdded = PropertiesModel::AddProperties($title, $description, $fileName, $price, $location, $city);
+            $propertyAdded = PropertiesModel::addProperties($title, $description, $fileName, $price, $location, $city, $PropertyType);
             if ($propertyAdded) {
-                header('Location: accueil');
+                header('Location: /');
             } else {
-                header('Location: publier');
+                header('Location: /');
             }
         } else {
-            header('Location: publier');
+            header('Location: /admin/property_publish');
             exit();
         }
     }
-    public function traitementUser()
+    public function pushUser()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $LastName = $_POST['LastName'];
             $FirstName = $_POST['FirstName'];
-            $Phone = $_FILES['Phone'];
+            $Phone = $_POST['Phone'];
             $Email = $_POST['Email'];
             $Password = $_POST['Password'];
-            $userAdded = UserModel::AddUser($LastName, $FirstName, $Phone, $Email, $Password);
+            $userAdded = UserModel::createUser($LastName, $FirstName, $Phone, $Email, $Password);
             if ($userAdded) {
-                header('Location: /admin/users');
+                header('Location: admin/users');
             } else {
-                header('Location: /publier');
+                header('Location: /admin/user_add');
             }
         } else {
-            header('Location: publier');
+            header('Location: /admin/user_add');
             exit();
         }
     }

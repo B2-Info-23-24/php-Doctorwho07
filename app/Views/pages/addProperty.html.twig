@@ -7,17 +7,22 @@
   <link rel="stylesheet" href="/public/css/accueil.css" />
   <link rel="stylesheet" href="/public/css/addproperties.css" />
   <link rel="stylesheet" href="/public/css/style.css" />
-
 {% endblock %}
 {% block body %}
   <body>
     <h2>Publier un Logement</h2>
-    <form action="/traitement_property" method="post" enctype="multipart/form-data">
+    <form action="/property_push" method="post" enctype="multipart/form-data">
       <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
       <input type="text" id="Description" name="Description" placeholder="Description" required /><br />
       <input type="number" id="Price" name="Price" placeholder="Price" required /><br />
       <input type="text" id="Location" name="Location" placeholder="Location" required /><br />
       <input type="text" id="City" name="City" placeholder="City" required /><br />
+      <select name="PropertyType" required>
+        <option selected hidden>Choisissez un type</option>
+        {% for propertyType in propertiesTypes %}
+          <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
+        {% endfor %}
+      </select>
       <input type="file" name="Image" accept="image/*" />
       <input type="submit" value="Publier" />
     </form>

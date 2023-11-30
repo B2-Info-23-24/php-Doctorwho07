@@ -2,15 +2,15 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\UserModel, Models\FavoriteModel;
+use Models\PropertiesModel, Models\UserModel, Models\FavoriteModel, Controllers\LoginController, Models\PropertiesTypeModel;
 
 
-class AccueilController
+class HomeController
 {
     public function index()
     {
         if (isset($_SESSION['user'])) {
-            $users = UserModel::GetAllUsers();
+            $users = UserModel::getAllUsers();
             $user = $_SESSION['user']['IsAdmin'];
         } else {
             $users = 0;
@@ -18,16 +18,17 @@ class AccueilController
         }
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/accueil.html.twig');
-        $properties = PropertiesModel::GetAllProperties();
+        $template = $twig->load('pages/Home.html.twig');
+        $properties = PropertiesModel::getAllProperties();
         $propertiesandfavorites = array();
+        $propertiesTypes = PropertiesTypeModel::getAllPropertiesType();
+        $connected = LoginController::isConnected();
         foreach ($properties as $property) {
             if (isset($_SESSION['user'])) {
                 $isFavorite = FavoriteModel::isPropertyFavoritedByUser($_SESSION['user']['ID'], $property['ID']);
             } else {
                 $isFavorite = false;
             }
-
             $accommodationAndFavorite = array('isFavorite' => $isFavorite) + $property;
             array_push($propertiesandfavorites, $accommodationAndFavorite);
         }
@@ -37,6 +38,8 @@ class AccueilController
                 'properties' => $propertiesandfavorites,
                 'users' => $users,
                 'user' =>  $user,
+                'connected' => $connected,
+                'propertiesTypes' => $propertiesTypes,
             ]
         );
     }

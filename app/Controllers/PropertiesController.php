@@ -2,14 +2,14 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\FavoriteModel, Controllers\ConnexionController, DateTime;
+use Models\PropertiesModel, Models\FavoriteModel, Controllers\LoginController;
 
 
 class PropertiesController
 {
     public function showProperty($propertyId)
     {
-        $connected = ConnexionController::isConnected();
+        $connected = LoginController::isConnected();
         if ($connected) {
             $userId = $_SESSION['user']['ID'];
             $propertyIsFavorite = FavoriteModel::isPropertyFavoritedByUser($userId, $propertyId);
@@ -30,6 +30,8 @@ class PropertiesController
                 'Price' => $property['Price'],
                 'Location' => $property['Location'],
                 'City' => $property['City'],
+                'foreign_key_lodging_type' => $property['foreign_key_lodging_type'],
+
                 'propertyIsFavorite' => $propertyIsFavorite,
                 'connected' => $connected,
             ]
