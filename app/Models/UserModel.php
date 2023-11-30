@@ -217,8 +217,6 @@ class UserModel
         }
     }
 
-
-
     static function IsAdmin($id)
     {
         $connexion = ConnectDB::getConnection();

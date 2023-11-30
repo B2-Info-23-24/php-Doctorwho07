@@ -127,30 +127,28 @@ class PropertiesModel
         $result = $connexion->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    static function SearchProperties($search)
-    {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $sql = "SELECT * FROM properties WHERE Title LIKE :searchTerm";
-            $stmt = $connexion->prepare($sql);
-            $searchTerm = '%' . $search . '%';
-            $stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
-            $stmt->execute();
-            $searchResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $searchResults !== false ? $searchResults : array();
-        } catch (PDOException $e) {
-            echo "Erreur lors de la recherche de propriétés : " . $e->getMessage();
-            return array();
-        }
-    }
     static function getPropertyDetailsById($propertyId)
     {
         $connexion = ConnectDB::getConnection();
 
         try {
-            $sql = "SELECT * FROM properties WHERE ID = :propertyId";
+            $sql = "
+            SELECT 
+                p.*, 
+                r.*, 
+                lt.Type AS lodging_type, 
+                GROUP_CONCAT(DISTINCT e.Type) AS equipment_list, 
+                GROUP_CONCAT(DISTINCT s.Type) AS service_list
+            FROM properties p
+            LEFT JOIN reviews r ON p.ID = r.foreign_key_property
+            LEFT JOIN lodging_types lt ON p.foreign_key_lodging_type = lt.ID
+            LEFT JOIN selected_equipments se ON p.ID = se.foreign_key_property
+            LEFT JOIN equipments e ON se.foreign_key_equipments = e.ID
+            LEFT JOIN selected_services ss ON p.ID = ss.foreign_key_property
+            LEFT JOIN services s ON ss.foreign_key_services = s.ID
+            WHERE p.ID = :propertyId
+            GROUP BY p.ID
+        ";
             $stmt = $connexion->prepare($sql);
             $stmt->bindParam(':propertyId', $propertyId, PDO::PARAM_INT);
             $stmt->execute();
@@ -161,6 +159,8 @@ class PropertiesModel
             return null;
         }
     }
+
+
     static function getPropertiesPrice($propertyId)
     {
         $connexion = ConnectDB::getConnection();
