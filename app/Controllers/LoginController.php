@@ -14,7 +14,7 @@ class LoginController
         echo $template->display();
     }
 
-    static public function traitement()
+    static public function push()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];

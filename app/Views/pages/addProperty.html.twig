@@ -17,10 +17,10 @@
       <input type="number" id="Price" name="Price" placeholder="Price" required /><br />
       <input type="text" id="Location" name="Location" placeholder="Location" required /><br />
       <input type="text" id="City" name="City" placeholder="City" required /><br />
-      <select id="Type" name="Type" required>
-        <option value="" disabled selected hidden>Choisissez un type</option>
-        {% for key, value in types %}
-          <option value="{{ key }}">{{ value }}</option>
+      <select name="PropertyType" required>
+        <option disabled selected hidden>Choisissez un type</option>
+        {% for propertyType in propertiesTypes %}
+          <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
         {% endfor %}
       </select>
       <input type="file" name="Image" accept="image/*" />

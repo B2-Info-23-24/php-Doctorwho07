@@ -2,16 +2,22 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\UserModel;
+use Models\PropertiesModel, Models\UserModel, Models\PropertiesTypesModel;
 
-class PublierController
+class PublishController
 {
     public function addProperty()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/AddProperty.html.twig');
-        echo $template->display();
+        $propertiesTypes = PropertiesTypesModel::getAllPropertiesType();
+        echo $template->display(
+            [
+                'title' => "Publier un logement",
+                'propertiesTypes' => $propertiesTypes,
+            ]
+        );
     }
     public function addUser()
     {
@@ -20,7 +26,7 @@ class PublierController
         $template = $twig->load('pages/AddUser.html.twig');
         echo $template->display();
     }
-    public function traitementProperty()
+    public function pushProperty()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $title = $_POST['Title'];
@@ -48,7 +54,7 @@ class PublierController
             exit();
         }
     }
-    public function traitementUser()
+    public function pushUser()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $LastName = $_POST['LastName'];

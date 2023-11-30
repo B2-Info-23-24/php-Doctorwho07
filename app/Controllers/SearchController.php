@@ -12,7 +12,7 @@ class SearchController
         require_once(dirname(__DIR__) . '/Views/search.php');
     }
 
-    static function traitement()
+    static function push()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
             $search = $_POST['search'];

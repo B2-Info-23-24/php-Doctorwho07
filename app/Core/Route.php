@@ -4,7 +4,7 @@ namespace Core;
 
 use Controllers\HomeController;
 use Controllers\AdminPanelController;
-use Controllers\PublierController;
+use Controllers\PublishController;
 use Controllers\SearchController;
 use Controllers\UserController;
 use Controllers\ControllerErreur;
@@ -28,7 +28,7 @@ class Route
         $Login = new LoginController;
         $Register = new RegisterController;
         $PanelAdmin = new AdminPanelController;
-        $Publish = new PublierController;
+        $Publish = new PublishController;
         $Search = new SearchController;
         $User = new UserController;
         $ControllerErreur = new ControllerErreur;
@@ -44,10 +44,10 @@ class Route
             '/' => ['controller' => $Home, 'method' => 'index'],
             //---------- Inscription ---------//
             '/register' => ['controller' => $Register, 'method' => 'index'],
-            '/register_post' => ['controller' => $Register, 'method' => 'traitement'],
+            '/register_post' => ['controller' => $Register, 'method' => 'push'],
             //---------- Connexion ---------//
             '/login' => ['controller' => $Login, 'method' => 'index'],
-            '/login_push' => ['controller' => $Login, 'method' => 'traitement'],
+            '/login_push' => ['controller' => $Login, 'method' => 'push'],
             //---------- Disconnect ---------//
             '/disconnect' => ['controller' => $User, 'method' => 'disconnect'],
             //---------- User Account ---------//
@@ -69,14 +69,14 @@ class Route
             '/admin/reservation' => ['controller' => $PanelAdmin, 'method' => 'reservation'],
             '/admin/addProperty' => ['controller' => $Publish, 'method' => 'addProperty'],
             '/admin/addUser' => ['controller' => $Publish, 'method' => 'addUser'],
-            '/property_push' => ['controller' => $Publish, 'method' => 'traitementProperty'],
-            '/user_push' => ['controller' => $Publish, 'method' => 'traitementUser'],
+            '/property_push' => ['controller' => $Publish, 'method' => 'pushProperty'],
+            '/user_push' => ['controller' => $Publish, 'method' => 'pushUser'],
             '/admin/grantAdminRole' => ['controller' => $PanelAdmin, 'method' => 'grantAdminRole'],
             '/admin/revokeAdminRole' => ['controller' => $PanelAdmin, 'method' => 'revokeAdminRole'],
             '/admin/deleteUsers' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
             '/admin/deleteProperties' => ['controller' => $PanelAdmin, 'method' => 'deleteProperty'],
             '/search' => ['controller' => $Search, 'method' => 'index'],
-            '/search_post' => ['controller' => $Search, 'method' => 'traitement'],
+            '/search_post' => ['controller' => $Search, 'method' => 'push'],
             '/publishReview' => ['controller' => $Review, 'method' => 'PublishReview']
         ];
         if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {

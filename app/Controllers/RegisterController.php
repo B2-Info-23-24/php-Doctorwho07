@@ -14,7 +14,7 @@ class RegisterController
         echo $template->display();
     }
 
-    public function traitement()
+    public function push()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $lastname = $_POST['lastname'];
