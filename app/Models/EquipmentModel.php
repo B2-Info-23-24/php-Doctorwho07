@@ -2,6 +2,8 @@
 
 namespace Models;
 
+use PDO;
+
 class EquipmentModel
 {
     public static function getAllEquipment()
@@ -54,5 +56,18 @@ class EquipmentModel
         $connexion = ConnectDB::getConnection();
         $stmt = $connexion->prepare("DELETE FROM selected_equipments WHERE foreign_key_equipments = ? AND foreign_key_property = ?");
         return $stmt->execute([$equipmentId, $logementId]);
+    }
+    public static function getEquipmentById($equipmentId)
+    {
+        $connexion = ConnectDB::getConnection();
+
+        try {
+            $stmt = $connexion->prepare("SELECT * FROM equipments WHERE ID = ?");
+            $stmt->execute([$equipmentId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            echo "Erreur lors de la récupération de l'équipement : " . $e->getMessage();
+            return null;
+        }
     }
 }

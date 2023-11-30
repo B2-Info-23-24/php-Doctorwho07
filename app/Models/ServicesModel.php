@@ -2,6 +2,8 @@
 
 namespace Models;
 
+use PDO, PDOException;
+
 class ServiceModel
 {
     public static function getAllServices()
@@ -53,5 +55,19 @@ class ServiceModel
         $connexion = ConnectDB::getConnection();
         $stmt = $connexion->prepare("DELETE FROM services_logement WHERE service_id = ? AND logement_id = ?");
         return $stmt->execute([$serviceId, $logementId]);
+    }
+    public static function getServiceById($serviceId)
+    {
+        $connexion = ConnectDB::getConnection();
+
+        try {
+            $sql = "SELECT * FROM services WHERE ID = ?";
+            $stmt = $connexion->prepare($sql);
+            $stmt->execute([$serviceId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération du service : " . $e->getMessage();
+            return null;
+        }
     }
 }
