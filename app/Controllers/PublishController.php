@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\UserModel, Models\PropertiesTypesModel;
+use Models\PropertiesModel, Models\UserModel, Models\PropertiesTypeModel;
 
 class PublishController
 {
@@ -11,7 +11,7 @@ class PublishController
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/AddProperty.html.twig');
-        $propertiesTypes = PropertiesTypesModel::getAllPropertiesType();
+        $propertiesTypes = PropertiesTypeModel::getAllPropertiesType();
         echo $template->display(
             [
                 'title' => "Publier un logement",
@@ -35,6 +35,7 @@ class PublishController
             $price = $_POST['Price'];
             $location = $_POST['Location'] . $_POST['City'];
             $city = $_POST['City'];
+            $PropertyType = $_POST['PropertyType'];
             $uploadDirectory = (__DIR__ . '../../../public/images/');
             $tempName = $image['tmp_name'];
             $fileName = basename($image['name']);
@@ -43,11 +44,11 @@ class PublishController
                 echo "Une erreur est survenue lors du téléchargement de l'image.";
                 exit;
             }
-            $propertyAdded = PropertiesModel::addProperties($title, $description, $fileName, $price, $location, $city);
+            $propertyAdded = PropertiesModel::addProperties($title, $description, $fileName, $price, $location, $city, $PropertyType);
             if ($propertyAdded) {
                 header('Location: /');
             } else {
-                header('Location: /admin/property_publish');
+                header('Location: /');
             }
         } else {
             header('Location: /admin/property_publish');

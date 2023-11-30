@@ -9,13 +9,13 @@
 {% block body %}
   <body>
     <h1>{{ Title }}</h1>
-    <p>ID: {{ ID }}</p>
     <p>Title: {{ Title }}</p>
     <p>Description: {{ Description }}</p>
     <img src="/public/images/{{ Image }}" width="50px" />
     <p>Price: {{ Price }}€</p>
     <p>Location: {{ Location }}</p>
     <p>City: {{ City }}</p>
+    <p>Type: {{ foreign_key_lodging_type }}</p>
     {% if connected %}
       <form action="/publishReview" method="post">
         <input type="hidden" name="propertyId" value="{{ ID }}" />

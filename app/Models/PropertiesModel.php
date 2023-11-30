@@ -60,13 +60,14 @@ class PropertiesModel
             return true;
         }
     }
-    static function AddProperties($title, $description, $image, $price, $location, $city)
+    static function AddProperties($title, $description, $image, $price, $location, $city, $PropertyType)
     {
         $connexion = ConnectDB::getConnection();
 
         try {
-            $sql = "INSERT INTO properties (Title, Description, Image, Price, Location, City) 
-                VALUES ('$title', '$description', '$image', '$price', '$location', LOWER('$city'))";
+            $IdPropertyType = intval($PropertyType);
+            $sql = "INSERT INTO properties (Title, Description, Image, Price, Location, City, foreign_key_lodging_type) 
+                VALUES ('$title', '$description', '$image', '$price', '$location', LOWER('$city'), '$IdPropertyType')";
             $connexion->exec($sql);
             return true;
         } catch (PDOException $e) {

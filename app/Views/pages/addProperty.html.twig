@@ -18,7 +18,7 @@
       <input type="text" id="Location" name="Location" placeholder="Location" required /><br />
       <input type="text" id="City" name="City" placeholder="City" required /><br />
       <select name="PropertyType" required>
-        <option disabled selected hidden>Choisissez un type</option>
+        <option selected hidden>Choisissez un type</option>
         {% for propertyType in propertiesTypes %}
           <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
         {% endfor %}

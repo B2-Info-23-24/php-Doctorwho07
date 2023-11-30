@@ -30,6 +30,8 @@ class PropertiesController
                 'Price' => $property['Price'],
                 'Location' => $property['Location'],
                 'City' => $property['City'],
+                'foreign_key_lodging_type' => $property['foreign_key_lodging_type'],
+
                 'propertyIsFavorite' => $propertyIsFavorite,
                 'connected' => $connected,
             ]
