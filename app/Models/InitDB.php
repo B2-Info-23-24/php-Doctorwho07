@@ -65,7 +65,7 @@ class InitDB
             Location VARCHAR(255),
             City VARCHAR(50),
             foreign_key_lodging_type INT,
-            FOREIGN KEY (foreign_key_lodging_type) REFERENCES lodging_types(id))");
+            FOREIGN KEY (foreign_key_lodging_type) REFERENCES lodging_types(id) ON DELETE CASCADE)");
 
         $connexion->exec("CREATE TABLE IF NOT EXISTS users (
             ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -83,16 +83,16 @@ class InitDB
             DateOrder DATE,
             Price INT,
             foreign_key_property INT,
-            FOREIGN KEY (foreign_key_property) REFERENCES properties(id),
+            FOREIGN KEY (foreign_key_property) REFERENCES properties(id) ON DELETE CASCADE,
             foreign_key_user INT,
-            FOREIGN KEY (foreign_key_user) REFERENCES users(id))");
+            FOREIGN KEY (foreign_key_user) REFERENCES users(id) ON DELETE CASCADE)");
 
         $connexion->exec("CREATE TABLE IF NOT EXISTS favorites (
             ID INT PRIMARY KEY AUTO_INCREMENT,
             foreign_key_property INT,
-            FOREIGN KEY (foreign_key_property) REFERENCES properties(id),
+            FOREIGN KEY (foreign_key_property) REFERENCES properties(id) ON DELETE CASCADE,
             foreign_key_user INT,
-            FOREIGN KEY (foreign_key_user) REFERENCES users(id))");
+            FOREIGN KEY (foreign_key_user) REFERENCES users(id) ON DELETE CASCADE)");
 
         $connexion->exec("CREATE TABLE IF NOT EXISTS reviews (
             ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -100,22 +100,22 @@ class InitDB
             Comment VARCHAR(255),
             Rating INT,
             foreign_key_property INT,
-            FOREIGN KEY (foreign_key_property) REFERENCES properties(id),
+            FOREIGN KEY (foreign_key_property) REFERENCES properties(id) ON DELETE CASCADE,
             foreign_key_user INT,
-            FOREIGN KEY (foreign_key_user) REFERENCES users(id))");
+            FOREIGN KEY (foreign_key_user) REFERENCES users(id) ON DELETE CASCADE)");
 
         $connexion->exec("CREATE TABLE IF NOT EXISTS selected_equipments (
             ID INT PRIMARY KEY AUTO_INCREMENT,
             foreign_key_property INT,
-            FOREIGN KEY (foreign_key_property) REFERENCES properties(id),
+            FOREIGN KEY (foreign_key_property) REFERENCES properties(id) ON DELETE CASCADE,
             foreign_key_equipments INT,
-            FOREIGN KEY (foreign_key_equipments) REFERENCES equipments(id))");
+            FOREIGN KEY (foreign_key_equipments) REFERENCES equipments(id) ON DELETE CASCADE)");
 
         $connexion->exec("CREATE TABLE IF NOT EXISTS selected_services (
             ID INT PRIMARY KEY AUTO_INCREMENT,
             foreign_key_property INT,
-            FOREIGN KEY (foreign_key_property) REFERENCES properties(id),
+            FOREIGN KEY (foreign_key_property) REFERENCES properties(id) ON DELETE CASCADE,
             foreign_key_services INT,
-            FOREIGN KEY (foreign_key_services) REFERENCES services(id))");
+            FOREIGN KEY (foreign_key_services) REFERENCES services(id) ON DELETE CASCADE)");
     }
 }

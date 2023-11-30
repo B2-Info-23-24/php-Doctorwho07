@@ -5,7 +5,6 @@ namespace Core;
 use Controllers\HomeController;
 use Controllers\AdminPanelController;
 use Controllers\PublishController;
-use Controllers\SearchController;
 use Controllers\UserController;
 use Controllers\ControllerErreur;
 use Controllers\FavoritesController;
@@ -29,7 +28,6 @@ class Route
         $Register = new RegisterController;
         $PanelAdmin = new AdminPanelController;
         $Publish = new PublishController;
-        $Search = new SearchController;
         $User = new UserController;
         $ControllerErreur = new ControllerErreur;
         $Properties = new PropertiesController;
@@ -75,8 +73,6 @@ class Route
             '/admin/revokeAdminRole' => ['controller' => $PanelAdmin, 'method' => 'revokeAdminRole'],
             '/admin/deleteUsers' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
             '/admin/deleteProperties' => ['controller' => $PanelAdmin, 'method' => 'deleteProperty'],
-            '/search' => ['controller' => $Search, 'method' => 'index'],
-            '/search_post' => ['controller' => $Search, 'method' => 'push'],
             '/publishReview' => ['controller' => $Review, 'method' => 'PublishReview']
         ];
         if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {
@@ -104,25 +100,5 @@ class Route
         } else {
             $ControllerErreur->index();
         }
-        // foreach ($routes as $routePattern => $routeConfig) {
-        //     if ($route === $routePattern) {
-        //         $controller = $routeConfig['controller'];
-        //         $method = $routeConfig['method'];
-
-        //         // Pour les routes /admin/grantAdminRole et /admin/revokeAdminRole
-        //         if ($route === '/admin/grantAdminRole') {
-        //             $userID = intval($_POST['userID'] ?? 0);
-        //             $controller->$method($userID);
-        //         } elseif ($route === '/admin/revokeAdminRole') {
-        //             $userID = intval($_POST['userID'] ?? 0);
-        //             $controller->$method($userID);
-        //         } else {
-        //             $controller->$method();
-        //         }
-        //         return;
-        //     }
-        // }
-
-        // $ControllerErreur->index();
     }
 }

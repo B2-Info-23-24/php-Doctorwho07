@@ -14,9 +14,30 @@
       <div id="searchResults"></div>
       <input type="submit" value="Envoyer" />
     </form>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/public/js/search.js"></script>
+    <h3>Filtres</h3>
+    <form action="/filter" method="post">
+      <label for="price">Prix par nuit</label>
+      <input type="number" id="minprice" name="minprice" min="1" max="10000" placeholder="Minimum" />
+      <input type="number" id="maxprice" name="maxprice" min="1" max="10000" placeholder="Maximum" />
+      <label for="location">Location</label>
+      <input type="text" id="location" name="location" />
+      <label for="Type">Type de logement</label>
+      <select name="PropertyType" required>
+        <option selected hidden>Choisissez un type</option>
+        {% for propertyType in propertiesTypes %}
+          <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
+        {% endfor %}
+      </select>
+      <label for="equipment">Les équipements</label>
+      {% for propertyEquipment in propertiesEquipments %}
+        <input type="checkbox" id="equipment" name="equipment" />
+        <option value="{{ propertyEquipment.ID }}">{{ propertyEquipment.Type }}</option>
+      {% endfor %}
 
+      <label for="services">Les services</label>
+      <input type="checkbox" id="services" name="services" />
+      <input type="submit" value="Filter" />
+    </form>
     <table>
       <thead>
         <tr>
