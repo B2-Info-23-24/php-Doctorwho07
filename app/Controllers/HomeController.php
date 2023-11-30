@@ -28,7 +28,6 @@ class HomeController
             } else {
                 $isFavorite = false;
             }
-
             $accommodationAndFavorite = array('isFavorite' => $isFavorite) + $property;
             array_push($propertiesandfavorites, $accommodationAndFavorite);
         }

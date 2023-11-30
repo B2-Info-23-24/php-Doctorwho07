@@ -60,7 +60,7 @@ class PublishController
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $LastName = $_POST['LastName'];
             $FirstName = $_POST['FirstName'];
-            $Phone = $_FILES['Phone'];
+            $Phone = $_POST['Phone'];
             $Email = $_POST['Email'];
             $Password = $_POST['Password'];
             $userAdded = UserModel::createUser($LastName, $FirstName, $Phone, $Email, $Password);
