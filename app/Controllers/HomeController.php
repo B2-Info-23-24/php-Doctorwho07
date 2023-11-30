@@ -10,7 +10,7 @@ class HomeController
     public function index()
     {
         if (isset($_SESSION['user'])) {
-            $users = UserModel::GetAllUsers();
+            $users = UserModel::getAllUsers();
             $user = $_SESSION['user']['IsAdmin'];
         } else {
             $users = 0;
@@ -19,7 +19,7 @@ class HomeController
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/Home.html.twig');
-        $properties = PropertiesModel::GetAllProperties();
+        $properties = PropertiesModel::getAllProperties();
         $propertiesandfavorites = array();
         $connected = LoginController::isConnected();
         foreach ($properties as $property) {

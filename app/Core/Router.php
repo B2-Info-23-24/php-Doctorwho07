@@ -25,59 +25,59 @@ class Router
 
         $routes = [
             //---------- Accueil ---------//
-            '/Accueil' => ['controller' => $Accueil, 'method' => 'index'],
+            '/home' => ['controller' => $Accueil, 'method' => 'index'],
             '/' => ['controller' => $Accueil, 'method' => 'index'],
             //---------- Inscription ---------//
-            '/Inscription' => ['controller' => $Inscription, 'method' => 'index'],
-            '/Traitement_inscription' => ['controller' => $Inscription, 'method' => 'traitement'],
+            '/register' => ['controller' => $Inscription, 'method' => 'index'],
+            '/register_push' => ['controller' => $Inscription, 'method' => 'traitement'],
             //---------- Connexion ---------//
-            '/Connexion' => ['controller' => $Connexion, 'method' => 'index'],
-            '/Traitement_connexion' => ['controller' => $Connexion, 'method' => 'traitement'],
+            '/login' => ['controller' => $Connexion, 'method' => 'index'],
+            '/login_post' => ['controller' => $Connexion, 'method' => 'traitement'],
             //---------- Disconnect ---------//
-            '/Deconnexion' => ['controller' => $User, 'method' => 'disconnect'],
+            '/disconnect' => ['controller' => $User, 'method' => 'disconnect'],
             //---------- User Account ---------//
-            '/Suppression' => ['controller' => $User, 'method' => 'delete'],
-            '/Utilisateur' => ['controller' => $User, 'method' => 'home'],
-            '/Modifier' => ['controller' => $User, 'method' => 'Modify'],
-            '/Favoris' => ['controller' => $Favorites, 'method' => 'favorite'],
-            '/Retirer_Favorite' => ['controller' => $Favorites, 'method' => 'revokeFavorite'],
-            '/Logements_Favoris' => ['controller' => $Favorites, 'method' => 'favoriteProperty'],
-            '/Reservation' => ['controller' => $Reservation, 'method' => 'Reservation'],
-            '/Reservations' => ['controller' => $Reservation, 'method' => 'ReservationsProperty'],
-            '/Publier_avis' => ['controller' => $Review, 'method' => 'PublishReview'],
+            '/delete' => ['controller' => $User, 'method' => 'delete'],
+            '/user' => ['controller' => $User, 'method' => 'home'],
+            '/modify' => ['controller' => $User, 'method' => 'modify'],
+            '/favorite' => ['controller' => $Favorites, 'method' => 'favorite'],
+            '/favorite_remove' => ['controller' => $Favorites, 'method' => 'revokeFavorite'],
+            '/favorite_property' => ['controller' => $Favorites, 'method' => 'favoriteProperty'],
+            '/order' => ['controller' => $Reservation, 'method' => 'reservation'],
+            '/orders' => ['controller' => $Reservation, 'method' => 'reservationsProperty'],
+            '/review_push' => ['controller' => $Review, 'method' => 'publishReview'],
 
             //---------- Admin Account ---------//
-            '/Admin/Accueil' => ['controller' => $PanelAdmin, 'method' => 'home'],
-            '/Admin/Utilisateurs' => ['controller' => $PanelAdmin, 'method' => 'users'],
-            '/Admin/Admin' => ['controller' => $PanelAdmin, 'method' => 'admin'],
-            '/Admin/Logements' => ['controller' => $PanelAdmin, 'method' => 'properties'],
-            '/Admin/Reservations' => ['controller' => $PanelAdmin, 'method' => 'reservation'],
-            '/Admin/Publier_Logement' => ['controller' => $Publier, 'method' => 'addProperty'],
-            '/Admin/Ajouter_Utilisateur' => ['controller' => $Publier, 'method' => 'addUser'],
-            '/Traitement_logement' => ['controller' => $Publier, 'method' => 'traitementProperty'],
-            '/Traitement_utilisateur' => ['controller' => $Publier, 'method' => 'traitementUser'],
-            '/Admin/Ajouter_admin' => ['controller' => $PanelAdmin, 'method' => 'grantAdminRole'],
-            '/Admin/Supprimer_admin' => ['controller' => $PanelAdmin, 'method' => 'revokeAdminRole'],
-            '/Admin/Supprimer_utilisateur' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
-            '/Admin/Supprimer_logement' => ['controller' => $PanelAdmin, 'method' => 'deleteProperty'],
-            '/Recherche' => ['controller' => $Search, 'method' => 'index'],
-            '/Traitement_recherche' => ['controller' => $Search, 'method' => 'traitement']
+            '/admin/home' => ['controller' => $PanelAdmin, 'method' => 'home'],
+            '/admin/users' => ['controller' => $PanelAdmin, 'method' => 'users'],
+            '/admin/admin' => ['controller' => $PanelAdmin, 'method' => 'admin'],
+            '/admin/property' => ['controller' => $PanelAdmin, 'method' => 'properties'],
+            '/admin/orders' => ['controller' => $PanelAdmin, 'method' => 'reservation'],
+            '/admin/property_publish' => ['controller' => $Publier, 'method' => 'addProperty'],
+            '/admin/user_add' => ['controller' => $Publier, 'method' => 'addUser'],
+            '/property_push' => ['controller' => $Publier, 'method' => 'traitementProperty'],
+            '/user_push' => ['controller' => $Publier, 'method' => 'traitementUser'],
+            '/admin/admin_add' => ['controller' => $PanelAdmin, 'method' => 'grantAdminRole'],
+            '/admin/delete_admin' => ['controller' => $PanelAdmin, 'method' => 'revokeAdminRole'],
+            '/admin/user_delete' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
+            '/admin/property_delete' => ['controller' => $PanelAdmin, 'method' => 'deleteProperty'],
+            '/search' => ['controller' => $Search, 'method' => 'index'],
+            '/search_push' => ['controller' => $Search, 'method' => 'traitement']
         ];
-        if (strpos($route, '/Admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {
+        if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {
             header("Location: /");
             exit;
         }
-        if (($route == "/Utilisateur") && (isset($_SESSION['user']) == False)) {
+        if (($route == "/user") && (isset($_SESSION['user']) == False)) {
             $Inscription->index();
             exit;
         }
-        if (strpos($route, '/Logements/') === 0) {
-            $propertyId = substr($route, strlen('/Logements/'));
+        if (strpos($route, '/property/') === 0) {
+            $propertyId = substr($route, strlen('/property/'));
             $Properties->showProperty($propertyId);
             return;
         }
-        if (strpos($route, '/Utilisateur/') === 0) {
-            $userId = substr($route, strlen('/Utilisateur/'));
+        if (strpos($route, '/user/') === 0) {
+            $userId = substr($route, strlen('/user/'));
             $User->showUser($userId);
             return;
         }

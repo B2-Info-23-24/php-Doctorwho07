@@ -16,7 +16,7 @@ class SearchController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
             $search = $_POST['search'];
-            $searchResults = PropertiesModel::SearchProperties($search);
+            $searchResults = PropertiesModel::searchProperties($search);
 
             $output = '<ul>';
             foreach ($searchResults as $result) {
@@ -26,7 +26,7 @@ class SearchController
 
             echo $output;
         } else {
-            header('Location: Recherche');
+            header('Location: search');
             exit();
         }
     }

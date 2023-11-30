@@ -25,7 +25,7 @@ class AdminPanelController
         echo $template->display(
             [
                 'title' => "Gestion de vos Utilisateurs",
-                'users' => UserModel::GetAllUsers(),
+                'users' => UserModel::getAllUsers(),
             ]
         );
     }
@@ -37,7 +37,7 @@ class AdminPanelController
         echo $template->display(
             [
                 'title' => "Gestion de vos Logements",
-                'properties' => PropertiesModel::GetAllProperties(),
+                'properties' => PropertiesModel::getAllProperties(),
             ]
         );
     }
@@ -49,7 +49,7 @@ class AdminPanelController
         echo $template->display(
             [
                 'title' => "Gestion de vos administrateurs",
-                'users' => UserModel::GetAllUsers(),
+                'users' => UserModel::getAllUsers(),
             ]
         );
     }
@@ -58,7 +58,7 @@ class AdminPanelController
         $userID = intval($_POST['userID'] ?? 0);
 
         AdminModel::grantAdminPrivileges($userID);
-        header("Location: Admin/Admin");
+        header("Location: admin/admin");
         exit();
     }
 
@@ -66,7 +66,7 @@ class AdminPanelController
     {
         $userID = intval($_POST['userID'] ?? 0);
         AdminModel::revokeAdminPrivileges($userID);
-        header("Location: /Admin/Admin");
+        header("Location: /admin/admin");
         exit();
     }
     public function deleteUsers()
@@ -74,10 +74,10 @@ class AdminPanelController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userIDs'])) {
             $userIDs = $_POST['userIDs'];
             foreach ($userIDs as $userID) {
-                UserModel::DeleteUserById($userID);
+                UserModel::deleteUserById($userID);
             }
             // Rediriger vers la page admin ou une autre page après la suppression
-            header("Location: Admin/Users");
+            header("Location: admin/users");
             exit();
         } else {
             // Gérer le cas où rien n'est coché ou aucune donnée n'est transmise
@@ -89,16 +89,16 @@ class AdminPanelController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['propertiesIDs'])) {
             $propertiesIDs = $_POST['propertiesIDs'];
             foreach ($propertiesIDs as $userID) {
-                PropertiesModel::DeletePropertiesById($userID);
+                PropertiesModel::deletePropertiesById($userID);
             }
-            header("Location: /Admin/Properties");
+            header("Location: /admin/property");
             exit();
         } else {
             // Gérer le cas où rien n'est coché ou aucune donnée n'est transmise
             // Peut-être afficher un message d'erreur
         }
     }
-    public function AddUser()
+    public function addUser()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);

@@ -9,7 +9,7 @@ class ReviewsController
     public function publishReview()
     {
         if (!isset($_SESSION['user'])) {
-            header("Location: Login");
+            header("Location: login");
             exit();
         }
 
@@ -20,7 +20,7 @@ class ReviewsController
         $rating = $_POST['Rating'] ?? 0;
 
         ReviewsModel::addReview($userId, $propertyId, $title, $comment, $rating);
-        header("Location: Logements/$propertyId");
+        header("Location: property/$propertyId");
         exit();
     }
 }

@@ -6,7 +6,7 @@ use Models\OrdersModel, Models\PropertiesModel, DateTime;
 
 class ReservationController
 {
-    static public function Reservation()
+    static public function reservation()
     {
         //_________________ Check Request Method _________________//
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -56,9 +56,9 @@ class ReservationController
             'userId' => $userId
         ];
 
-        OrdersModel::AddOrder($reservation);
+        OrdersModel::addOrder($reservation);
 
-        header('Location: Orders');
+        header('Location: orders');
         exit();
     }
 
@@ -69,20 +69,20 @@ class ReservationController
     }
 
 
-    public function Modify()
+    public function modify()
     {
         $newOrderData = "";
         $OrderId = $_POST['ID'] ?? null;
         //_________________ Update Order and Redirect _________________//
         OrdersModel::UpdateOrdersById($OrderId, $newOrderData);
-        header("Location: Utilisateur");
+        header("Location: user");
         exit();
     }
 
-    public function ReservationsProperty()
+    public function reservationsProperty()
     {
         $userId = $_SESSION['user']['ID'] ?? null;
-        $propertiesReserv = OrdersModel::GetAllOrdersWithDetails();
+        $propertiesReserv = OrdersModel::getAllOrdersWithDetails();
         $Nights = $this->calculateNumberOfNights($propertiesReserv, $userId);
         $this->renderReservationsPage($Nights);
     }
@@ -121,6 +121,5 @@ class ReservationController
         );
         exit();
     }
-    static function isOrder(){
-    }
+    
 }

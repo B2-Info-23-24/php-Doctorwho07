@@ -13,14 +13,14 @@
     <p>Prenom: {{ Firstname }}</p>
     <p>telephone: {{ Phone }}</p>
     <p>Email: {{ Email }}</p>
-    <form action="/Suppression" method="post">
+    <form action="/delete" method="post">
       <input type="email" id="email" name="email" placeholder="Email" required /><br />
       <input type="password" id="password" name="password" placeholder="Mot de passe" required /><br />
       <input type="submit" value="Supprimer mon compte définitivement" />
     </form>
-    <a href="/Deconnexion" class="signin-button">Se deconnecter</a>
-    <a href="/Modifier" class="signin-button">Modifier</a>
-    <a href="/Logements_Favoris" class="signin-button">Favoris</a>
-    <a href="/Reservations" class="signin-button">Reservations</a>
+    <a href="/disconnect" class="signin-button">Se deconnecter</a>
+    <a href="/modify" class="signin-button">Modifier</a>
+    <a href="/favorite_property" class="signin-button">Favoris</a>
+    <a href="/orders" class="signin-button">Reservations</a>
   </body>
 {% endblock %}

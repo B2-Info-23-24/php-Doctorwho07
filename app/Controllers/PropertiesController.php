@@ -16,11 +16,11 @@ class PropertiesController
         } else {
             $propertyIsFavorite = false;
         }
-        $property = PropertiesModel::GetPropertiesById($propertyId);
+        $property = PropertiesModel::getPropertiesById($propertyId);
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/Property.html.twig');
-        $order = ReservationController::isOrder();
+        // $order = ReservationController::isOrder();
         echo $template->display(
             [
                 'property' => $property,
@@ -33,7 +33,7 @@ class PropertiesController
                 'City' => $property['City'],
                 'propertyIsFavorite' => $propertyIsFavorite,
                 'connected' => $connected,
-                'order' => $order,
+                // 'order' => $order,
             ]
         );
     }

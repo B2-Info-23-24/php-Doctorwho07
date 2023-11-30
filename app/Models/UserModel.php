@@ -50,8 +50,6 @@ class UserModel
         }
     }
 
-
-
     static function deleteUserById($userId)
     {
         $connexion = ConnectDB::getConnection();

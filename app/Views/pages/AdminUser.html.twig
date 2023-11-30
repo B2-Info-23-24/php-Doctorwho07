@@ -12,8 +12,8 @@
 {% block body %}
   <body>
     <h2>{{ Title }}</h2>
-    <a href="/Admin/Ajouter_Utilisateur">Ajouter un nouvel utilisateur</a>
-    <form action="/Admin/Supprimer_utilisateur" method="post">
+    <a href="/admin/user_add">Ajouter un nouvel utilisateur</a>
+    <form action="/admin/user_delete" method="post">
       <table>
         <tr>
           <th>ID</th>
@@ -36,7 +36,7 @@
             <td>{{ user.Password }}</td>
             <td>{{ user.IsAdmin }}</td>
             <td>
-              <a href="/Utilisateurs/{{ user.ID }}">Voir l'utilisateur</a>
+              <a href="/user/{{ user.ID }}">Voir l'utilisateur</a>
             </td>
             <td>
               <input type="checkbox" name="userIDs[]" value="{{ user.ID }}" />

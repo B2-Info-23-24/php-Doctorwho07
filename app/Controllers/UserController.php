@@ -31,7 +31,7 @@ class UserController
     }
     static function showUser($userId)
     {
-        $user = UserModel::GetUserById($userId);
+        $user = UserModel::getUserById($userId);
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/UserPanel.html.twig');
@@ -53,28 +53,28 @@ class UserController
         $parts = explode('/', $route);
         return end($parts);
     }
-    static function Disconnect()
+    static function disconnect()
     {
         unset($_SESSION['user']);
         header('Location: /');
     }
-    static function Delete()
+    static function delete()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
             $password = $_POST['password'];
-            UserModel::DeleteUser($email, $password);
-            UserController::Disconnect();
+            UserModel::deleteUser($email, $password);
+            UserController::disconnect();
             header('Location: /');
         } else {
-            header('Location: Inscription');
+            header('Location: register');
             exit();
         }
     }
     public static function modify()
     {
         if (!isset($_SESSION['user'])) {
-            header("Location: Login");
+            header("Location: login");
             exit;
         }
 
@@ -99,10 +99,10 @@ class UserController
                 $_SESSION['user']['Email'] = $newUserData['email'];
                 $_SESSION['user']['IsAdmin'] = $newUserData['IsAdmin'];
                 $_SESSION['user']['Password'] = $newUserData['password'];
-                header("Location: Utilisateur");
+                header("Location: user");
                 exit;
             } else {
-                header("Location: Modifier");
+                header("Location: modify");
             }
         }
 

@@ -23,20 +23,20 @@ class RegisterController
             $email = $_POST['email'];
             $password = $_POST['password'];
             UserModel::createUser($lastname, $firstname, $phone, $email, $password);
-            $checkedSuccessfull = UserModel::CheckUser($email, $password);
+            $checkedSuccessfull = UserModel::checkUser($email, $password);
             if ($checkedSuccessfull != false) {
                 $_SESSION['ID'] = $checkedSuccessfull;
-                $_SESSION['user'] = UserModel::GetUserById($_SESSION['ID']);
+                $_SESSION['user'] = UserModel::getUserById($_SESSION['ID']);
                 header('Location: /');
                 exit();
             } else {
-                header('Location: Connexion');
+                header('Location: login');
                 //echo "Email ou Mot de passe incorrect";
             }
 
             exit();
         } else {
-            header('Location: Inscription');
+            header('Location: register');
             exit();
         }
     }

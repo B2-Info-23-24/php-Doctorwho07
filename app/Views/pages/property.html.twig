@@ -18,7 +18,7 @@
 
     {% if connected %}
       {% if order %}
-        <form action="/Publier_avis" method="post">
+        <form action="/review_push" method="post">
           <input type="hidden" name="propertyId" value="{{ ID }}" />
           <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
           <input type="text" id="Comment" name="Comment" placeholder="Comment" required /><br />
@@ -26,7 +26,7 @@
           <button type="submit">envoyer</button>
         </form>
       {% endif %}
-      <form action="/Reservation" method="post">
+      <form action="/order" method="post">
         <input type="hidden" name="propertyId" value="{{ ID }}" />
         <input type="date" id="startDate" name="startDate" placeholder="startDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />
         <input type="date" id="endDate" name="endDate" placeholder="endDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />
@@ -40,13 +40,13 @@
       </div>
       {% if propertyIsFavorite %}
         <p>Cette propriété est dans vos favoris.</p>
-        <form action="/Retirer_Favorite" method="post" id="revokeFavorite">
+        <form action="/favorite_remove" method="post" id="revokeFavorite">
           <input type="hidden" name="ID" value="{{ ID }}" />
           <button type="submit">Retirer des favoris</button>
         </form>
       {% else %}
         <p>Cette propriété n'est pas dans vos favoris.</p>
-        <form action="/Favoris" method="post" id="favorite">
+        <form action="/favorite" method="post" id="favorite">
           <input type="hidden" name="ID" value="{{ ID }}" />
           <button type="submit">Ajouter aux favoris</button>
         </form>

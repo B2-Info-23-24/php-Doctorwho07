@@ -42,7 +42,7 @@ class FavoritesController
     {
         $userId = $_SESSION['user']['ID'] ?? null;
 
-        $properties = PropertiesModel::GetAllProperties();
+        $properties = PropertiesModel::getAllProperties();
         $propertiesandfavorites = array();
         foreach ($properties as $property) {
             $isFavorite = FavoriteModel::checkFavoriteExists($userId, $property['ID']);

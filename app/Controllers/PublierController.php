@@ -37,14 +37,14 @@ class PublierController
                 echo "Une erreur est survenue lors du téléchargement de l'image.";
                 exit;
             }
-            $propertyAdded = PropertiesModel::AddProperties($title, $description, $fileName, $price, $location, $city);
+            $propertyAdded = PropertiesModel::addProperties($title, $description, $fileName, $price, $location, $city);
             if ($propertyAdded) {
                 header('Location: /');
             } else {
-                header('Location: /Admin/Publier_Logement');
+                header('Location: /admin/property_publish');
             }
         } else {
-            header('Location: /Admin/Publier_Logement');
+            header('Location: /admin/property_publish');
             exit();
         }
     }
@@ -58,12 +58,12 @@ class PublierController
             $Password = $_POST['Password'];
             $userAdded = UserModel::createUser($LastName, $FirstName, $Phone, $Email, $Password);
             if ($userAdded) {
-                header('Location: Admin/Users');
+                header('Location: admin/users');
             } else {
-                header('Location: /Admin/Ajouter_Utilisateur');
+                header('Location: /admin/user_add');
             }
         } else {
-            header('Location: /Admin/Ajouter_Utilisateur');
+            header('Location: /admin/user_add');
             exit();
         }
     }
