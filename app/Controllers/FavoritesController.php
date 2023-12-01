@@ -14,7 +14,6 @@ class FavoritesController
         if ($userId && $propertyId) {
             FavoriteModel::addFavorite($userId, $propertyId);
         }
-
         header("Location: /");
         exit();
     }

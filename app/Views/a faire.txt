@@ -16,4 +16,8 @@
 
 select commandes.* from commande inner join commande_produit on commandes.id = commande_produit.commandeId where commande_produit.productId = 1
 
-UNIQUE
+
+
+INSERT INTO services (Type) VALUES ('Transferts aéroport'),('Petit-déjeuner'),('Service de ménage'),('Location de voiture'),('Visites guidées'),('Cours de cuisine'),('Loisirs');
+INSERT INTO lodging_types (Type) VALUES ('Appartements'),('Maisons'),('Chalets'),('Villas'),('Péniches'),('Yourtes'),('Cabanes'),('Igloos'),('Tentes'),('Cars');
+INSERT INTO equipments (Type) VALUES ('Connexion Wi-Fi'),('Climatiseur'),('Chauffage'),('Machine à laver'),('Sèche-linge'),('Télévision'),('Fer à repasser / Planche à repasser'),('Nintendo Switch'),('PS5'),('Terrasse'),('Balcon'),('Piscine'),('Jardin');

@@ -10,11 +10,11 @@ class LoginController
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/Login.html.twig');
+        $template = $twig->load('pages/login.html.twig');
         echo $template->display();
     }
 
-    static public function traitement()
+    static public function push()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
@@ -22,7 +22,7 @@ class LoginController
             $checkedSuccessfull = UserModel::checkUser($email, $password);
             if ($checkedSuccessfull != false) {
                 $_SESSION['ID'] = $checkedSuccessfull;
-                $_SESSION['user'] = UserModel::getUserById($_SESSION['ID']);
+                $_SESSION['user'] = UserModel::GetUserById($_SESSION['ID']);
                 header('Location: /');
                 exit();
             } else {

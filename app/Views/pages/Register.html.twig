@@ -6,12 +6,11 @@
   <link rel="stylesheet" href="/public/css/accueil.css" />
   <link rel="stylesheet" href="/public/css/inscription.css" />
   <link rel="stylesheet" href="/public/css/style.css" />
-
 {% endblock %}
 {% block body %}
   <body>
     <h2>Inscription</h2>
-    <form action="/register_push" method="post">
+    <form action="/register_post" method="post">
       <input type="text" id="firstname" name="firstname" placeholder="Prénom" required /><br />
       <input type="text" id="lastname" name="lastname" placeholder="Nom" required /><br />
       <input type="tel" id="phone" name="phone" placeholder="Numéro de téléphone" required /><br />

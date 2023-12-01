@@ -60,13 +60,14 @@ class PropertiesModel
             return true;
         }
     }
-    static function AddProperties($title, $description, $image, $price, $location, $city)
+    static function AddProperties($title, $description, $image, $price, $location, $city, $PropertyType)
     {
         $connexion = ConnectDB::getConnection();
 
         try {
-            $sql = "INSERT INTO properties (Title, Description, Image, Price, Location, City) 
-                VALUES ('$title', '$description', '$image', '$price', '$location', LOWER('$city'))";
+            $IdPropertyType = intval($PropertyType);
+            $sql = "INSERT INTO properties (Title, Description, Image, Price, Location, City, foreign_key_lodging_type) 
+                VALUES ('$title', '$description', '$image', '$price', '$location', LOWER('$city'), '$IdPropertyType')";
             $connexion->exec($sql);
             return true;
         } catch (PDOException $e) {
@@ -127,39 +128,61 @@ class PropertiesModel
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    static function SearchProperties($search)
-    {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $sql = "SELECT * FROM properties WHERE Title LIKE :searchTerm";
-            $stmt = $connexion->prepare($sql);
-            $searchTerm = '%' . $search . '%';
-            $stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
-            $stmt->execute();
-            $searchResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $searchResults !== false ? $searchResults : array();
-        } catch (PDOException $e) {
-            echo "Erreur lors de la recherche de propriétés : " . $e->getMessage();
-            return array();
-        }
-    }
     static function getPropertyDetailsById($propertyId)
     {
         $connexion = ConnectDB::getConnection();
 
         try {
-            $sql = "SELECT * FROM properties WHERE ID = :propertyId";
+            $sql = "SELECT p.*, l.Type AS LodgingType, GROUP_CONCAT(DISTINCT e.Type) AS EquipmentTypes, GROUP_CONCAT(DISTINCT s.Type) AS ServiceTypes
+                    FROM properties p
+                    LEFT JOIN selected_equipments se ON p.ID = se.foreign_key_property
+                    LEFT JOIN equipments e ON se.foreign_key_equipments = e.ID
+                    LEFT JOIN selected_services ss ON p.ID = ss.foreign_key_property
+                    LEFT JOIN services s ON ss.foreign_key_services = s.ID
+                    LEFT JOIN lodging_types l ON p.foreign_key_lodging_type = l.ID
+                    WHERE p.ID = :propertyId
+                    GROUP BY p.ID";
+
             $stmt = $connexion->prepare($sql);
             $stmt->bindParam(':propertyId', $propertyId, PDO::PARAM_INT);
             $stmt->execute();
-            $propertyData = $stmt->fetch(PDO::FETCH_ASSOC);
+            $propertyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
             return $propertyData !== false ? $propertyData : null;
         } catch (PDOException $e) {
             echo "Erreur lors de la récupération des détails de la propriété : " . $e->getMessage();
             return null;
         }
     }
+
+    static function getAllEquipments()
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $sql = "SELECT * FROM equipments";
+            $equipmentList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            return $equipmentList !== false ? $equipmentList : array();
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des équipements : " . $e->getMessage();
+            return array();
+        }
+    }
+
+    static function getAllServices()
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $sql = "SELECT * FROM services";
+            $serviceList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            return $serviceList !== false ? $serviceList : array();
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des services : " . $e->getMessage();
+            return array();
+        }
+    }
+
+
+
     static function getPropertiesPrice($propertyId)
     {
         $connexion = ConnectDB::getConnection();

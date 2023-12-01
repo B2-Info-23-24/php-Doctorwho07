@@ -20,7 +20,7 @@ class ReviewsController
         $rating = $_POST['Rating'] ?? 0;
 
         ReviewsModel::addReview($userId, $propertyId, $title, $comment, $rating);
-        header("Location: property/$propertyId");
+        header("Location: /property/$propertyId");
         exit();
     }
 }

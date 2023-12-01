@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="/public/css/accueil.css" />
   <link rel="stylesheet" href="/public/css/addproperties.css" />
   <link rel="stylesheet" href="/public/css/style.css" />
-
 {% endblock %}
 {% block body %}
   <body>
@@ -16,6 +15,12 @@
       <button onclick="redirectTo('/admin/users')">Gestion des utilisateurs</button>
       <button onclick="redirectTo('/admin/properties')">Gestion des logements</button>
       <button onclick="redirectTo('/admin/admin')">Gestion des administrateurs</button>
+    </div>
+    <div>
+      <button onclick="redirectTo('/admin/users')">Gestion des avis</button>
+      <button onclick="redirectTo('/admin/properties')">Gestion des services</button>
+      <button onclick="redirectTo('/admin/admin')">Gestion des equipements</button>
+      <button onclick="redirectTo('/admin/admin')">Gestion des types de logement</button>
     </div>
 
     <script>

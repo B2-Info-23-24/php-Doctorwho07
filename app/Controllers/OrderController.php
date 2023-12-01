@@ -4,7 +4,7 @@ namespace Controllers;
 
 use Models\OrdersModel, Models\PropertiesModel, DateTime;
 
-class ReservationController
+class OrderController
 {
     static public function reservation()
     {
@@ -113,7 +113,7 @@ class ReservationController
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         echo $twig->render(
-            'pages/Reservations.html.twig',
+            'pages/Orders.html.twig',
             [
                 'title' => "Reservations",
                 'reservations' => $propertiesandorders,
@@ -121,6 +121,4 @@ class ReservationController
         );
         exit();
     }
-    
 }
-

@@ -74,7 +74,7 @@ class UserController
     public static function modify()
     {
         if (!isset($_SESSION['user'])) {
-            header("Location: login");
+            header("Location: /login");
             exit;
         }
 

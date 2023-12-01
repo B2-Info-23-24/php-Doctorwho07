@@ -8,24 +8,32 @@
 {% endblock %}
 {% block body %}
   <body>
-    <h1>{{ Title }}</h1>
-    <p>Description: {{ Description }}</p>
-    <img src="/public/images/{{ Image }}" width="50px" />
-    <p>Prix pour la nuit : {{ Price }}€</p>
-    <p>Adresse : {{ Location }}</p>
-    <p>Ville : {{ City }}</p>
-    <hr />
-
+    <h1>{{ property['Title'] }}</h1>
+    <p>Title: {{ property['Title'] }}</p>
+    <p>Description: {{ property['Description'] }}</p>
+    <img src="/public/images/{{ property['Image'] }}" width="50px" />
+    <p>Price: {{ property['Price'] }}€</p>
+    <p>Location: {{ property['Location'] }}</p>
+    <p>City: {{ property['City'] }}</p>
+    <p>Type de logement: {{ property['LodgingType'] }}</p>
+    <p>
+      Équipements:{% for equipmentType in property['EquipmentTypes']|split(',') %}
+        {{ equipmentType }},
+      {% endfor %}
+    </p>
+    <p>
+      Services:{% for serviceType in property['ServiceTypes']|split(',') %}
+        {{ serviceType }},
+      {% endfor %}
+    </p>
     {% if connected %}
-      {% if order %}
-        <form action="/review_push" method="post">
-          <input type="hidden" name="propertyId" value="{{ ID }}" />
-          <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
-          <input type="text" id="Comment" name="Comment" placeholder="Comment" required /><br />
-          <input type="range" id="Rating" name="Rating" placeholder="Rating" required step="1" min="0" max="5" /><br />
-          <button type="submit">envoyer</button>
-        </form>
-      {% endif %}
+      <form action="/publishReview" method="post">
+        <input type="hidden" name="propertyId" value="{{ ID }}" />
+        <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
+        <input type="text" id="Comment" name="Comment" placeholder="Comment" required /><br />
+        <input type="range" id="Rating" name="Rating" placeholder="Rating" required step="1" min="0" max="5" /><br />
+        <button type="submit">envoyer</button>
+      </form>
       <form action="/order" method="post">
         <input type="hidden" name="propertyId" value="{{ ID }}" />
         <input type="date" id="startDate" name="startDate" placeholder="startDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />

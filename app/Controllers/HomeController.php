@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\UserModel, Models\FavoriteModel;
+use Models\PropertiesModel, Models\UserModel, Models\FavoriteModel, Controllers\LoginController, Models\PropertiesTypeModel;
 
 
 class HomeController
@@ -21,6 +21,10 @@ class HomeController
         $template = $twig->load('pages/Home.html.twig');
         $properties = PropertiesModel::getAllProperties();
         $propertiesandfavorites = array();
+        $propertiesTypes = PropertiesTypeModel::getAllPropertiesType();
+        $propertiesEquipments = PropertiesModel::getAllEquipments();
+        $propertiesServices = PropertiesModel::getAllServices();
+
         $connected = LoginController::isConnected();
         foreach ($properties as $property) {
             if (isset($_SESSION['user'])) {
@@ -28,7 +32,6 @@ class HomeController
             } else {
                 $isFavorite = false;
             }
-
             $accommodationAndFavorite = array('isFavorite' => $isFavorite) + $property;
             array_push($propertiesandfavorites, $accommodationAndFavorite);
         }
@@ -39,6 +42,9 @@ class HomeController
                 'users' => $users,
                 'user' =>  $user,
                 'connected' => $connected,
+                'propertiesTypes' => $propertiesTypes,
+                'propertiesEquipments' => $propertiesEquipments,
+                'propertiesServices' => $propertiesServices,
             ]
         );
     }

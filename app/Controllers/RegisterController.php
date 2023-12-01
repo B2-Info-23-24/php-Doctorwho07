@@ -10,11 +10,11 @@ class RegisterController
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/Register.html.twig');
+        $template = $twig->load('pages/register.html.twig');
         echo $template->display();
     }
 
-    public function traitement()
+    public function push()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $lastname = $_POST['lastname'];

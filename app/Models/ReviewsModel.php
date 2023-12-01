@@ -59,4 +59,18 @@ class ReviewsModel
             return null;
         }
     }
+    static function updateReview($reviewId, $title, $comment, $rating)
+    {
+        $connexion = ConnectDB::getConnection();
+
+        try {
+            $sql = "UPDATE reviews SET Title = ?, Comment = ?, Rating = ? WHERE ID = ?";
+            $stmt = $connexion->prepare($sql);
+            $stmt->execute([$title, $comment, $rating, $reviewId]);
+            return true;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la mise à jour de l'avis : " . $e->getMessage();
+            return false;
+        }
+    }
 }

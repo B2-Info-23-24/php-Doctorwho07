@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\FavoriteModel, Controllers\LoginController;
+use Models\PropertiesModel, Models\FavoriteModel, Controllers\LoginController, Models\JoinModel;
 
 
 class PropertiesController
@@ -16,21 +16,29 @@ class PropertiesController
         } else {
             $propertyIsFavorite = false;
         }
-        $property = PropertiesModel::getPropertiesById($propertyId);
+        $propertyDetails = PropertiesModel::getPropertyDetailsById($propertyId);
+        // $property = PropertiesModel::GetPropertiesById($propertyId);
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/Property.html.twig');
-        // $order = ReservationController::isOrder();
+        $template = $twig->load('pages/property.html.twig');
+        // echo $template->display(
+        //     [
+        //         'property' => $property,
+        //         'ID' => $property['ID'],
+        //         'Title' => $property['Title'],
+        //         'Description' => $property['Description'],
+        //         'Image' => $property['Image'],
+        //         'Price' => $property['Price'],
+        //         'Location' => $property['Location'],
+        //         'City' => $property['City'],
+        //         'foreign_key_lodging_type' => $property['foreign_key_lodging_type'],
+        //         'propertyIsFavorite' => $propertyIsFavorite,
+        //         'connected' => $connected,
+        //     ]
+        // );
         echo $template->display(
             [
-                'property' => $property,
-                'ID' => $property['ID'],
-                'Title' => $property['Title'],
-                'Description' => $property['Description'],
-                'Image' => $property['Image'],
-                'Price' => $property['Price'],
-                'Location' => $property['Location'],
-                'City' => $property['City'],
+                'property' => $propertyDetails[0], // Sélection du premier élément du tableau des détails de la propriété
                 'propertyIsFavorite' => $propertyIsFavorite,
                 'connected' => $connected,
                 // 'order' => $order,
