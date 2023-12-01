@@ -12,49 +12,14 @@ class InitDB
         $connexion->exec("CREATE TABLE IF NOT EXISTS services (
             ID INT PRIMARY KEY AUTO_INCREMENT,
             Type VARCHAR(255))");
-        // $connexion->exec("INSERT INTO services (Type) VALUES 
-        //     ('Transferts aéroport'),
-        //     ('Petit-déjeuner'),
-        //     ('Service de ménage'),
-        //     ('Location de voiture'),
-        //     ('Visites guidées'),
-        //     ('Cours de cuisine'),
-        //     ('Loisirs');
-        //     ");
 
         $connexion->exec("CREATE TABLE IF NOT EXISTS lodging_types (
             ID INT PRIMARY KEY AUTO_INCREMENT,
             Type VARCHAR(255))");
-        // $connexion->exec("INSERT INTO lodging_types (Type) VALUES 
-        //     ('Appartements'),
-        //     ('Maisons'),
-        //     ('Chalets'),
-        //     ('Villas'),
-        //     ('Péniches'),
-        //     ('Yourtes'),
-        //     ('Cabanes'),
-        //     ('Igloos'),
-        //     ('Tentes'),
-        //     ('Cars');");
 
         $connexion->exec("CREATE TABLE IF NOT EXISTS equipments (
             ID INT PRIMARY KEY AUTO_INCREMENT,
             Type VARCHAR(255))");
-        // $connexion->exec("INSERT INTO equipments (Type) VALUES 
-        //     ('Connexion Wi-Fi'),
-        //     ('Climatiseur'),
-        //     ('Chauffage'),
-        //     ('Machine à laver'),
-        //     ('Sèche-linge'),
-        //     ('Télévision'),
-        //     ('Fer à repasser / Planche à repasser'),
-        //     ('Nintendo Switch'),
-        //     ('PS5'),
-        //     ('Terrasse'),
-        //     ('Balcon'),
-        //     ('Piscine'),
-        //     ('Jardin');
-        //     ");
 
         $connexion->exec("CREATE TABLE IF NOT EXISTS properties (
             ID INT PRIMARY KEY AUTO_INCREMENT,

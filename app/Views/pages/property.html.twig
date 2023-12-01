@@ -8,17 +8,24 @@
 {% endblock %}
 {% block body %}
   <body>
-    <h1>{{ Title }}</h1>
-    <p>Title: {{ Title }}</p>
-    <p>Description: {{ Description }}</p>
-    <img src="/public/images/{{ Image }}" width="50px" />
-    <p>Price: {{ Price }}€</p>
-    <p>Location: {{ Location }}</p>
-    <p>City: {{ City }}</p>
-    <p>Type: {{ foreign_key_lodging_type }}</p>
-    <p>Type: {{ lodging_type }}</p>
-    <p>Équipements: {{ equipment_list }}</p>
-    <p>Services: {{ service_list }}</p>
+    <h1>{{ property['Title'] }}</h1>
+    <p>Title: {{ property['Title'] }}</p>
+    <p>Description: {{ property['Description'] }}</p>
+    <img src="/public/images/{{ property['Image'] }}" width="50px" />
+    <p>Price: {{ property['Price'] }}€</p>
+    <p>Location: {{ property['Location'] }}</p>
+    <p>City: {{ property['City'] }}</p>
+    <p>Type de logement: {{ property['LodgingType'] }}</p>
+    <p>
+      Équipements:{% for equipmentType in property['EquipmentTypes']|split(',') %}
+        {{ equipmentType }},
+      {% endfor %}
+    </p>
+    <p>
+      Services:{% for serviceType in property['ServiceTypes']|split(',') %}
+        {{ serviceType }},
+      {% endfor %}
+    </p>
     {% if connected %}
       <form action="/publishReview" method="post">
         <input type="hidden" name="propertyId" value="{{ ID }}" />

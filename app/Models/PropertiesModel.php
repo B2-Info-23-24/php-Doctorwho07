@@ -127,35 +127,60 @@ class PropertiesModel
         $result = $connexion->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+
     static function getPropertyDetailsById($propertyId)
     {
         $connexion = ConnectDB::getConnection();
 
         try {
-            $sql = "SELECT 
-                    p.*, 
-                    r.*, 
-                    lt.Type AS lodging_type, 
-                    GROUP_CONCAT(DISTINCT e.name) AS equipment_list, 
-                    GROUP_CONCAT(DISTINCT s.Type) AS service_list
-                FROM properties p
-                LEFT JOIN reviews r ON p.ID = r.foreign_key_property
-                LEFT JOIN lodging_types lt ON p.foreign_key_lodging_type = lt.ID
-                LEFT JOIN equipment_logement el ON p.ID = el.foreign_key_logement
-                LEFT JOIN equipment e ON el.foreign_key_equipment = e.ID
-                LEFT JOIN services_logement sl ON p.ID = sl.foreign_key_logement
-                LEFT JOIN services s ON sl.foreign_key_service = s.ID
-                WHERE p.ID = :propertyId
-                GROUP BY p.ID";
+            $sql = "SELECT p.*, l.Type AS LodgingType, GROUP_CONCAT(DISTINCT e.Type) AS EquipmentTypes, GROUP_CONCAT(DISTINCT s.Type) AS ServiceTypes
+                    FROM properties p
+                    LEFT JOIN selected_equipments se ON p.ID = se.foreign_key_property
+                    LEFT JOIN equipments e ON se.foreign_key_equipments = e.ID
+                    LEFT JOIN selected_services ss ON p.ID = ss.foreign_key_property
+                    LEFT JOIN services s ON ss.foreign_key_services = s.ID
+                    LEFT JOIN lodging_types l ON p.foreign_key_lodging_type = l.ID
+                    WHERE p.ID = :propertyId
+                    GROUP BY p.ID";
+
             $stmt = $connexion->prepare($sql);
             $stmt->bindParam(':propertyId', $propertyId, PDO::PARAM_INT);
             $stmt->execute();
-            $propertyData = $stmt->fetch(PDO::FETCH_ASSOC);
+            $propertyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
             return $propertyData !== false ? $propertyData : null;
         } catch (PDOException $e) {
-            echo ("bonjour");
+            echo "Erreur lors de la récupération des détails de la propriété : " . $e->getMessage();
+            return null;
         }
     }
+
+    static function getAllEquipments()
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $sql = "SELECT * FROM equipments";
+            $equipmentList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            return $equipmentList !== false ? $equipmentList : array();
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des équipements : " . $e->getMessage();
+            return array();
+        }
+    }
+
+    static function getAllServices()
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $sql = "SELECT * FROM services";
+            $serviceList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            return $serviceList !== false ? $serviceList : array();
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des services : " . $e->getMessage();
+            return array();
+        }
+    }
+
 
 
     static function getPropertiesPrice($propertyId)

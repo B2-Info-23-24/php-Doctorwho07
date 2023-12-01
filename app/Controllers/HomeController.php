@@ -22,6 +22,9 @@ class HomeController
         $properties = PropertiesModel::getAllProperties();
         $propertiesandfavorites = array();
         $propertiesTypes = PropertiesTypeModel::getAllPropertiesType();
+        $propertiesEquipments = PropertiesModel::getAllEquipments();
+        $propertiesServices = PropertiesModel::getAllServices();
+
         $connected = LoginController::isConnected();
         foreach ($properties as $property) {
             if (isset($_SESSION['user'])) {
@@ -40,6 +43,8 @@ class HomeController
                 'user' =>  $user,
                 'connected' => $connected,
                 'propertiesTypes' => $propertiesTypes,
+                'propertiesEquipments' => $propertiesEquipments,
+                'propertiesServices' => $propertiesServices,
             ]
         );
     }
