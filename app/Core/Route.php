@@ -38,6 +38,7 @@ class Route
         $Order = new OrderController;
         $AdminEquipment = new EquipmentController;
         $AdminService = new ServicesController;
+        $Filter = new HomeController;
 
 
         $routes = [
@@ -86,7 +87,6 @@ class Route
             '/admin/addService' => ['controller' => $AdminService, 'method' => 'addService'],
             '/admin/deleteService/{serviceID}' => ['controller' => $AdminService, 'method' => 'deleteService'],
             '/admin/updateService/{serviceID}' => ['controller' => $AdminService, 'method' => 'updateService']
-
         ];
         if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {
             header("Location: /");
