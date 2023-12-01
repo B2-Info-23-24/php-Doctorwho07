@@ -16,6 +16,9 @@
     <p>Location: {{ Location }}</p>
     <p>City: {{ City }}</p>
     <p>Type: {{ foreign_key_lodging_type }}</p>
+    <p>Type: {{ lodging_type }}</p>
+    <p>Équipements: {{ equipment_list }}</p>
+    <p>Services: {{ service_list }}</p>
     {% if connected %}
       <form action="/publishReview" method="post">
         <input type="hidden" name="propertyId" value="{{ ID }}" />

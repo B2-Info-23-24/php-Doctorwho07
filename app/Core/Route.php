@@ -13,6 +13,8 @@ use Controllers\PropertiesController;
 use Controllers\RegisterController;
 use Controllers\ReviewsController;
 use Controllers\OrderController;
+use Controllers\EquipmentController;
+use Controllers\ServicesController;
 
 
 
@@ -34,6 +36,8 @@ class Route
         $Favorites = new FavoritesController;
         $Review = new ReviewsController;
         $Order = new OrderController;
+        $AdminEquipment = new EquipmentController;
+        $AdminService = new ServicesController;
 
 
         $routes = [
@@ -73,7 +77,16 @@ class Route
             '/admin/revokeAdminRole' => ['controller' => $PanelAdmin, 'method' => 'revokeAdminRole'],
             '/admin/deleteUsers' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
             '/admin/deleteProperties' => ['controller' => $PanelAdmin, 'method' => 'deleteProperty'],
-            '/publishReview' => ['controller' => $Review, 'method' => 'PublishReview']
+            '/publishReview' => ['controller' => $Review, 'method' => 'PublishReview'],
+            '/admin/equipment' => ['controller' => $AdminEquipment, 'method' => 'adminEquipment'],
+            '/admin/addEquipment' => ['controller' => $AdminEquipment, 'method' => 'addEquipment'],
+            '/admin/deleteEquipment/{equipmentID}' => ['controller' => $AdminEquipment, 'method' => 'deleteEquipment'],
+            '/admin/updateEquipment/{equipmentID}' => ['controller' => $AdminEquipment, 'method' => 'updateEquipment'],
+            '/admin/services' => ['controller' => $AdminService, 'method' => 'index'],
+            '/admin/addService' => ['controller' => $AdminService, 'method' => 'addService'],
+            '/admin/deleteService/{serviceID}' => ['controller' => $AdminService, 'method' => 'deleteService'],
+            '/admin/updateService/{serviceID}' => ['controller' => $AdminService, 'method' => 'updateService']
+
         ];
         if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {
             header("Location: /");

@@ -4,7 +4,7 @@ namespace Controllers;
 
 use Models\ServiceModel;
 
-class ServiceController
+class ServicesController
 {
     public function index()
     {
