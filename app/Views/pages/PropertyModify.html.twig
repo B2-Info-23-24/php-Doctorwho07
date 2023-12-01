@@ -1,0 +1,28 @@
+{% extends 'templates/header.html.twig' %}
+
+{% block title %}
+  Modifier mon profil
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/style.css" />
+  <link rel="stylesheet" href="/public/css/user.css" />
+{% endblock %}
+
+{% block body %}
+  <body>
+    <h1>Modifier mon logement</h1>
+    <form action="/modifyProperty" method="post">
+      <input type="text" id="firstname" name="firstname" placeholder="Prénom" value="{{ Firstname }}" required /><br />
+      <input type="text" id="lastname" name="lastname" placeholder="Nom" value="{{ Lastname }}" required /><br />
+      <input type="tel" id="phone" name="phone" placeholder="Téléphone" value="{{ Phone }}" required /><br />
+      <input type="email" id="email" name="email" placeholder="Email" value="{{ Email }}" required /><br />
+      <input type="password" id="password" name="password" placeholder="Nouveau mot de passe si besoin" /><br />
+      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmer le nouveau mot de passe" /><br />
+      <input type="submit" value="Enregistrer les modifications" />
+    </form>
+    <a href="/disconnect" class="signin-button">Se déconnecter</a>
+    <a href="/user" class="signin-button">Retourner au profil</a>
+  </body>
+{% endblock %}

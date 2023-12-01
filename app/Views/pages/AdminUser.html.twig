@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="/public/css/accueil.css" />
   <link rel="stylesheet" href="/public/css/addproperties.css" />
   <link rel="stylesheet" href="/public/css/style.css" />
-
 {% endblock %}
 {% block body %}
   <body>
@@ -21,7 +20,6 @@
           <th>Prénom</th>
           <th>Email</th>
           <th>Téléphone</th>
-          <th>Mot de passe</th>
           <th>IsAdmin</th>
           <th>Informations</th>
           <th>Supprimer</th>
@@ -33,7 +31,6 @@
             <td>{{ user.FirstName }}</td>
             <td>{{ user.Email }}</td>
             <td>{{ user.Phone }}</td>
-            <td>{{ user.Password }}</td>
             <td>{{ user.IsAdmin }}</td>
             <td>
               <a href="/user/{{ user.ID }}">Voir l'utilisateur</a>

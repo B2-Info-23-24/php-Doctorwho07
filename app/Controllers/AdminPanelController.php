@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\AdminModel, Models\UserModel;
+use Models\PropertiesModel, Models\AdminModel, Models\UserModel, Models\PropertiesTypeModel;
 
 class AdminPanelController
 {
@@ -76,7 +76,6 @@ class AdminPanelController
             foreach ($userIDs as $userID) {
                 UserModel::DeleteUserById($userID);
             }
-            // Rediriger vers la page admin ou une autre page après la suppression
             header("Location: /admin/users");
             exit();
         } else {

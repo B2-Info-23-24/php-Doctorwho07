@@ -12,10 +12,14 @@ class PublishController
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/AddProperty.html.twig');
         $propertiesTypes = PropertiesTypeModel::getAllPropertiesType();
+        $propertiesEquipments = PropertiesModel::getAllEquipments();
+        $propertiesServices = PropertiesModel::getAllServices();
         echo $template->display(
             [
                 'title' => "Publier un logement",
                 'propertiesTypes' => $propertiesTypes,
+                'propertiesEquipments' => $propertiesEquipments,
+                'propertiesServices' => $propertiesServices,
             ]
         );
     }
@@ -35,16 +39,23 @@ class PublishController
             $price = $_POST['Price'];
             $location = $_POST['Location'] . $_POST['City'];
             $city = $_POST['City'];
-            $PropertyType = $_POST['PropertyType'];
+            $propertyType = $_POST['PropertyType'];
+            $selectedEquipments = isset($_POST['equipment']) ? $_POST['equipment'] : [];
+            $selectedServices = isset($_POST['services']) ? $_POST['services'] : [];
+
             $uploadDirectory = (__DIR__ . '../../../public/images/');
             $tempName = $image['tmp_name'];
             $fileName = basename($image['name']);
             $destination = $uploadDirectory . $fileName;
+
             if (!move_uploaded_file($tempName, $destination)) {
                 echo "Une erreur est survenue lors du téléchargement de l'image.";
                 exit;
             }
-            $propertyAdded = PropertiesModel::addProperties($title, $description, $fileName, $price, $location, $city, $PropertyType);
+
+            // Ajout des équipements et des services sélectionnés à la base de données
+            $propertyAdded = PropertiesModel::addProperties($title, $description, $fileName, $price, $location, $city, $propertyType, $selectedEquipments, $selectedServices);
+
             if ($propertyAdded) {
                 header('Location: /');
             } else {
@@ -55,6 +66,7 @@ class PublishController
             exit();
         }
     }
+
     public function pushUser()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {

@@ -3,25 +3,24 @@
   Admin Equipment
 {% endblock %}
 {% block css %}
-  <!-- Ajoutez vos liens vers les fichiers CSS nécessaires ici -->
+
 {% endblock %}
 {% block body %}
   <h2>Gérer les Équipements</h2>
 
-  <!-- Formulaire pour ajouter un nouvel équipement -->
-  <form action="/addEquipment" method="post">
+  <form action="/admin/addEquipment" method="post">
     <input type="text" name="equipmentName" placeholder="Nom de l'équipement" required />
     <button type="submit">Ajouter</button>
   </form>
 
-  <!-- Liste des équipements existants avec des options pour supprimer et modifier -->
   <ul>
-    {% for equipment in equipmentList %}
+    {% for equipment in equipments %}
       <li>
-        {{ equipment.name }}
-        <a href="/deleteEquipment/{{ equipment.ID }}">Supprimer</a>
-        <form action="/updateEquipment/{{ equipment.ID }}" method="post">
-          <input type="text" name="newName" placeholder="Nouveau nom" required />
+        {{ equipment.Type }}
+        <a href="/admin/deleteEquipment/{{ equipment.ID }}">Supprimer</a>
+        <form action="/admin/updateEquipment" method="post">
+          <input type="hidden" name="id" value="{{ equipment.ID }}" />
+          <input type="text" name="name" placeholder="Nouveau nom" required />
           <button type="submit">Modifier</button>
         </form>
       </li>

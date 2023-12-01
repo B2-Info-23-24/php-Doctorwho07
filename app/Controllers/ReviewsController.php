@@ -6,6 +6,19 @@ use Models\ReviewsModel;
 
 class ReviewsController
 {
+    public function index()
+    {
+        $reviews = ReviewsModel::getAllReviews();
+        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $twig = new \Twig\Environment($loader);
+        $template = $twig->load('pages/AdminReviews.html.twig');
+        echo $template->display(
+            [
+                'title' => "Tous les avis",
+                'reviews' => $reviews,
+            ]
+        );
+    }
     public function publishReview()
     {
         if (!isset($_SESSION['user'])) {

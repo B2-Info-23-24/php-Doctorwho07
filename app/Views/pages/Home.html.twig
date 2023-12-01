@@ -6,39 +6,37 @@
   <link rel="stylesheet" href="/public/css/navbar.css" />
   <link rel="stylesheet" href="/public/css/accueil.css" />
   <link rel="stylesheet" href="/public/css/style.css" />
+  <link rel="stylesheet" href="/public/css/home.css" />
 {% endblock %}
 {% block body %}
   <body>
     <div class="container">
       <div class="filters">
-        <form id="searchForm" action="/search_post" method="post">
-          <input type="text" id="search" name="search" placeholder="Name" required />
-          <div id="searchResults"></div>
-          <input type="submit" value="Envoyer" />
-        </form>
         <h3>Filtres</h3>
-        <form action="/filter" method="post">
+        <form action="/" method="post">
           <div class="form-group">
             <label for="price">Prix par nuit</label>
-            <input type="number" id="minprice" name="minprice" min="1" max="10000" placeholder="Minimum" />
-            <input type="number" id="maxprice" name="maxprice" min="1" max="10000" placeholder="Maximum" />
+            <input type="number" id="minprice" name="minprice" min="0" max="10000" placeholder="Minimum" />
+            <input type="number" id="maxprice" name="maxprice" min="0" max="10000" placeholder="Maximum" />
           </div>
-
           <div class="form-group">
-            <label for="location">Location</label>
-            <input type="text" id="location" name="location" />
+            <label for="Type">Ville</label>
+            <select name="PropertyCity" required>
+              <option selected hidden value="0">Choisissez une ville</option>
+              {% for propertyCity in propertiesCity %}
+                <option value="{{ propertyCity }}">{{ propertyCity }}</option>
+              {% endfor %}
+            </select>
           </div>
-
           <div class="form-group">
             <label for="Type">Type de logement</label>
             <select name="PropertyType" required>
-              <option selected hidden>Choisissez un type</option>
+              <option selected hidden value="0">Choisissez un type</option>
               {% for propertyType in propertiesTypes %}
                 <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
               {% endfor %}
             </select>
           </div>
-
           <div class="form-group">
             <label for="equipment">Les équipements</label>
             {% for propertyEquipment in propertiesEquipments %}
@@ -58,57 +56,47 @@
               </div>
             {% endfor %}
           </div>
-
           <input type="submit" value="Envoyer" />
         </form>
       </div>
       <div class="properties">
         <table>
-          <table>
-            <thead>
+          <tbody>
+            <tr>
+              <td>Title</td>
+              <td>Description</td>
+              <td>Image</td>
+              <td>Price</td>
+              <td>City</td>
+              <td>favoris</td>
+            </tr>
+            {% for property in properties %}
               <tr>
-                <th colspan="2">The Properties Table</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Title</td>
-                <td>Description</td>
-                <td>Image</td>
-                <td>Price</td>
-                <td>Location</td>
-                <td>City</td>
-                <td>favoris</td>
-              </tr>
-              {% for property in properties %}
-                <tr>
-                  <td>{{ property.Title }}</td>
-                  <td>{{ property.Description }}</td>
+                <td>{{ property.Title }}</td>
+                <td>{{ property.Description }}</td>
+                <td>
+                  <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
+                </td>
+                <td>{{ property.Price }}</td>
+                <td>{{ property.City }}</td>
+                {% if connected %}
                   <td>
-                    <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
+                    {% if property.isFavorite %}
+                      <form action="/revokeFavorite" method="post">
+                        <input type="hidden" name="ID" value="{{ property.ID }}" />
+                        <button type="submit">Retirer des favoris</button>
+                      </form>
+                    {% else %}
+                      <form action="/favorite" method="post">
+                        <input type="hidden" name="ID" value="{{ property.ID }}" />
+                        <button type="submit">Ajouter aux favoris</button>
+                      </form>
+                    {% endif %}
                   </td>
-                  <td>{{ property.Price }}</td>
-                  <td>{{ property.Location }}</td>
-                  <td>{{ property.City }}</td>
-                  {% if connected %}
-                    <td>
-                      {% if property.isFavorite %}
-                        <form action="/revokeFavorite" method="post">
-                          <input type="hidden" name="ID" value="{{ property.ID }}" />
-                          <button type="submit">Retirer des favoris</button>
-                        </form>
-                      {% else %}
-                        <form action="/favorite" method="post">
-                          <input type="hidden" name="ID" value="{{ property.ID }}" />
-                          <button type="submit">Ajouter aux favoris</button>
-                        </form>
-                      {% endif %}
-                    </td>
-                  {% endif %}
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
         </table>
       </div>
     </div>

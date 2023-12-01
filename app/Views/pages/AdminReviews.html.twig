@@ -1,0 +1,37 @@
+{% extends 'templates/header.html.twig' %}
+{% block title %}
+
+{% endblock %}
+{% block css %}
+
+{% endblock %}
+{% block body %}
+  <h2>Gérer les avis</h2>
+
+  <form action="/admin/addReview" method="post">
+    <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
+    <input type="text" id="Author" name="Author" placeholder="Author" required /><br />
+    <input type="text" id="Comment" name="Comment" placeholder="Comment" required /><br />
+    <input type="range" id="Rating" name="Rating" placeholder="Rating" required step="1" min="0" max="5" /><br />
+    <button type="submit">Ajouter</button>
+  </form>
+  <ul>
+    {% for review in reviews %}
+      <li>
+        {{ review.Title }}
+        {{ review.Author }}
+        {{ review.Comment }}
+        {{ review.Rating }}
+        {{ review.foreign_key_property }}
+        {{ review.foreign_key_user }}
+
+        <a href="/admin/deleteEquipment/{{ review.ID }}">Supprimer</a>
+        <form action="/admin/updateEquipment" method="post">
+          <input type="hidden" name="id" value="{{ review.ID }}" />
+          <input type="text" name="name" placeholder="Nouveau nom" required />
+          <button type="submit">Modifier</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

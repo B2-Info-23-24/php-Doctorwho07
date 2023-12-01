@@ -10,24 +10,21 @@ class EquipmentModel
     {
         $connexion = ConnectDB::getConnection();
         $sql = "
-            SELECT 
-                e.*, 
-                GROUP_CONCAT(DISTINCT p.Title) AS linked_properties
-            FROM equipments e
-            LEFT JOIN selected_equipments se ON e.ID = se.foreign_key_equipments
-            LEFT JOIN properties p ON se.foreign_key_property = p.ID
-            GROUP BY e.ID
+        SELECT e.*, p.Title AS linked_properties
+        FROM equipments e
+        LEFT JOIN selected_equipments se ON e.ID = se.foreign_key_equipments
+        LEFT JOIN properties p ON se.foreign_key_property = p.ID
+        
         ";
         $stmt = $connexion->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-
     public static function addEquipment($equipmentName)
     {
         $connexion = ConnectDB::getConnection();
-        $stmt = $connexion->prepare("INSERT INTO equipment (name) VALUES (?)");
+        $stmt = $connexion->prepare("INSERT INTO equipments (Type) VALUES (?)");
         return $stmt->execute([$equipmentName]);
     }
 
@@ -41,8 +38,10 @@ class EquipmentModel
     public static function updateEquipment($equipmentId, $newName)
     {
         $connexion = ConnectDB::getConnection();
-        $stmt = $connexion->prepare("UPDATE equipments SET name = ? WHERE id = ?");
-        return $stmt->execute([$newName, $equipmentId]);
+        $sql = "UPDATE equipments SET Type = ? WHERE ID = ?";
+        $stmt = $connexion->prepare($sql);
+        $stmt->execute([$newName, $equipmentId]);
+        return true;
     }
     public static function linkEquipmentToLogement($equipmentId, $logementId)
     {

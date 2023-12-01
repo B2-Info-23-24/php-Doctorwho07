@@ -14,8 +14,8 @@ class ServiceModel
                 s.*, 
                 GROUP_CONCAT(DISTINCT p.Title) AS linked_properties
             FROM services s
-            LEFT JOIN services_logement sl ON s.ID = sl.service_id
-            LEFT JOIN properties p ON sl.logement_id = p.ID
+            LEFT JOIN selected_services sl ON s.ID = sl.foreign_key_services
+            LEFT JOIN properties p ON sl.foreign_key_property = p.ID
             GROUP BY s.ID
         ";
         $stmt = $connexion->prepare($sql);
@@ -46,14 +46,13 @@ class ServiceModel
     public static function linkServiceToLogement($serviceId, $logementId)
     {
         $connexion = ConnectDB::getConnection();
-        $stmt = $connexion->prepare("INSERT INTO services_logement (service_id, logement_id) VALUES (?, ?)");
+        $stmt = $connexion->prepare("INSERT INTO selected_services (foreign_key_services, foreign_key_property) VALUES (?, ?)");
         return $stmt->execute([$serviceId, $logementId]);
     }
-
     public static function unlinkServiceFromLogement($serviceId, $logementId)
     {
         $connexion = ConnectDB::getConnection();
-        $stmt = $connexion->prepare("DELETE FROM services_logement WHERE service_id = ? AND logement_id = ?");
+        $stmt = $connexion->prepare("DELETE FROM selected_services WHERE foreign_key_services = ? AND foreign_key_property = ?");
         return $stmt->execute([$serviceId, $logementId]);
     }
     public static function getServiceById($serviceId)

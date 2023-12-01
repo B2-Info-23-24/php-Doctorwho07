@@ -18,13 +18,13 @@ class PropertiesTypeModel
             return array();
         }
     }
-    static function addPropertyType($typeName)
+    static function addPropertyType($type)
     {
         $connexion = ConnectDB::getConnection();
         try {
             $sql = "INSERT INTO lodging_types (Type) VALUES (?)";
             $stmt = $connexion->prepare($sql);
-            $stmt->execute([$typeName]);
+            $stmt->execute([$type]);
             return true;
         } catch (PDOException $e) {
             echo "Erreur lors de l'ajout du type de logement : " . $e->getMessage();

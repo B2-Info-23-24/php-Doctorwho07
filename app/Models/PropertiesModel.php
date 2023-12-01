@@ -60,21 +60,39 @@ class PropertiesModel
             return true;
         }
     }
-    static function AddProperties($title, $description, $image, $price, $location, $city, $PropertyType)
+    static function addProperties($title, $description, $image, $price, $location, $city, $propertyType, $selectedEquipments, $selectedServices)
     {
         $connexion = ConnectDB::getConnection();
 
         try {
-            $IdPropertyType = intval($PropertyType);
+            $IdPropertyType = intval($propertyType);
             $sql = "INSERT INTO properties (Title, Description, Image, Price, Location, City, foreign_key_lodging_type) 
-                VALUES ('$title', '$description', '$image', '$price', '$location', LOWER('$city'), '$IdPropertyType')";
+            VALUES ('$title', '$description', '$image', '$price', '$location', LOWER('$city'), '$IdPropertyType')";
             $connexion->exec($sql);
+
+            $lastInsertedId = $connexion->lastInsertId();
+
+            foreach ($selectedEquipments as $equipment) {
+                $equipmentId = intval($equipment);
+                $sqlEquipment = "INSERT INTO selected_equipments (foreign_key_property, foreign_key_equipments) 
+                VALUES ('$lastInsertedId', '$equipmentId')";
+                $connexion->exec($sqlEquipment);
+            }
+
+            foreach ($selectedServices as $service) {
+                $serviceId = intval($service);
+                $sqlService = "INSERT INTO selected_services (foreign_key_property, foreign_key_services) 
+                VALUES ('$lastInsertedId', '$serviceId')";
+                $connexion->exec($sqlService);
+            }
+
             return true;
         } catch (PDOException $e) {
             echo "Erreur lors de l'ajout du bien : " . $e->getMessage();
             return false;
         }
     }
+
     static function GetAllProperties()
     {
         $connexion = ConnectDB::getConnection();
@@ -217,9 +235,53 @@ class PropertiesModel
             return false;
         }
     }
+    public static function getFilteredProperties($minPrice, $maxPrice, $location, $propertyType, $selectedEquipments, $selectedServices)
+    {
+        $connexion = ConnectDB::getConnection();
+
+        // Construction de la requête SQL en fonction des filtres
+        $sql = "SELECT * FROM properties WHERE 1 = 1";
+
+        if ($minPrice !== null) {
+            $sql .= " AND Price >= $minPrice";
+        }
+
+        if ($maxPrice !== null) {
+            $sql .= " AND Price <= $maxPrice";
+        }
+
+        if ($location !== null) {
+            $sql .= " AND Location LIKE '%$location%'";
+        }
+
+        if ($propertyType !== null) {
+            $sql .= " AND foreign_key_lodging_type = $propertyType";
+        }
+
+        if (!empty($selectedEquipments)) {
+            $equipments = implode(",", $selectedEquipments);
+            $sql .= " AND ID IN (SELECT foreign_key_property FROM selected_equipments WHERE foreign_key_equipments IN ($equipments))";
+        }
+
+        if (!empty($selectedServices)) {
+            $services = implode(",", $selectedServices);
+            $sql .= " AND ID IN (SELECT foreign_key_property FROM selected_services WHERE foreign_key_services IN ($services))";
+        }
+
+        $result = $connexion->query($sql);
+        $properties = $result->fetchAll();
+
+        return $properties;
+    }
+    public static function getAllUniqueCities()
+    {
+        $connexion = ConnectDB::getConnection();
+        $query = "SELECT DISTINCT City FROM properties";
+        $statement = $connexion->prepare($query);
+        $statement->execute();
+
+        $cities = $statement->fetchAll(PDO::FETCH_COLUMN);
+
+        return $cities;
+    }
 }
-
-
-
-// recuperer tous les logements qui ont le meme titre
-// trier tous les logements en fonction de leur lieu

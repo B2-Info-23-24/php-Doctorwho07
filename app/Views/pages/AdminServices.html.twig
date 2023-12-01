@@ -1,28 +1,29 @@
 {% extends 'templates/header.html.twig' %}
 {% block title %}
-  {{ Title }}
+
 {% endblock %}
 {% block css %}
-  <link rel="stylesheet" href="/public/css/navbar.css" />
-  <link rel="stylesheet" href="/public/css/accueil.css" />
-  <link rel="stylesheet" href="/public/css/addservices.css" />
-  <link rel="stylesheet" href="/public/css/style.css" />
+
 {% endblock %}
 {% block body %}
-  <body>
-    <h2>Gérer les Services</h2>
-    <form action="/admin/addService" method="post">
-      <input type="text" id="serviceName" name="serviceName" placeholder="Nom du Service" required /><br />
-      <input type="submit" value="Ajouter" />
-    </form>
-    <div class="services-list">
-      {% for service in servicesList %}
-        <div class="service-item">
-          <span>{{ service.Type }}</span>
-          <a href="/admin/deleteService/{{ service.ID }}">Supprimer</a>
-          <a href="/admin/updateService/{{ service.ID }}">Modifier</a>
-        </div>
-      {% endfor %}
-    </div>
-  </body>
+  <h2>Gérer les Services</h2>
+
+  <form action="/admin/addService" method="post">
+    <input type="text" name="serviceName" placeholder="Nom du service" required />
+    <button type="submit">Ajouter</button>
+  </form>
+
+  <ul>
+    {% for service in services %}
+      <li>
+        {{ service.Type }}
+        <a href="/admin/deleteService/{{ service.ID }}">Supprimer</a>
+        <form action="/admin/updateService" method="post">
+          <input type="hidden" name="id" value="{{ service.ID }}" />
+          <input type="text" name="name" placeholder="Nouveau nom" required />
+          <button type="submit">Modifier</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock %}

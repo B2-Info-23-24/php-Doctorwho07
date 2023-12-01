@@ -40,12 +40,6 @@
         <input type="date" id="endDate" name="endDate" placeholder="endDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />
         <button type="submit">envoyer</button>
       </form>
-      <div id="errorPopup" style="display: none;">
-        <div>
-          <p id="errorMessage"></p>
-          <button onclick="closePopup()">Fermer</button>
-        </div>
-      </div>
       {% if propertyIsFavorite %}
         <p>Cette propriété est dans vos favoris.</p>
         <form action="/revokeFavorite" method="post" id="revokeFavorite">

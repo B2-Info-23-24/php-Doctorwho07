@@ -35,7 +35,7 @@
             <td>{{ property.Location }}</td>
             <td>{{ property.City }}</td>
             <td>
-              <a href="/property/{{ property.ID }}"><button>Voir détails</button></a>
+              <a href="/property/{{ property.ID }}">Détails</a>
             </td>
             <td>
               <input type="checkbox" name="propertiesIDs[]" value="{{ property.ID }}" />
@@ -43,7 +43,7 @@
           </tr>
         {% endfor %}
       </table>
-      <button type="submit">Supprimer les utilisateurs sélectionnés</button>
+      <button type="submit">Supprimer les logements sélectionnés</button>
     </form>
   </body>
 {% endblock %}
