@@ -23,9 +23,8 @@ class OrderController
         $DateOrder = date("Y-m-d");
         $propertyId = $_POST['propertyId'];
         $userId = $_SESSION['user']['ID'];
-
         if ($endDate <= $startDate) {
-            var_dump("je passe dans le if 1");
+            var_dump("dates invalides");
             exit();
         }
 
@@ -98,14 +97,25 @@ class OrderController
             $endDate = new DateTime($property['End']);
             $numberOfNights = $startDate->diff($endDate)->days;
             $property['NumberOfNights'] = $numberOfNights;
+
             //_________________ Check User's Property Reservations _________________//
             $isReserv = OrdersModel::isPropertyOrderByUser($userId, $property['ID']);
-            $PropertyAndOrder = ['isFavorite' => $isReserv] + $property;
+
+            //_________________ Check if User has Reviewed the Property _________________//
+            $Reviewed = OrdersModel::hasUserReviewedProperty($userId, $property['ID']);
+
+            // Add both reservation status and review status to the property entry
+            $PropertyAndOrder = [
+                'isFavorite' => $isReserv,
+                'hasReviewed' => $Reviewed,
+            ] + $property;
+
             array_push($propertiesandorders, $PropertyAndOrder);
         }
 
         return $propertiesandorders;
     }
+
 
     private function renderReservationsPage($propertiesandorders)
     {

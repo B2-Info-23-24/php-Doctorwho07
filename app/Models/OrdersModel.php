@@ -18,23 +18,31 @@ class OrdersModel
         $propertyId = $reservation['propertyId'];
         $userId = $reservation['userId'];
 
-        try {
-            // Vérifier la disponibilité avant d'insérer la réservation
-            if (self::checkAvailability($propertyId, $startDate, $endDate)) {
-                // Ajout de la réservation dans la table 'orders'
-                $sql = "INSERT INTO orders (Start, End, DateOrder, Price, foreign_key_property, foreign_key_user) VALUES ('$startDate', '$endDate', '$dateOrder', '$price', '$propertyId', '$userId')";
-                $connexion->exec($sql);
+        // Vérifier si propertyId est un entier non vide avant l'insertion
+        if (!empty($propertyId) && is_numeric($propertyId)) {
+            try {
+                // Vérifier la disponibilité avant d'insérer la réservation
+                if (self::checkAvailability($propertyId, $startDate, $endDate)) {
+                    // Ajout de la réservation dans la table 'orders'
+                    $sql = "INSERT INTO orders (Start, End, DateOrder, Price, foreign_key_property, foreign_key_user) VALUES ('$startDate', '$endDate', '$dateOrder', '$price', '$propertyId', '$userId')";
+                    $connexion->exec($sql);
 
-                return true;
-            } else {
-                echo "Le logement n'est pas disponible pour les dates sélectionnées.";
+                    return true;
+                } else {
+                    echo "Le logement n'est pas disponible pour les dates sélectionnées.";
+                    return false;
+                }
+            } catch (PDOException $e) {
+                echo "Erreur lors de l'ajout de la réservation : " . $e->getMessage();
                 return false;
             }
-        } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout de la réservation : " . $e->getMessage();
+        } else {
+            var_dump($propertyId);
+            echo "La valeur de propertyId est incorrecte.";
             return false;
         }
     }
+
 
 
     static function GetOrderById($OrderId)
@@ -109,7 +117,7 @@ class OrdersModel
         $connexion = ConnectDB::getConnection();
 
         try {
-            $sql = "SELECT o.ID, p.Title, o.Start, o.End, o.DateOrder, o.Price, p.Location
+            $sql = "SELECT o.ID, p.Title, o.Start, o.End, o.DateOrder, o.Price, p.City, o.foreign_key_property
                 FROM orders o
                 INNER JOIN properties p ON o.foreign_key_property = p.ID";
 
@@ -141,5 +149,21 @@ class OrdersModel
         // Si count > 0, cela signifie qu'il y a des réservations pour ces dates et cette propriété
         // Donc le logement n'est pas disponible
         return $count === 0;
+    }
+    static function hasUserReviewedProperty($userId, $propertyId)
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $sql = "SELECT * FROM reviews WHERE foreign_key_user = ? AND foreign_key_property = ?";
+            $stmt = $connexion->prepare($sql);
+            var_dump($userId, $propertyId);
+            $stmt->execute([$userId, $propertyId]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            var_dump($result);
+            return $result;
+        } catch (PDOException $e) {
+            echo "Erreur lors de la vérification de l'avis de l'utilisateur : " . $e->getMessage();
+            return false;
+        }
     }
 }

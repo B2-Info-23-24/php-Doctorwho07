@@ -57,4 +57,8 @@ class HomeController
             'propertiesCity' => $propertiesCity,
         ]);
     }
+    public static function info()
+    {
+        phpinfo();
+    }
 }

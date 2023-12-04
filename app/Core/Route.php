@@ -2,29 +2,13 @@
 
 namespace Core;
 
-use Controllers\HomeController;
-use Controllers\AdminPanelController;
-use Controllers\PublishController;
-use Controllers\UserController;
-use Controllers\ControllerErreur;
-use Controllers\FavoritesController;
-use Controllers\LoginController;
-use Controllers\PropertiesController;
-use Controllers\RegisterController;
-use Controllers\ReviewsController;
-use Controllers\OrderController;
-use Controllers\EquipmentController;
-use Controllers\ServicesController;
-use Controllers\TypeController;
-
-
+use Controllers\HomeController, Controllers\AdminPanelController, Controllers\PublishController, Controllers\UserController, Controllers\ControllerErreur, Controllers\FavoritesController, Controllers\LoginController, Controllers\PropertiesController, Controllers\RegisterController, Controllers\ReviewsController, Controllers\OrderController, Controllers\EquipmentController, Controllers\ServicesController, Controllers\TypeController;
 
 class Route
 {
     static function Route($route)
     {
         session_start();
-
         $Home = new HomeController;
         $Login = new LoginController;
         $Register = new RegisterController;
@@ -51,19 +35,21 @@ class Route
             //---------- Connexion ---------//
             '/login' => ['controller' => $Login, 'method' => 'index'],
             '/login_push' => ['controller' => $Login, 'method' => 'push'],
-            //---------- Disconnect ---------//
-            '/disconnect' => ['controller' => $User, 'method' => 'disconnect'],
             //---------- User Account ---------//
-            '/delete' => ['controller' => $User, 'method' => 'delete'],
             '/user' => ['controller' => $User, 'method' => 'home'],
+            '/disconnect' => ['controller' => $User, 'method' => 'disconnect'],
+            '/delete' => ['controller' => $User, 'method' => 'delete'],
             '/modify' => ['controller' => $User, 'method' => 'Modify'],
+            //---------- Favorites ---------//
             '/favorite' => ['controller' => $Favorites, 'method' => 'favorite'],
             '/revokeFavorite' => ['controller' => $Favorites, 'method' => 'revokeFavorite'],
             '/favoriteProperty' => ['controller' => $Favorites, 'method' => 'favoriteProperty'],
+            //---------- Orders ---------//
             '/order' => ['controller' => $Order, 'method' => 'reservation'],
             '/orders' => ['controller' => $Order, 'method' => 'reservationsProperty'],
+            //---------- Reviews ---------//
+            '/publishReview' => ['controller' => $Review, 'method' => 'PublishReview'],
             '/review_push' => ['controller' => $Review, 'method' => 'publishReview'],
-
             //---------- Admin Account ---------//
             '/admin/home' => ['controller' => $PanelAdmin, 'method' => 'home'],
             '/admin/users' => ['controller' => $PanelAdmin, 'method' => 'users'],
@@ -78,31 +64,24 @@ class Route
             '/admin/revokeAdminRole' => ['controller' => $PanelAdmin, 'method' => 'revokeAdminRole'],
             '/admin/deleteUsers' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
             '/admin/deleteProperties' => ['controller' => $PanelAdmin, 'method' => 'deleteProperty'],
-
-
-            '/publishReview' => ['controller' => $Review, 'method' => 'PublishReview'],
-
-
             //---------- Equipment ---------//
             '/admin/equipments' => ['controller' => $AdminEquipment, 'method' => 'index'],
             '/admin/addEquipment' => ['controller' => $AdminEquipment, 'method' => 'addEquipment'],
             '/admin/deleteEquipment' => ['controller' => $AdminEquipment, 'method' => 'deleteEquipment'],
             '/admin/updateEquipment' => ['controller' => $AdminEquipment, 'method' => 'updateEquipment'],
-
             //---------- Services ---------//
             '/admin/services' => ['controller' => $AdminService, 'method' => 'index'],
             '/admin/addService' => ['controller' => $AdminService, 'method' => 'addService'],
             '/admin/deleteService' => ['controller' => $AdminService, 'method' => 'deleteService'],
             '/admin/updateService' => ['controller' => $AdminService, 'method' => 'updateService'],
-
             //---------- Reviews ---------//
             '/admin/reviews' => ['controller' => $Review, 'method' => 'index'],
-
             //---------- Type ---------//
             '/admin/type' => ['controller' => $AdminType, 'method' => 'type'],
             '/admin/addType' => ['controller' => $AdminType, 'method' => 'addType'],
             '/admin/deleteType' => ['controller' => $AdminType, 'method' => 'deleteType'],
-            '/admin/updateType' => ['controller' => $AdminType, 'method' => 'updateType']
+            '/admin/updateType' => ['controller' => $AdminType, 'method' => 'updateType'],
+            '/info' => ['controller' => $Home, 'method' => 'info']
         ];
         if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {
             header("Location: /");

@@ -1,22 +1,11 @@
 // search bar
-// filter : prix input, type selector, equipements checkbox, services checkbox
-// admin panel : user, logements, avis, 
-// user panel : reservation, avis, favoris, inormations perso
-// more of properties : toutes les infos du logement, ajout en favoris, disponibilites, avis
-// reservation
+// un seul et unique avis
+// admin panel a check
+// connexion par telephone
 // gestion date dispo et reserve
-// upload img
-// afficher les img 
-// favoris
 // jwt
 
-// numero de telephone !!!!!!!!!
-
-
-
 select commandes.* from commande inner join commande_produit on commandes.id = commande_produit.commandeId where commande_produit.productId = 1
-
-
 
 INSERT INTO services (Type) VALUES ('Transferts aéroport'),('Petit-déjeuner'),('Service de ménage'),('Location de voiture'),('Visites guidées'),('Cours de cuisine'),('Loisirs');
 INSERT INTO lodging_types (Type) VALUES ('Appartements'),('Maisons'),('Chalets'),('Villas'),('Péniches'),('Yourtes'),('Cabanes'),('Igloos'),('Tentes'),('Cars');
