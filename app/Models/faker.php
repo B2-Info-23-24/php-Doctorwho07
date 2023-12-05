@@ -18,7 +18,7 @@ for ($i = 0; $i < 3; $i++) {
     $phone = $faker->phoneNumber;
     $email = $faker->email;
     $password = $faker->password;
-    UserModel::createUser($lastname, $firstName, $phone, $email, $password);
+    UserModel::addUser($lastname, $firstName, $phone, $email, $password);
 }
 
 for ($i = 0; $i < 3; $i++) {

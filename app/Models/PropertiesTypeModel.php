@@ -8,55 +8,40 @@ class PropertiesTypeModel
 {
     static function getAllPropertiesType()
     {
-        $connexion = ConnectDB::getConnection();
-        try {
-            $sql = "SELECT * FROM lodging_types";
-            $TypeList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-            return $TypeList !== false ? $TypeList : array();
-        } catch (PDOException $e) {
-            echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
-            return array();
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT * FROM lodging_types";
+        $query = $db->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
     static function addPropertyType($type)
     {
-        $connexion = ConnectDB::getConnection();
-        try {
-            $sql = "INSERT INTO lodging_types (Type) VALUES (?)";
-            $stmt = $connexion->prepare($sql);
-            $stmt->execute([$type]);
-            return true;
-        } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout du type de logement : " . $e->getMessage();
-            return false;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "INSERT INTO lodging_types (Type) VALUES (?)";
+        $query = $db->prepare($sql);
+        $query->execute([$type]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     static function deletePropertyType($typeId)
     {
-        $connexion = ConnectDB::getConnection();
-        try {
-            $sql = "DELETE FROM lodging_types WHERE ID = ?";
-            $stmt = $connexion->prepare($sql);
-            $stmt->execute([$typeId]);
-            return true;
-        } catch (PDOException $e) {
-            echo "Erreur lors de la suppression du type de logement : " . $e->getMessage();
-            return false;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "DELETE FROM lodging_types WHERE ID = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$typeId]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     static function updatePropertyType($typeId, $newTypeName)
     {
-        $connexion = ConnectDB::getConnection();
-        try {
-            $sql = "UPDATE lodging_types SET Type = ? WHERE ID = ?";
-            $stmt = $connexion->prepare($sql);
-            $stmt->execute([$newTypeName, $typeId]);
-            return true;
-        } catch (PDOException $e) {
-            echo "Erreur lors de la mise à jour du type de logement : " . $e->getMessage();
-            return false;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "UPDATE lodging_types SET Type = ? WHERE ID = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$newTypeName, $typeId]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }

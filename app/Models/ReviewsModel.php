@@ -8,69 +8,47 @@ class ReviewsModel
 {
     static function getAllReviews()
     {
-        $connexion = ConnectDB::getConnection();
-        try {
-            $sql = "SELECT * FROM reviews";
-            $reviewsList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-            return $reviewsList !== false ? $reviewsList : array();
-        } catch (PDOException $e) {
-            echo "Erreur lors de la récupération des types de services : " . $e->getMessage();
-            return [];
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT * FROM reviews";
+        $query = $db->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
     static function addReview($userId, $propertyId, $title, $comment, $rating)
     {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $sql = "INSERT INTO reviews (Title, Comment, Rating, foreign_key_property, foreign_key_user) VALUES (?, ?, ?, ?, ?)";
-            $stmt = $connexion->prepare($sql);
-            $stmt->execute([$title, $comment, $rating, $propertyId, $userId]);
-            return true;
-        } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout de l'avis : " . $e->getMessage();
-            return false;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "INSERT INTO reviews (Title, Comment, Rating, foreign_key_property, foreign_key_user) VALUES (?, ?, ?, ?, ?)";
+        $query = $db->prepare($sql);
+        $query->execute([$title, $comment, $rating, $propertyId, $userId]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
-
     static function DeleteReviews($ID)
     {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $sql = "DELETE FROM reviews WHERE ID = '$ID'";
-            $connexion->exec($sql);
-            return true;
-        } catch (PDOException $e) {
-            echo "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage();
-            return false;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "DELETE FROM reviews WHERE ID = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$ID]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
     static function GetReviewsById($reviewsId)
     {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $sql = "SELECT * FROM users WHERE ID = '$reviewsId'";
-            $userData = $connexion->query($sql)->fetch(PDO::FETCH_ASSOC);
-            return $userData !== false ? $userData : null;
-        } catch (PDOException $e) {
-            echo "Erreur lors de la récupération de l'utilisateur : " . $e->getMessage();
-            return null;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT * FROM users WHERE ID = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$reviewsId]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
     static function updateReview($reviewId, $title, $comment, $rating)
     {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $sql = "UPDATE reviews SET Title = ?, Comment = ?, Rating = ? WHERE ID = ?";
-            $stmt = $connexion->prepare($sql);
-            $stmt->execute([$title, $comment, $rating, $reviewId]);
-            return true;
-        } catch (PDOException $e) {
-            echo "Erreur lors de la mise à jour de l'avis : " . $e->getMessage();
-            return false;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "UPDATE reviews SET Title = ?, Comment = ?, Rating = ? WHERE ID = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$title, $comment, $rating, $reviewId]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }

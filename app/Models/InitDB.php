@@ -8,7 +8,6 @@ class InitDB
     {
         $connexion = ConnectDB::getConnection();
 
-
         $connexion->exec("CREATE TABLE IF NOT EXISTS services (
             ID INT PRIMARY KEY AUTO_INCREMENT,
             Type VARCHAR(255))");

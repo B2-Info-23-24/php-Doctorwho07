@@ -9,11 +9,9 @@ class FilterModel
 {
     public static function getFilteredProperties($minPrice, $maxPrice, $City, $propertyType, $selectedEquipments, $selectedServices)
     {
-        $connection = ConnectDB::getConnection();
+        $db = ConnectDB::getConnection();
         $sql = "SELECT * FROM properties WHERE 1";
-
         $parameters = [];
-
         if ($minPrice !== null) {
             $sql .= " AND Price >= :minPrice";
             $parameters[':minPrice'] = $minPrice;
@@ -42,10 +40,9 @@ class FilterModel
             $serviceIds = implode(',', $selectedServices);
             $sql .= " AND ID IN (SELECT foreign_key_property FROM selected_services WHERE foreign_key_services IN ($serviceIds))";
         }
-        $stmt = $connection->prepare($sql);
+        $stmt = $db->prepare($sql);
         $stmt->execute($parameters);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         return $result;
     }
 }

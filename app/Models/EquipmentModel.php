@@ -8,65 +8,72 @@ class EquipmentModel
 {
     public static function getAllEquipment()
     {
-        $connexion = ConnectDB::getConnection();
-        $sql = "
-        SELECT e.*, p.Title AS linked_properties
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT e.*, p.Title AS linked_properties
         FROM equipments e
         LEFT JOIN selected_equipments se ON e.ID = se.foreign_key_equipments
-        LEFT JOIN properties p ON se.foreign_key_property = p.ID
-        
-        ";
-        $stmt = $connexion->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll();
+        LEFT JOIN properties p ON se.foreign_key_property = p.ID";
+        $query = $db->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public static function addEquipment($equipmentName)
     {
-        $connexion = ConnectDB::getConnection();
-        $stmt = $connexion->prepare("INSERT INTO equipments (Type) VALUES (?)");
-        return $stmt->execute([$equipmentName]);
+        $db = ConnectDB::getConnection();
+        $sql = "INSERT INTO equipments (Type) VALUES (?)";
+        $query = $db->prepare($sql);
+        $query->execute([$equipmentName]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public static function deleteEquipment($equipmentId)
     {
-        $connexion = ConnectDB::getConnection();
-        $stmt = $connexion->prepare("DELETE FROM equipments WHERE id = ?");
-        return $stmt->execute([$equipmentId]);
+        $db = ConnectDB::getConnection();
+        $sql = "DELETE FROM equipments WHERE id = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$equipmentId]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public static function updateEquipment($equipmentId, $newName)
     {
-        $connexion = ConnectDB::getConnection();
+        $db = ConnectDB::getConnection();
         $sql = "UPDATE equipments SET Type = ? WHERE ID = ?";
-        $stmt = $connexion->prepare($sql);
-        $stmt->execute([$newName, $equipmentId]);
-        return true;
+        $query = $db->prepare($sql);
+        $query->execute([$newName, $equipmentId]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
     public static function linkEquipmentToLogement($equipmentId, $logementId)
     {
-        $connexion = ConnectDB::getConnection();
-        $stmt = $connexion->prepare("INSERT INTO selected_equipments (foreign_key_property, foreign_key_equipments) VALUES (?, ?)");
-        return $stmt->execute([$equipmentId, $logementId]);
+        $db = ConnectDB::getConnection();
+        $sql = "INSERT INTO selected_equipments (foreign_key_property, foreign_key_equipments) VALUES (?, ?)";
+        $query = $db->prepare($sql);
+        $query->execute([$equipmentId, $logementId]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public static function unlinkEquipmentFromLogement($equipmentId, $logementId)
     {
-        $connexion = ConnectDB::getConnection();
-        $stmt = $connexion->prepare("DELETE FROM selected_equipments WHERE foreign_key_equipments = ? AND foreign_key_property = ?");
-        return $stmt->execute([$equipmentId, $logementId]);
+        $db = ConnectDB::getConnection();
+        $sql = "DELETE FROM selected_equipments WHERE foreign_key_equipments = ? AND foreign_key_property = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$equipmentId, $logementId]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
     public static function getEquipmentById($equipmentId)
     {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $stmt = $connexion->prepare("SELECT * FROM equipments WHERE ID = ?");
-            $stmt->execute([$equipmentId]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            echo "Erreur lors de la récupération de l'équipement : " . $e->getMessage();
-            return null;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT * FROM equipments WHERE ID = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$equipmentId]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }

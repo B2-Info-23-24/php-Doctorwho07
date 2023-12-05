@@ -72,7 +72,7 @@ class PublishController
             $Phone = $_POST['Phone'];
             $Email = $_POST['Email'];
             $Password = $_POST['Password'];
-            $userAdded = UserModel::createUser($LastName, $FirstName, $Phone, $Email, $Password);
+            $userAdded = UserModel::AddUser($LastName, $FirstName, $Phone, $Email, $Password);
             if ($userAdded) {
                 header('Location: admin/users');
             } else {

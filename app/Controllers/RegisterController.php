@@ -22,7 +22,7 @@ class RegisterController
             $phone = $_POST['phone'];
             $email = $_POST['email'];
             $password = $_POST['password'];
-            UserModel::createUser($lastname, $firstname, $phone, $email, $password);
+            UserModel::AddUser($lastname, $firstname, $phone, $email, $password);
             $checkedSuccessfull = UserModel::checkUser($email, $password);
             if ($checkedSuccessfull != false) {
                 $_SESSION['ID'] = $checkedSuccessfull;

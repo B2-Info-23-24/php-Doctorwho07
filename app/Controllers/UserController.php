@@ -72,6 +72,7 @@ class UserController
     }
     public static function modify()
     {
+        $userId = intval($_SESSION['user']['ID']);
         if (!isset($_SESSION['user'])) {
             header("Location: /login");
             exit;
@@ -88,7 +89,7 @@ class UserController
                 'password' => $_POST['password'],
                 'confirmPassword' => $_POST['confirmPassword']
             ];
-            if (UserModel::updateUserById($newUserData)) {
+            if (UserModel::updateUserById($userId, $newUserData)) {
                 $_SESSION['user']['Lastname'] = $newUserData['lastname'];
                 $_SESSION['user']['Firstname'] = $newUserData['firstname'];
                 $_SESSION['user']['Phone'] = intval($newUserData['phone']);
