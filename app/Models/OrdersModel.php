@@ -37,7 +37,6 @@ class OrdersModel
                 return false;
             }
         } else {
-            var_dump($propertyId);
             echo "La valeur de propertyId est incorrecte.";
             return false;
         }
@@ -156,14 +155,27 @@ class OrdersModel
         try {
             $sql = "SELECT * FROM reviews WHERE foreign_key_user = ? AND foreign_key_property = ?";
             $stmt = $connexion->prepare($sql);
-            var_dump($userId, $propertyId);
             $stmt->execute([$userId, $propertyId]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            var_dump($result);
             return $result;
         } catch (PDOException $e) {
             echo "Erreur lors de la vérification de l'avis de l'utilisateur : " . $e->getMessage();
             return false;
+        }
+    }
+    public static function getOrdersByUserId($userId)
+    {
+        $connexion = ConnectDB::getConnection();
+        try {
+            $sql = "SELECT * FROM orders WHERE foreign_key_user = :userId";
+            $stmt = $connexion->prepare($sql);
+            $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            $userOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $userOrders !== false ? $userOrders : array();
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des réservations de l'utilisateur : " . $e->getMessage();
+            return array();
         }
     }
 }

@@ -44,7 +44,6 @@ class HomeController
             $accommodationAndFavorite = array('isFavorite' => $isFavorite) + $property;
             array_push($propertiesandfavorites, $accommodationAndFavorite);
         }
-
         echo $template->display([
             'title' => "Home",
             'properties' => $propertiesandfavorites,

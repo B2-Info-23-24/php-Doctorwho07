@@ -59,10 +59,6 @@ class ReservationController
         }
     }
 
-
-
-
-
     public function Modify()
     {
         $newOrderData = "";
@@ -71,46 +67,25 @@ class ReservationController
         header("Location: /user");
         exit();
     }
-    public function ReservationsProperty()
+
+    public function reservationsProperty()
     {
-        $userId = $_SESSION['user']['ID'] ?? null;
-        $propertiesReserv = OrdersModel::GetAllOrdersWithDetails();
+        // Vérifie que l'utilisateur est connecté
+        if (isset($_SESSION['user']['ID'])) {
+            $userId = $_SESSION['user']['ID'];
+            var_dump($userId);
+            // Récupère les réservations de l'utilisateur connecté
+            $userReservations = OrdersModel::getOrdersByUserId($userId);
 
-        $propertiesandorders = $this->calculateNumberOfNights($propertiesReserv, $userId);
+            // Calcule le nombre de nuits pour chaque réservation
+            $propertiesWithNights = $this->calculateNumberOfNights($userReservations, $userId);
 
-        $this->renderReservationsPage($propertiesandorders);
-    }
-
-
-    private function calculateNumberOfNights($propertiesReserv, $userId)
-    {
-        $propertiesandorders = [];
-
-        foreach ($propertiesReserv as $property) {
-            $startDate = new DateTime($property['Start']);
-            $endDate = new DateTime($property['End']);
-            $numberOfNights = $startDate->diff($endDate)->days;
-            $property['NumberOfNights'] = $numberOfNights;
-            $isReserv = OrdersModel::isPropertyOrderByUser($userId, $property['ID']);
-            $PropertyAndOrder = ['isFavorite' => $isReserv] + $property;
-            array_push($propertiesandorders, $PropertyAndOrder);
+            // Envoie les réservations à la vue pour affichage
+            $this->renderReservationsPage($propertiesWithNights);
+        } else {
+            // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
+            header('Location: /login'); // Modifier le chemin selon ta structure
+            exit();
         }
-
-        return $propertiesandorders;
-    }
-
-    private function renderReservationsPage($propertiesandorders)
-    {
-        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
-        $twig = new \Twig\Environment($loader);
-        echo $twig->render(
-            'pages/Reservations.html.twig',
-            [
-                'title' => "Reservations",
-                'reservations' => $propertiesandorders,
-            ]
-        );
-        exit();
     }
 }
-

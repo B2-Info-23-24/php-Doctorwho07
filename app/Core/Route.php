@@ -9,6 +9,7 @@ class Route
     static function Route($route)
     {
         session_start();
+        
         $Home = new HomeController;
         $Login = new LoginController;
         $Register = new RegisterController;

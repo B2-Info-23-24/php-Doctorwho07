@@ -2,7 +2,8 @@
 // un seul et unique avis
 // admin panel a check
 // connexion par telephone
-// gestion date dispo et reserve
+// modifier un avis 
+// mettre les img dans un fichier a part 
 // jwt
 
 select commandes.* from commande inner join commande_produit on commandes.id = commande_produit.commandeId where commande_produit.productId = 1

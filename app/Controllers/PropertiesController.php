@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\FavoriteModel, Controllers\LoginController, Models\JoinModel;
+use Models\PropertiesModel, Models\FavoriteModel, Controllers\LoginController;
 
 
 class PropertiesController
@@ -17,15 +17,20 @@ class PropertiesController
         } else {
             $propertyIsFavorite = false;
         }
+
         $propertyDetails = PropertiesModel::getPropertyDetailsById($propertyId);
+
+        $reservedDatesJSON = PropertiesModel::getReservedDatesForProperty($propertyId);
+        $reservedDates = json_encode($reservedDatesJSON);
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/property.html.twig');
         echo $template->display(
             [
-                'property' => $propertyDetails[0], // Sélection du premier élément du tableau des détails de la propriété
+                'property' => $propertyDetails[0],
                 'propertyIsFavorite' => $propertyIsFavorite,
                 'connected' => $connected,
+                'reservedDates' => $reservedDates,
             ]
         );
     }

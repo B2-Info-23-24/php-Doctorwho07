@@ -66,8 +66,9 @@ class PropertiesModel
 
         try {
             $IdPropertyType = intval($propertyType);
+            $address = $location . "," . $city;
             $sql = "INSERT INTO properties (Title, Description, Image, Price, Location, City, foreign_key_lodging_type) 
-            VALUES ('$title', '$description', '$image', '$price', '$location', LOWER('$city'), '$IdPropertyType')";
+            VALUES ('$title', '$description', '$image', '$price', '$address', LOWER('$city'), '$IdPropertyType')";
             $connexion->exec($sql);
 
             $lastInsertedId = $connexion->lastInsertId();
@@ -119,6 +120,20 @@ class PropertiesModel
             return false;
         }
     }
+    static function getReservedDatesForProperty($propertyId)
+    {
+        $connexion = ConnectDB::getConnection();
+
+        try {
+            $sql = "SELECT Start, End FROM orders WHERE foreign_key_property = '$propertyId'";
+            $reservedDates = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+            return $reservedDates !== false ? $reservedDates : array();
+        } catch (PDOException $e) {
+            echo "Erreur lors de la récupération des dates réservées : " . $e->getMessage();
+            return array();
+        }
+    }
+
 
     static function GetPropertiesByTitle($propertyTitle)
     {

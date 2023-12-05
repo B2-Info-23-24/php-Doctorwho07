@@ -1,13 +1,38 @@
 {% extends 'templates/header.html.twig' %}
 {% block title %}
-  {{ Title }}
+  {{ property['Title'] }}
 {% endblock %}
 {% block css %}
   <link rel="stylesheet" href="/public/css/navbar.css" />
   <link rel="stylesheet" href="/public/css/style.css" />
+  <!-- Inclure jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Inclure jQuery UI (avec le composant datepicker) -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 {% endblock %}
 {% block body %}
   <body>
+    <div id="reserved-dates" data-reserved-dates="{{ reservedDates|e('html_attr') }}"></div>
+
+    <script>
+      var reservedDates = JSON.parse(document.getElementById('reserved-dates').getAttribute('data-reserved-dates'))
+      
+      function disableReservedDates(date) {
+        var currentDate = $.datepicker.formatDate('yy-mm-dd', date)
+      
+        for (var i = 0; i < reservedDates.length; i++) {
+          var startDate = $.datepicker.formatDate('yy-mm-dd', new Date(reservedDates[i].Start))
+          var endDate = $.datepicker.formatDate('yy-mm-dd', new Date(reservedDates[i].End))
+      
+          if (currentDate >= startDate && currentDate <= endDate) {
+            return [false]
+          }
+        }
+        return [true]
+      }
+    </script>
     <h1>{{ property['Title'] }}</h1>
     <p>Title: {{ property['Title'] }}</p>
     <p>Description: {{ property['Description'] }}</p>
@@ -26,11 +51,13 @@
         {{ serviceType }},
       {% endfor %}
     </p>
+    <div id="calendar"></div>
+
     {% if connected %}
       <form action="/order" method="post">
         <input type="hidden" name="propertyId" value="{{ property['ID'] }}" />
-        <input type="date" id="startDate" name="startDate" placeholder="startDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />
-        <input type="date" id="endDate" name="endDate" placeholder="endDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />
+        <input type="text" id="startDate" name="startDate" placeholder="startDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />
+        <input type="text" id="endDate" name="endDate" placeholder="endDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />
         <button type="submit">envoyer</button>
       </form>
       {% if propertyIsFavorite %}
@@ -49,6 +76,23 @@
     {% else %}
       <p>Vous devez être connecté pour l'ajouter aux favoris, mettre un commentaire ou effectuer une reservation</p>
     {% endif %}
-    <script></script>
+    <script>
+      $(function () {
+        $('#startDate').datepicker({
+          dateFormat: 'yy-mm-dd',
+          minDate: 0,
+          beforeShowDay: disableReservedDates,
+          onSelect: function (selectedDate) {
+            $('#endDate').datepicker('option', 'minDate', selectedDate)
+          }
+        })
+      
+        $('#endDate').datepicker({
+          dateFormat: 'yy-mm-dd',
+          minDate: 0,
+          beforeShowDay: disableReservedDates
+        })
+      })
+    </script>
   </body>
 {% endblock %}
