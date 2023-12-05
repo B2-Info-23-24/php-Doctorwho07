@@ -25,13 +25,11 @@ class ReviewsController
             header("Location: /login");
             exit();
         }
-
         $userId = $_SESSION['user']['ID'];
         $propertyId = intval($_POST['propertyId']) ?? null;
         $title = $_POST['Title'] ?? '';
         $comment = $_POST['Comment'] ?? '';
         $rating = $_POST['Rating'] ?? 0;
-
         ReviewsModel::addReview($userId, $propertyId, $title, $comment, $rating);
         header("Location: /orders");
         exit();

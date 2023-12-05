@@ -2,11 +2,10 @@
 
 namespace Models;
 
-use PDOException, PDO;
+use PDO;
 
 class AdminModel
 {
-
     static function HashPassword($password)
     {
         $options = [
@@ -23,30 +22,22 @@ class AdminModel
     }
     static function GetHashedPassword($email)
     {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $sql = "SELECT Password FROM users WHERE Email = '$email'";
-            $hashedPassword = $connexion->query($sql)->fetchColumn();
-            return $hashedPassword !== false ? $hashedPassword : null;
-        } catch (PDOException $e) {
-            echo "Erreur lors de la récupération du mot de passe haché : " . $e->getMessage();
-            return null;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT Password FROM users WHERE Email = '$email'";
+        $query = $db->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     static function CheckUserExists($email)
     {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $sql = "SELECT COUNT(*) FROM users WHERE Email = '$email'";
-            $result = $connexion->query($sql)->fetchColumn();
-            return $result > 0;
-        } catch (PDOException $e) {
-            echo "Erreur lors de la vérification de l'utilisateur : " . $e->getMessage();
-            return false;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT COUNT(*) FROM users WHERE Email = '$email'";
+        $query = $db->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     static function CheckUser($email, $password)
@@ -55,14 +46,12 @@ class AdminModel
         if ($exist == true) {
             $hashedPassword = AdminModel::GetHashedPassword($email);
             if (!AdminModel::VerifyPassword($password, $hashedPassword)) {
-                // echo "mot de passe incorrect";
                 return false;
             } else {
                 $_SESSION['user'] = ['Email' => $email];
                 return true;
             }
         } else {
-            // echo "utilisateur introuvable";
             return false;
         }
     }
@@ -70,158 +59,91 @@ class AdminModel
     static function AddUser($lastname, $firstname, $phone, $email, $password)
     {
         $userExists = AdminModel::CheckUserExists($email);
-        $connexion = ConnectDB::getConnection();
-
-        if ($userExists) {
-            echo "Adresse email déjà utilisée. Veuillez en choisir une autre.";
-            return false;
-        } else {
-            $hashedPassword = AdminModel::HashPassword($password);
-            $isAdmin = 0;
-            try {
-                $sql = "INSERT INTO users (Lastname, Firstname,phone, Email, IsAdmin, Password) VALUES ('$lastname', '$firstname','$phone', '$email', '$isAdmin', '$hashedPassword')";
-                $connexion->exec($sql);
-                return true;
-            } catch (PDOException $e) {
-                echo "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage();
-                return false;
-            }
-        }
+        $db = ConnectDB::getConnection();
+        $hashedPassword = AdminModel::HashPassword($password);
+        $isAdmin = 0;
+        $sql = "INSERT INTO users (Lastname, Firstname,phone, Email, IsAdmin, Password) VALUES ('$lastname', '$firstname','$phone', '$email', '$isAdmin', '$hashedPassword')";
+        $query = $db->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     static function DeleteUser($email, $password)
     {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $userExists = AdminModel::CheckUserExists($email);
-            if ($userExists) {
-                $hashedPasswordFromDB = AdminModel::GetHashedPassword($email);
-                if (AdminModel::VerifyPassword($password, $hashedPasswordFromDB)) {
-                    $sql = "DELETE FROM users WHERE Email = '$email'";
-                    $deleted = $connexion->exec($sql);
-                    if ($deleted === false) {
-                        echo "Erreur lors de la suppression de l'utilisateur";
-                        return false;
-                    } else {
-                        return true;
-                    }
-                } else {
-                    echo "Mot de passe incorrect";
-                    return false;
-                }
-            } else {
-                echo "Aucun utilisateur trouvé";
-                return false;
-            }
-        } catch (PDOException $e) {
-            echo "Erreur lors de la suppression : " . $e->getMessage();
-            return false;
+        $db = ConnectDB::getConnection();
+        $hashedPasswordFromDB = AdminModel::GetHashedPassword($email);
+        if (AdminModel::VerifyPassword($password, $hashedPasswordFromDB)) {
+            $sql = "DELETE FROM users WHERE Email = '$email'";
+            $query = $db->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
         }
     }
     static function DeleteUserById($userId)
     {
-        $connexion = ConnectDB::getConnection();
-
+        $db = ConnectDB::getConnection();
         $sql = "DELETE FROM users WHERE Email = '$userId'";
-        $deleted = $connexion->exec($sql);
-        if ($deleted === false) {
-            echo "Erreur lors de la suppression de l'utilisateur";
-            return false;
-        } else {
-            return true;
-        }
+        $query = $db->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     static function GetUserById($userId)
     {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $sql = "SELECT * FROM users WHERE ID = '$userId'";
-            $userData = $connexion->query($sql)->fetch(PDO::FETCH_ASSOC);
-            return $userData !== false ? $userData : null;
-        } catch (PDOException $e) {
-            echo "Erreur lors de la récupération de l'utilisateur : " . $e->getMessage();
-            return null;
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT * FROM users WHERE ID = '$userId'";
+        $query = $db->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
     static function GetAllUsers()
     {
-        $connexion = ConnectDB::getConnection();
-
-        try {
-            $sql = "SELECT * FROM users";
-            $userList = $connexion->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-            return $userList !== false ? $userList : array();
-        } catch (PDOException $e) {
-            echo "Erreur lors de la récupération des utilisateurs : " . $e->getMessage();
-            return array();
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT * FROM users";
+        $query = $db->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
-
 
     static function UpdateUserById($userId, $newUserData)
     {
-        $connexion = ConnectDB::getConnection();
+        $db = ConnectDB::getConnection();
 
-        try {
-            $currentUserData = AdminModel::GetUserById($userId);
-            if ($currentUserData) {
-                foreach ($newUserData as $key => $value) {
-                    $currentUserData[$key] = $value;
-                }
-                $sql = "UPDATE users SET ";
-                foreach ($currentUserData as $key => $value) {
-                    $sql .= "$key = '$value', ";
-                }
-                $sql = rtrim($sql, ", ");
-                $sql .= " WHERE ID = '$userId'";
-                $affectedRows = $connexion->exec($sql);
-                return $affectedRows !== false ? true : false;
-            } else {
-                echo "Utilisateur non trouvé.";
-                return false;
-            }
-        } catch (PDOException $e) {
-            echo "Erreur lors de la mise à jour de l'utilisateur : " . $e->getMessage();
-            return false;
+        $currentUserData = AdminModel::GetUserById($userId);
+        foreach ($newUserData as $key => $value) {
+            $currentUserData[$key] = $value;
         }
+        $sql = "UPDATE users SET ";
+        foreach ($currentUserData as $key => $value) {
+            $sql .= "$key = '$value', ";
+        }
+        $sql = rtrim($sql, ", ");
+        $sql .= " WHERE ID = '$userId'";
+        $result = $db->exec($sql);
+        return $result;
     }
     public static function grantAdminRole($userID)
     {
-        $connexion = ConnectDB::getConnection();
-        try {
-            $query = $connexion->prepare("UPDATE users SET IsAdmin = 1 WHERE ID = ?");
-            $success = $query->execute([$userID]);
-            if ($success) {
-                header("Location: /admin/admin");
-                exit();
-            } else {
-                echo "La mise à jour a échoué.";
-                // Gérer l'erreur ou afficher un message approprié
-            }
-        } catch (PDOException $e) {
-            echo "Erreur : " . $e->getMessage();
-            // Gérer l'erreur en cas de problème avec la requête SQL
-            // Peut-être rediriger vers une page d'erreur ou afficher un message
-            exit();
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "UPDATE users SET IsAdmin = 1 WHERE ID = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$userID]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 
     public static function revokeAdminRole($userID)
     {
-        $connexion = ConnectDB::getConnection();
-        try {
-            $query = $connexion->prepare("UPDATE users SET IsAdmin = 0 WHERE ID = ?");
-            $query->execute([$userID]);
-            header("Location: /admin/admin");
-            exit();
-        } catch (PDOException $e) {
-            // Gérer l'erreur en cas de problème avec la requête SQL
-            // Peut-être rediriger vers une page d'erreur ou afficher un message
-            echo "Erreur : " . $e->getMessage();
-            exit();
-        }
+        $db = ConnectDB::getConnection();
+        $sql = "UPDATE users SET IsAdmin = 0 WHERE ID = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$userID]);
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }

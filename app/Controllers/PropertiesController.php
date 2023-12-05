@@ -17,9 +17,7 @@ class PropertiesController
         } else {
             $propertyIsFavorite = false;
         }
-
         $propertyDetails = PropertiesModel::getPropertyDetailsById($propertyId);
-
         $reservedDatesJSON = PropertiesModel::getReservedDatesForProperty($propertyId);
         $reservedDates = json_encode($reservedDatesJSON);
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');

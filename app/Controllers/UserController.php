@@ -35,7 +35,6 @@ class UserController
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/UserPanel.html.twig');
-
         echo $template->render([
             'title' => "Informations utilisateur",
             'ID' => $user['ID'],
@@ -77,9 +76,7 @@ class UserController
             header("Location: /login");
             exit;
         }
-
         $olddata = $_SESSION['user'];
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $newUserData = [
                 'ID' => $_SESSION['user']['ID'],
@@ -91,7 +88,6 @@ class UserController
                 'password' => $_POST['password'],
                 'confirmPassword' => $_POST['confirmPassword']
             ];
-
             if (UserModel::updateUserById($newUserData)) {
                 $_SESSION['user']['Lastname'] = $newUserData['lastname'];
                 $_SESSION['user']['Firstname'] = $newUserData['firstname'];

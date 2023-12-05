@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Models\PropertiesModel, Models\AdminModel, Models\UserModel, Models\PropertiesTypeModel;
+use Models\PropertiesModel, Models\AdminModel, Models\UserModel;
 
 class AdminPanelController
 {
@@ -71,31 +71,21 @@ class AdminPanelController
     }
     public function deleteUsers()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userIDs'])) {
-            $userIDs = $_POST['userIDs'];
-            foreach ($userIDs as $userID) {
-                UserModel::DeleteUserById($userID);
-            }
-            header("Location: /admin/users");
-            exit();
-        } else {
-            // Gérer le cas où rien n'est coché ou aucune donnée n'est transmise
-            // Peut-être afficher un message d'erreur
+        $userIDs = $_POST['userIDs'];
+        foreach ($userIDs as $userID) {
+            UserModel::DeleteUserById($userID);
         }
+        header("Location: /admin/users");
+        exit();
     }
     public function deleteProperty()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['propertiesIDs'])) {
-            $propertiesIDs = $_POST['propertiesIDs'];
-            foreach ($propertiesIDs as $userID) {
-                PropertiesModel::DeletePropertiesById($userID);
-            }
-            header("Location: /admin/properties");
-            exit();
-        } else {
-            // Gérer le cas où rien n'est coché ou aucune donnée n'est transmise
-            // Peut-être afficher un message d'erreur
+        $propertiesIDs = $_POST['propertiesIDs'];
+        foreach ($propertiesIDs as $userID) {
+            PropertiesModel::DeletePropertiesById($userID);
         }
+        header("Location: /admin/properties");
+        exit();
     }
     public function AddUser()
     {

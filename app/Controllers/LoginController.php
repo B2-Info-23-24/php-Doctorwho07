@@ -27,7 +27,6 @@ class LoginController
                 exit();
             } else {
                 header('Location: login');
-                //echo "Email ou Mot de passe incorrect";
             }
         } else {
             header('Location: register');

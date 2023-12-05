@@ -52,10 +52,7 @@ class PublishController
                 echo "Une erreur est survenue lors du téléchargement de l'image.";
                 exit;
             }
-
-            // Ajout des équipements et des services sélectionnés à la base de données
             $propertyAdded = PropertiesModel::addProperties($title, $description, $fileName, $price, $location, $city, $propertyType, $selectedEquipments, $selectedServices);
-
             if ($propertyAdded) {
                 header('Location: /');
             } else {

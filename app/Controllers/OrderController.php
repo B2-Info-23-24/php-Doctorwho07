@@ -80,21 +80,13 @@ class OrderController
 
     public function reservationsProperty()
     {
-        // Vérifie que l'utilisateur est connecté
         if (isset($_SESSION['user']['ID'])) {
             $userId = $_SESSION['user']['ID'];
-            var_dump($userId);
-            // Récupère les réservations de l'utilisateur connecté
             $userReservations = OrdersModel::getOrdersByUserId($userId);
-
-            // Calcule le nombre de nuits pour chaque réservation
             $propertiesWithNights = $this->calculateNumberOfNights($userReservations, $userId);
-
-            // Envoie les réservations à la vue pour affichage
             $this->renderReservationsPage($propertiesWithNights);
         } else {
-            // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
-            header('Location: /login'); // Modifier le chemin selon ta structure
+            header('Location: /login');
             exit();
         }
     }
@@ -102,29 +94,22 @@ class OrderController
     private function calculateNumberOfNights($propertiesReserv, $userId)
     {
         $propertiesandorders = [];
-
         foreach ($propertiesReserv as $property) {
             //_________________ Calculate Nights _________________//
             $startDate = new DateTime($property['Start']);
             $endDate = new DateTime($property['End']);
             $numberOfNights = $startDate->diff($endDate)->days;
             $property['NumberOfNights'] = $numberOfNights;
-
             //_________________ Check User's Property Reservations _________________//
             $isReserv = OrdersModel::isPropertyOrderByUser($userId, $property['ID']);
-
             //_________________ Check if User has Reviewed the Property _________________//
             $Reviewed = OrdersModel::hasUserReviewedProperty($userId, $property['ID']);
-
-            // Add both reservation status and review status to the property entry
             $PropertyAndOrder = [
                 'isFavorite' => $isReserv,
                 'hasReviewed' => $Reviewed,
             ] + $property;
-
             array_push($propertiesandorders, $PropertyAndOrder);
         }
-
         return $propertiesandorders;
     }
 
