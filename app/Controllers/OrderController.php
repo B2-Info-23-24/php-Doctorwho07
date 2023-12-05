@@ -80,12 +80,24 @@ class OrderController
 
     public function reservationsProperty()
     {
-        $userId = $_SESSION['user']['ID'] ?? null;
-        $propertiesReserv = OrdersModel::getAllOrdersWithDetails();
-        $Nights = $this->calculateNumberOfNights($propertiesReserv, $userId);
-        $this->renderReservationsPage($Nights);
-    }
+        // Vérifie que l'utilisateur est connecté
+        if (isset($_SESSION['user']['ID'])) {
+            $userId = $_SESSION['user']['ID'];
+            var_dump($userId);
+            // Récupère les réservations de l'utilisateur connecté
+            $userReservations = OrdersModel::getOrdersByUserId($userId);
 
+            // Calcule le nombre de nuits pour chaque réservation
+            $propertiesWithNights = $this->calculateNumberOfNights($userReservations, $userId);
+
+            // Envoie les réservations à la vue pour affichage
+            $this->renderReservationsPage($propertiesWithNights);
+        } else {
+            // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
+            header('Location: /login'); // Modifier le chemin selon ta structure
+            exit();
+        }
+    }
 
     private function calculateNumberOfNights($propertiesReserv, $userId)
     {
