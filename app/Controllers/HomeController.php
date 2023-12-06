@@ -29,7 +29,6 @@ class HomeController
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/Home.html.twig');
-
         $users = isset($_SESSION['user']) ? UserModel::getAllUsers() : 0;
         $user = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
         $connected = LoginController::isConnected();
@@ -37,7 +36,6 @@ class HomeController
         $propertiesEquipments = PropertiesModel::getAllEquipments();
         $propertiesServices = PropertiesModel::getAllServices();
         $propertiesCity = PropertiesModel::getAllUniqueCities();
-
         $propertiesandfavorites = [];
         foreach ($property as $property) {
             $isFavorite = isset($_SESSION['user']) ? FavoriteModel::isPropertyFavoritedByUser($_SESSION['user']['ID'], $property['ID']) : false;

@@ -21,8 +21,7 @@ class PropertiesTypeModel
         $sql = "INSERT INTO lodging_types (Type) VALUES (?)";
         $query = $db->prepare($sql);
         $query->execute([$type]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return true;
     }
 
     static function deletePropertyType($typeId)
@@ -30,9 +29,7 @@ class PropertiesTypeModel
         $db = ConnectDB::getConnection();
         $sql = "DELETE FROM lodging_types WHERE ID = ?";
         $query = $db->prepare($sql);
-        $query->execute([$typeId]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return  $query->execute([$typeId]);
     }
 
     static function updatePropertyType($typeId, $newTypeName)
@@ -40,8 +37,6 @@ class PropertiesTypeModel
         $db = ConnectDB::getConnection();
         $sql = "UPDATE lodging_types SET Type = ? WHERE ID = ?";
         $query = $db->prepare($sql);
-        $query->execute([$newTypeName, $typeId]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $query->execute([$newTypeName, $typeId]);;
     }
 }

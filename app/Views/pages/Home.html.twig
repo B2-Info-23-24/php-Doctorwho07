@@ -23,8 +23,8 @@
             <label for="Type">Ville</label>
             <select name="PropertyCity" required>
               <option selected hidden value="0">Choisissez une ville</option>
-              {% for propertyCity in propertiesCity %}
-                <option value="{{ propertyCity }}">{{ propertyCity }}</option>
+              {% for cityData in propertiesCity %}
+                <option value="{{ cityData['City'] }}">{{ cityData['City'] }}</option>
               {% endfor %}
             </select>
           </div>

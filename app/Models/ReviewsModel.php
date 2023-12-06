@@ -20,18 +20,14 @@ class ReviewsModel
         $db = ConnectDB::getConnection();
         $sql = "INSERT INTO reviews (Title, Comment, Rating, foreign_key_property, foreign_key_user) VALUES (?, ?, ?, ?, ?)";
         $query = $db->prepare($sql);
-        $query->execute([$title, $comment, $rating, $propertyId, $userId]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return  $query->execute([$title, $comment, $rating, $propertyId, $userId]);
     }
     static function DeleteReviews($ID)
     {
         $db = ConnectDB::getConnection();
         $sql = "DELETE FROM reviews WHERE ID = ?";
         $query = $db->prepare($sql);
-        $query->execute([$ID]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $query->execute([$ID]);
     }
     static function GetReviewsById($reviewsId)
     {
@@ -47,8 +43,6 @@ class ReviewsModel
         $db = ConnectDB::getConnection();
         $sql = "UPDATE reviews SET Title = ?, Comment = ?, Rating = ? WHERE ID = ?";
         $query = $db->prepare($sql);
-        $query->execute([$title, $comment, $rating, $reviewId]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $query->execute([$title, $comment, $rating, $reviewId]);
     }
 }

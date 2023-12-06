@@ -22,10 +22,10 @@ class AdminModel
     static function GetHashedPassword($email)
     {
         $db = ConnectDB::getConnection();
-        $sql = "SELECT Password FROM users WHERE Email = '$email'";
+        $sql = "SELECT Password FROM users WHERE Email = ?";
         $query = $db->prepare($sql);
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        $query->execute([$email]);
+        $result = $query->fetchColumn();
         return $result;
     }
     public static function grantAdminRole($userID)
@@ -33,26 +33,24 @@ class AdminModel
         $db = ConnectDB::getConnection();
         $sql = "UPDATE users SET IsAdmin = 1 WHERE ID = ?";
         $query = $db->prepare($sql);
-        $query->execute([$userID]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $query->execute([$userID]);
     }
+
     public static function revokeAdminRole($userID)
     {
         $db = ConnectDB::getConnection();
         $sql = "UPDATE users SET IsAdmin = 0 WHERE ID = ?";
         $query = $db->prepare($sql);
-        $query->execute([$userID]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $query->execute([$userID]);
     }
+
     static function IsAdmin($id)
     {
         $db = ConnectDB::getConnection();
-        $sql = "SELECT IsAdmin FROM users WHERE ID = '$id'";
+        $sql = "SELECT IsAdmin FROM users WHERE ID = ?";
         $query = $db->prepare($sql);
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        $query->execute([$id]);
+        $result = $query->fetchColumn();
+        return $result === '1';
     }
 }

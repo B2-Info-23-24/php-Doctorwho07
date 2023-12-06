@@ -5,6 +5,7 @@
 // modifier un avis 
 // mettre les img dans un fichier a part 
 // jwt
+// filtre city
 
 select commandes.* from commande inner join commande_produit on commandes.id = commande_produit.commandeId where commande_produit.productId = 1
 

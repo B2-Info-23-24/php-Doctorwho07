@@ -9,7 +9,7 @@ class Route
     static function Route($route)
     {
         session_start();
-        
+
         $Home = new HomeController;
         $Login = new LoginController;
         $Register = new RegisterController;
@@ -88,7 +88,7 @@ class Route
             header("Location: /");
             exit;
         }
-        if (($route == "/user") && (isset($_SESSION['user']) == False)) {
+        if (($route == "/user") && (isset($_SESSION['user']['ID']) == False)) {
             $Register->index();
             exit;
         }

@@ -24,12 +24,13 @@ class UserModel
     static function CheckUserExists($email)
     {
         $db = ConnectDB::getConnection();
-        $sql = "SELECT COUNT(*) FROM users WHERE Email = '$email'";
+        $sql = "SELECT COUNT(*) FROM users WHERE Email = ?";
         $query = $db->prepare($sql);
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        $query->execute([$email]);
+        $count = $query->fetchColumn();
+        return $count > 0;
     }
+
     static function GetUserByEmail($email)
     {
         $db = ConnectDB::getConnection();
@@ -37,7 +38,7 @@ class UserModel
         $query = $db->prepare($sql);
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $result !== false ? $result : array();
     }
     static function AddUser($lastname, $firstname, $phone, $email, $password)
     {
@@ -47,8 +48,7 @@ class UserModel
         $sql = "INSERT INTO users (Lastname, Firstname,phone, Email, IsAdmin, Password) VALUES ('$lastname', '$firstname','$phone', '$email', '$isAdmin', '$hashedPassword')";
         $query = $db->prepare($sql);
         $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return true;
     }
     static function DeleteUser($email, $password)
     {
@@ -65,30 +65,27 @@ class UserModel
     static function DeleteUserById($userId)
     {
         $db = ConnectDB::getConnection();
-        $sql = "DELETE FROM users WHERE Email = '$userId'";
+        $sql = "DELETE FROM users WHERE Email = ?";
         $query = $db->prepare($sql);
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $query->execute([$userId]);;
     }
     static function DeleteUserByEmail($userId)
     {
         $db = ConnectDB::getConnection();
-        $sql = "DELETE FROM users WHERE Email = '$userId'";
+        $sql = "DELETE FROM users WHERE Email = ?";
         $query = $db->prepare($sql);
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $query->execute([$userId]);;
     }
     static function GetUserById($userId)
     {
         $db = ConnectDB::getConnection();
-        $sql = "SELECT * FROM users WHERE ID = '$userId'";
+        $sql = "SELECT * FROM users WHERE ID = ?";
         $query = $db->prepare($sql);
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        $query->execute([$userId]);
+        $userData = $query->fetch(PDO::FETCH_ASSOC);
+        return $userData;
     }
+
     static function GetAllUsers()
     {
         $db = ConnectDB::getConnection();
@@ -103,16 +100,25 @@ class UserModel
     {
         $db = ConnectDB::getConnection();
         $currentUserData = UserModel::GetUserById($userId);
+
+        if (!$currentUserData) {
+            return false; // Utilisateur non trouvé
+        }
+
+        $updateFields = [];
+        $updateValues = [];
         foreach ($newUserData as $key => $value) {
-            $currentUserData[$key] = $value;
+            if (array_key_exists($key, $currentUserData)) {
+                $updateFields[] = "$key = ?";
+                $updateValues[] = $value;
+            }
         }
-        $sql = "UPDATE users SET ";
-        foreach ($currentUserData as $key => $value) {
-            $sql .= "$key = '$value', ";
-        }
-        $sql = rtrim($sql, ", ");
-        $sql .= " WHERE ID = '$userId'";
-        $result = $db->exec($sql);
-        return $result;
+
+        $updateValues[] = $userId; // Ajout de userId pour la clause WHERE
+
+        $sql = "UPDATE users SET " . implode(", ", $updateFields) . " WHERE ID = ?";
+        $query = $db->prepare($sql);
+        $success = $query->execute($updateValues);
+        return $success;
     }
 }

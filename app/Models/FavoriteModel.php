@@ -11,9 +11,7 @@ class FavoriteModel
         $db = ConnectDB::getConnection();
         $sql = "INSERT INTO favorites (foreign_key_user, foreign_key_property) VALUES (?, ?)";
         $query = $db->prepare($sql);
-        $query->execute([$userId, $propertyId]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $query->execute([$userId, $propertyId]); 
     }
 
     public static function removeFromFavorites($userId, $propertyId)
@@ -21,17 +19,16 @@ class FavoriteModel
         $db = ConnectDB::getConnection();
         $sql = "DELETE FROM favorites WHERE foreign_key_user = ? AND foreign_key_property = ?";
         $query = $db->prepare($sql);
-        $query->execute([$userId, $propertyId]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $query->execute([$userId, $propertyId]);
     }
+
     public static function isPropertyFavoritedByUser($userId, $propertyId)
     {
         $db = ConnectDB::getConnection();
         $sql = "SELECT * FROM favorites WHERE foreign_key_user = ? AND foreign_key_property = ?";
         $query = $db->prepare($sql);
         $query->execute([$userId, $propertyId]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        $result = $query->fetch(PDO::FETCH_ASSOC); 
+        return $result !== false;
     }
 }
