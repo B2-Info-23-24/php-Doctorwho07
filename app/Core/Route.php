@@ -77,6 +77,9 @@ class Route
             '/admin/updateService' => ['controller' => $AdminService, 'method' => 'updateService'],
             //---------- Reviews ---------//
             '/admin/reviews' => ['controller' => $Review, 'method' => 'index'],
+            '/admin/deleteReview' => ['controller' => $Review, 'method' => 'deleteReview'],
+            '/admin/addReview' => ['controller' => $Review, 'method' => 'publishReviewAdmin'],
+            '/admin/updateReview' => ['controller' => $Review, 'method' => 'updateReview'],
             //---------- Type ---------//
             '/admin/type' => ['controller' => $AdminType, 'method' => 'type'],
             '/admin/addType' => ['controller' => $AdminType, 'method' => 'addType'],
@@ -105,6 +108,11 @@ class Route
         if (strpos($route, '/admin/deleteEquipment') === 0) {
             $propertyId = substr($route, strlen('/admin/deleteEquipment/'));
             $AdminEquipment->deleteEquipment($propertyId);
+            return;
+        }
+        if (strpos($route, '/admin/deleteReview') === 0) {
+            $ReviewId = substr($route, strlen('/admin/deleteReview/'));
+            $Review->DeleteReview($ReviewId);
             return;
         }
         if (strpos($route, '/admin/deleteService') === 0) {

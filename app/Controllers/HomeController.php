@@ -30,7 +30,7 @@ class HomeController
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/Home.html.twig');
         $users = isset($_SESSION['user']) ? UserModel::getAllUsers() : 0;
-        $user = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
+        $admin = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
         $connected = LoginController::isConnected();
         $propertiesTypes = PropertiesTypeModel::getAllPropertiesType();
         $propertiesEquipments = PropertiesModel::getAllEquipments();
@@ -46,7 +46,7 @@ class HomeController
             'title' => "Home",
             'properties' => $propertiesandfavorites,
             'users' => $users,
-            'user' => $user,
+            'admin' => $admin,
             'connected' => $connected,
             'propertiesTypes' => $propertiesTypes,
             'propertiesEquipments' => $propertiesEquipments,

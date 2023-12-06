@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use PDO, Models\AdminModel;
+use PDO, PDOException, Models\AdminModel;
 
 class UserModel
 {
@@ -14,32 +14,51 @@ class UserModel
             if (!AdminModel::VerifyPassword($password, $hashedPassword)) {
                 return false;
             } else {
+                $userId = UserModel::getUserIdByEmail($email);
                 $_SESSION['user'] = ['Email' => $email];
-                return true;
+                return $userId;
             }
         } else {
             return false;
         }
     }
-    static function CheckUserExists($email)
+    public static function getAllUserEmails()
     {
         $db = ConnectDB::getConnection();
-        $sql = "SELECT COUNT(*) FROM users WHERE Email = ?";
-        $query = $db->prepare($sql);
-        $query->execute([$email]);
-        $count = $query->fetchColumn();
-        return $count > 0;
-    }
-
-    static function GetUserByEmail($email)
-    {
-        $db = ConnectDB::getConnection();
-        $sql = "SELECT * FROM users WHERE Email = ?'";
+        $sql = "SELECT Email FROM users";
         $query = $db->prepare($sql);
         $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result !== false ? $result : array();
+        $emails = $query->fetchAll(PDO::FETCH_COLUMN);
+        return $emails;
     }
+
+    static function CheckUserExists($email)
+    {
+        try {
+            $db = ConnectDB::getConnection();
+            $sql = "SELECT COUNT(*) FROM users WHERE Email = ?";
+            $query = $db->prepare($sql);
+            $query->execute([$email]);
+            $count = $query->fetchColumn();
+
+            return $count > 0;
+        } catch (PDOException $e) {
+            var_dump("Database error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    static function GetUserIdByEmail($email)
+    {
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT ID FROM users WHERE Email = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$email]);
+        $result = $query->fetchColumn();
+        return $result !== false ? $result : null;
+    }
+
+
     static function AddUser($lastname, $firstname, $phone, $email, $password)
     {
         $db = ConnectDB::getConnection();

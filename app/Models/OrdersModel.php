@@ -84,16 +84,6 @@ class OrdersModel
         return $count === 0;
     }
 
-    static function hasUserReviewedProperty($userId, $propertyId)
-    {
-        $db = ConnectDB::getConnection();
-        $sql = "SELECT * FROM reviews WHERE foreign_key_user = ? AND foreign_key_property = ?";
-        $query = $db->prepare($sql);
-        $query->execute([$userId, $propertyId]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
-
     public static function getOrdersByUserId($userId)
     {
         $connexion = ConnectDB::getConnection();
@@ -102,5 +92,14 @@ class OrdersModel
         $stmt->execute([$userId]);
         $userOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $userOrders !== false ? $userOrders : array();
+    }
+    static function hasUserCommentedOnReservation($userId, $propertyId)
+    {
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT * FROM reviews WHERE foreign_key_user = ? AND foreign_key_property = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$userId, $propertyId]);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return $result !== false;
     }
 }

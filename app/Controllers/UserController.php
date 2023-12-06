@@ -24,8 +24,8 @@ class UserController
                 'Firstname' => $Firstname,
                 'Phone' =>  $Phone,
                 'Email' =>  $Email,
-                'IsAdmin' =>  $IsAdmin,
                 'Password' =>  $Password,
+                'admin' => $IsAdmin,
             ]
         );
     }

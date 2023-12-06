@@ -45,7 +45,6 @@ class OrderController
         $endDateObj = new DateTime($endDate);
         $duration = $startDateObj->diff($endDateObj)->days;
         $totalPrice = $duration * $pricePerNight - 1;
-
         $reservation = [
             'startDate' => $startDate,
             'endDate' => $endDate,
@@ -91,7 +90,7 @@ class OrderController
         }
     }
 
-    private function calculateNumberOfNights($propertiesReserv, $userId)
+    private function calculateNumberOfNights($propertiesReserv)
     {
         $propertiesandorders = [];
         foreach ($propertiesReserv as $property) {
@@ -100,30 +99,37 @@ class OrderController
             $endDate = new DateTime($property['End']);
             $numberOfNights = $startDate->diff($endDate)->days;
             $property['NumberOfNights'] = $numberOfNights;
-            //_________________ Check User's Property Reservations _________________//
-            $isReserv = OrdersModel::isPropertyOrderByUser($userId, $property['ID']);
-            //_________________ Check if User has Reviewed the Property _________________//
-            $Reviewed = OrdersModel::hasUserReviewedProperty($userId, $property['ID']);
-            $PropertyAndOrder = [
-                'isFavorite' => $isReserv,
-                'hasReviewed' => $Reviewed,
-            ] + $property;
-            array_push($propertiesandorders, $PropertyAndOrder);
+            $propertiesandorders[] = $property;
         }
         return $propertiesandorders;
     }
-
-
     private function renderReservationsPage($propertiesandorders)
     {
-        //_________________ Render Reservations Page with Details _________________//
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
+        $propertiesIds = array_unique(array_column($propertiesandorders, 'foreign_key_property'));
+        $propertiesDetails = [];
+        foreach ($propertiesIds as $propertyId) {
+            $propertyDetails = PropertiesModel::getPropertyDetailsById($propertyId);
+            if ($propertyDetails) {
+                $propertiesDetails[$propertyId] = $propertyDetails;
+            }
+        }
+        $userHasCommented = [];
+        foreach ($propertiesandorders as $reservation) {
+            $propertyId = $reservation['foreign_key_property'];
+            $userId = $_SESSION['user']['ID'];
+            $hasCommented = OrdersModel::hasUserCommentedOnReservation($userId, $propertyId);
+            $userHasCommented[$propertyId] = $hasCommented;
+        }
+
         echo $twig->render(
             'pages/Orders.html.twig',
             [
                 'title' => "Reservations",
                 'reservations' => $propertiesandorders,
+                'propertiesDetails' => $propertiesDetails,
+                'userHasCommented' => $userHasCommented,
             ]
         );
         exit();

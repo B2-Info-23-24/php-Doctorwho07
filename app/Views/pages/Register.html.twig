@@ -1,5 +1,5 @@
 {% block title %}
-  {{ Title }}
+  {{ title }}
 {% endblock %}
 {% block css %}
   <link rel="stylesheet" href="/public/css/navbar.css" />
@@ -10,6 +10,13 @@
 {% block body %}
   <body>
     <h2>Inscription</h2>
+    {% if errors %}
+      <div style="color: red;">
+        {% for error in errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
     <form action="/register_post" method="post">
       <input type="text" id="firstname" name="firstname" placeholder="Prénom" required /><br />
       <input type="text" id="lastname" name="lastname" placeholder="Nom" required /><br />

@@ -8,17 +8,20 @@ class AdminPanelController
 {
     public function home()
     {
+        $admin = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/AdminPanel.html.twig');
         echo $template->display(
             [
                 'Title' => "Panneau d'administration",
+                'admin' => $admin,
             ]
         );
     }
     public function users()
     {
+        $admin = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/AdminUser.html.twig');
@@ -26,11 +29,13 @@ class AdminPanelController
             [
                 'title' => "Home",
                 'users' => UserModel::GetAllUsers(),
+                'admin' => $admin,
             ]
         );
     }
     public function properties()
     {
+        $admin = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/AdminProperties.html.twig');
@@ -38,11 +43,13 @@ class AdminPanelController
             [
                 'title' => "Home",
                 'properties' => PropertiesModel::GetAllProperties(),
+                'admin' => $admin,
             ]
         );
     }
     public function admin()
     {
+        $admin = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/AdminAdmin.html.twig');
@@ -50,6 +57,7 @@ class AdminPanelController
             [
                 'title' => "Home",
                 'users' => UserModel::GetAllUsers(),
+                'admin' => $admin,
             ]
         );
     }

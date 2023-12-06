@@ -163,12 +163,14 @@ class PropertiesModel
     static function getPropertiesPrice($propertyId)
     {
         $db = ConnectDB::getConnection();
-        $sql = "SELECT Price FROM properties WHERE ID = '$propertyId'";
+        $sql = "SELECT Price FROM properties WHERE ID = ?";
         $query = $db->prepare($sql);
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-        return $result;
+        $query->execute([$propertyId]);
+        $result = $query->fetchColumn();
+
+        return $result !== false ? $result : null;
     }
+
     static function AddReservation($reservation)
     {
         $db = ConnectDB::getConnection();

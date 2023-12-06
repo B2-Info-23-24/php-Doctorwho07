@@ -27,15 +27,14 @@
         </tr>
         {% for reservation in reservations %}
           <tr>
-            <td>{{ reservation.Title }}</td>
+            <td>{{ propertiesDetails[reservation.foreign_key_property].Title }}</td>
             <td>{{ reservation.Start }} - {{ reservation.End }}</td>
             <td>{{ reservation.DateOrder }}</td>
             <td>{{ reservation.NumberOfNights }}</td>
             <td>{{ reservation.Price }}</td>
             <td>{{ reservation.City }}</td>
-
-            {% if reservation.Reviewed == null %}
-              <td>
+            <td>
+              {% if not userHasCommented[reservation.foreign_key_property] %}
                 <form action="/publishReview" method="post">
                   <input type="hidden" name="propertyId" value="{{ reservation.foreign_key_property }}" />
                   <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
@@ -43,12 +42,10 @@
                   <input type="range" id="Rating" name="Rating" placeholder="Rating" required step="1" min="0" max="5" /><br />
                   <button type="submit">envoyer</button>
                 </form>
-              </td>
-            {% else %}
-              <td>
-                <p>Vous avez déjà donné votre avis</p>
-              </td>
-            {% endif %}
+              {% else %}
+                Vous avez déjà commenté ce logement.
+              {% endif %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>

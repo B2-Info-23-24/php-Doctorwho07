@@ -52,6 +52,18 @@
       {% endfor %}
     </p>
     <div id="calendar"></div>
+    <h2>Avis sur ce logement</h2>
+    {% if reviews %}
+      <ul>
+        {% for review in reviews %}
+          <li>
+            <strong>{{ review['Title'] }}</strong> - {{ review['Comment'] }} ({{ review['Rating'] }}/5)
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Aucun avis pour le moment.</p>
+    {% endif %}
 
     {% if connected %}
       <form action="/order" method="post">
