@@ -26,13 +26,19 @@ class LoginController
                 header('Location: /');
                 exit();
             } else {
-                header('Location: login');
+                $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+                $twig = new \Twig\Environment($loader);
+                $template = $twig->load('pages/login.html.twig');
+                echo $template->render(['error' => 'Adresse e-mail ou mot de passe incorrect.']);
+                exit();
             }
         } else {
             header('Location: register');
             exit();
         }
     }
+
+
     static public function isConnected()
     {
         if (isset($_SESSION['user'])) {

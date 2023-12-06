@@ -51,5 +51,6 @@ for ($i = 0; $i < 3; $i++) {
     $numberOfSelectedServices = $faker->numberBetween(1, count($serviceNames));
     $selectedServices = $faker->randomElements($serviceNames, $numberOfSelectedServices);
 
+
     PropertiesModel::addProperties($title, $description, $image, $price, $location, $city, $selectedPropertyTypeID, $selectedEquipments, $selectedServices);
 }

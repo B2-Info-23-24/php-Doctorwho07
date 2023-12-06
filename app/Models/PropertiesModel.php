@@ -21,7 +21,7 @@ class PropertiesModel
         $db = ConnectDB::getConnection();
         $currentPropertyData = PropertiesModel::GetPropertiesById($propertyId);
         if (!$currentPropertyData) {
-            return false; // Property not found
+            return false;
         }
 
         $updateFields = [];
@@ -33,7 +33,7 @@ class PropertiesModel
             }
         }
 
-        $updateValues[] = $propertyId; // Add propertyId to update
+        $updateValues[] = $propertyId;
         $sql = "UPDATE properties SET " . implode(", ", $updateFields) . " WHERE ID = ?";
         $query = $db->prepare($sql);
         $success = $query->execute($updateValues);
