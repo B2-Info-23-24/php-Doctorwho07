@@ -1,0 +1,38 @@
+/* Styles spécifiques à la page d'accueil */
+.filters {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.filters input[type="number"],
+.filters select {
+  width: 45%;
+  margin-right: 0;
+}
+
+.filters input[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.filters input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.properties table td {
+  text-align: center;
+}
+
+.properties table td img {
+  border-radius: 5px;
+}
