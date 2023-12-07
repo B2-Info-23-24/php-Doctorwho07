@@ -95,7 +95,7 @@ class Route
             '/info' => ['controller' => $Home, 'method' => 'info'],
 
             //---------- Search ---------//
-            '/admin/searchProperty' => ['controller' => $Properties, 'method' => 'searchProperty'],
+            '/admin/searchProperty' => ['controller' => $Home, 'method' => 'searchProperty'],
 
         ];
         if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {

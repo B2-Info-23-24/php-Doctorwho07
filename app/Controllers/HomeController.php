@@ -54,6 +54,20 @@ class HomeController
             'propertiesCity' => $propertiesCity,
         ]);
     }
+    public function searchProperty()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $searchTerm = isset($_POST['searchTerm']) ? $_POST['searchTerm'] : '';
+            $filteredProperties = FilterModel::searchProperties($searchTerm);
+            $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+            $twig = new \Twig\Environment($loader);
+            $template = $twig->load('pages/AdminProperties.html.twig');
+            echo $template->display([
+                'Title' => "Admin Properties",
+                'properties' => $filteredProperties,
+            ]);
+        }
+    }
     public static function info()
     {
         phpinfo();

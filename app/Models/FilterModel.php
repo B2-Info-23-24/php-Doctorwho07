@@ -50,4 +50,18 @@ class FilterModel
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+    public static function searchProperties($searchTerm)
+    {
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT * FROM properties WHERE Title LIKE :searchTerm OR City LIKE :searchTerm";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(
+            ':searchTerm',
+            '%' . $searchTerm . '%',
+            PDO::PARAM_STR
+        );
+        $stmt->execute(); // Exécution de la requête préparée
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // Récupération des résultats
+        return $result; // Retourne les résultats de la recherche
+    }
 }

@@ -12,10 +12,11 @@
   <body>
     <h2>{{ Title }}</h2>
     <a href="/admin/addProperty">Publier un nouveau logement</a>
-    <form action="/admin/searchProperty" method="get">
-      <input type="text" id="search" name="search" placeholder="Rechercher par titre" />
+    <form action="/admin/searchProperty" method="post">
+      <input type="text" name="searchTerm" placeholder="Rechercher par titre ou ville" />
       <button type="submit">Rechercher</button>
     </form>
+    <a href="/admin/properties">reinitialiser</a>
     <form action="/admin/deleteProperties" method="post">
       <table>
         <tr>

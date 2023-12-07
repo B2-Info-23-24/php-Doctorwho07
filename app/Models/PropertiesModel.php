@@ -113,16 +113,6 @@ class PropertiesModel
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-
-    static function GetPropertiesByTitle($propertyTitle)
-    {
-        $db = ConnectDB::getConnection();
-        $sql = "SELECT * FROM properties WHERE Title = LOWER('$propertyTitle')";
-        $query = $db->prepare($sql);
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-    }
     static function getPropertyDetailsById($propertyId)
     {
         $db = ConnectDB::getConnection();
@@ -184,6 +174,15 @@ class PropertiesModel
     {
         $db = ConnectDB::getConnection();
         $sql = "SELECT DISTINCT City FROM properties";
+        $query = $db->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    static function GetPropertiesByTitle($propertyTitle)
+    {
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT * FROM properties WHERE Title LIKE LOWER('%$propertyTitle%')";
         $query = $db->prepare($sql);
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
