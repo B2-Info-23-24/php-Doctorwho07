@@ -116,20 +116,33 @@ class PropertiesModel
     static function getPropertyDetailsById($propertyId)
     {
         $db = ConnectDB::getConnection();
-        $sql = "SELECT p.*, l.Type AS LodgingType, GROUP_CONCAT(DISTINCT e.Type) AS EquipmentTypes, GROUP_CONCAT(DISTINCT s.Type) AS ServiceTypes
-            FROM properties p
-            LEFT JOIN selected_equipments se ON p.ID = se.foreign_key_property
-            LEFT JOIN equipments e ON se.foreign_key_equipments = e.ID
-            LEFT JOIN selected_services ss ON p.ID = ss.foreign_key_property
-            LEFT JOIN services s ON ss.foreign_key_services = s.ID
-            LEFT JOIN lodging_types l ON p.foreign_key_lodging_type = l.ID
-            WHERE p.ID = ?
-            GROUP BY p.ID";
+        $sql = "SELECT p.*, l.Type AS LodgingType, 
+        GROUP_CONCAT(DISTINCT e.Type) AS EquipmentTypes, 
+        GROUP_CONCAT(DISTINCT s.Type) AS ServiceTypes
+        FROM properties p
+        LEFT JOIN selected_equipments se ON p.ID = se.foreign_key_property
+        LEFT JOIN equipments e ON se.foreign_key_equipments = e.ID
+        LEFT JOIN selected_services ss ON p.ID = ss.foreign_key_property
+        LEFT JOIN services s ON ss.foreign_key_services = s.ID
+        LEFT JOIN lodging_types l ON p.foreign_key_lodging_type = l.ID
+        WHERE p.ID = ?
+        GROUP BY p.ID";
         $query = $db->prepare($sql);
         $query->execute([$propertyId]);
         $propertyData = $query->fetch(PDO::FETCH_ASSOC);
+
+        // Vérification et traitement des chaînes avant d'utiliser explode
+        if ($propertyData['EquipmentTypes'] !== null) {
+            $propertyData['EquipmentTypes'] = explode(',', $propertyData['EquipmentTypes']);
+        }
+        if ($propertyData['ServiceTypes'] !== null) {
+            $propertyData['ServiceTypes'] = explode(',', $propertyData['ServiceTypes']);
+        }
+
         return $propertyData;
     }
+
+
 
     static function getAllEquipments()
     {

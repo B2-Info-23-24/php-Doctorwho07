@@ -1,9 +1,4 @@
-// mettre les img dans un fichier a part 
-// jwt
-// lorsqu'il na pas de logement en favoris
-// modifer le type, equipement et services d'un logement 
-
-select commandes.* from commande inner join commande_produit on commandes.id = commande_produit.commandeId where commande_produit.productId = 1
+// err chevauchment
 
 INSERT INTO services (Type) VALUES ('Transferts aéroport'),('Petit-déjeuner'),('Service de ménage'),('Location de voiture'),('Visites guidées'),('Cours de cuisine'),('Loisirs');
 INSERT INTO lodging_types (Type) VALUES ('Appartements'),('Maisons'),('Chalets'),('Villas'),('Péniches'),('Yourtes'),('Cabanes'),('Igloos'),('Tentes'),('Cars');

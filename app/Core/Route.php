@@ -51,6 +51,8 @@ class Route
             //---------- Reviews ---------//
             '/publishReview' => ['controller' => $Review, 'method' => 'PublishReview'],
             '/review_push' => ['controller' => $Review, 'method' => 'publishReview'],
+            '/reviews' => ['controller' => $Review, 'method' => 'AllReviews'],
+
             //---------- Admin Account ---------//
             '/admin/home' => ['controller' => $PanelAdmin, 'method' => 'home'],
             '/admin/users' => ['controller' => $PanelAdmin, 'method' => 'users'],

@@ -55,4 +55,18 @@ class ReviewsModel
         $query = $db->prepare($sql);
         return $query->execute([$title, $comment, $rating, $reviewId, $userId]);
     }
+    public static function getAllReviewsByUser($userId)
+    {
+        $connexion = ConnectDB::getConnection();
+        $query = "SELECT r.*, p.Title AS PropertyTitle
+              FROM reviews r
+              INNER JOIN properties p ON r.foreign_key_property = p.ID
+              WHERE r.foreign_key_user = :userId";
+        $statement = $connexion->prepare($query);
+        $statement->bindParam(':userId', $userId);
+        $statement->execute();
+        $reviews = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $reviews;
+    }
 }

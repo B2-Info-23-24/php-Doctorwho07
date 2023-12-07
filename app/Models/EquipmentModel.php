@@ -51,13 +51,13 @@ class EquipmentModel
         return $query->execute([$logementId, $equipmentId]);
     }
 
-    public static function unlinkEquipmentFromLogement($equipmentId, $logementId)
-    {
-        $db = ConnectDB::getConnection();
-        $sql = "DELETE FROM selected_equipments WHERE foreign_key_equipments = ? AND foreign_key_property = ?";
-        $query = $db->prepare($sql);
-        return $query->execute([$equipmentId, $logementId]);
-    }
+    // public static function unlinkEquipmentFromLogement($equipmentId, $logementId)
+    // {
+    //     $db = ConnectDB::getConnection();
+    //     $sql = "DELETE FROM selected_equipments WHERE foreign_key_equipments = ? AND foreign_key_property = ?";
+    //     $query = $db->prepare($sql);
+    //     return $query->execute([$equipmentId, $logementId]);
+    // }
 
     public static function getEquipmentById($equipmentId)
     {
@@ -67,5 +67,24 @@ class EquipmentModel
         $query->execute([$equipmentId]);
         $result = $query->fetch(PDO::FETCH_ASSOC);
         return $result;
+    }
+    public static function getEquipmentIdByName($equipmentName)
+    {
+        $db = ConnectDB::getConnection();
+        $sql = "SELECT ID FROM equipments WHERE Type = ?";
+        $query = $db->prepare($sql);
+        $query->execute([$equipmentName]);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return ($result !== false) ? $result['ID'] : null;
+    }
+
+    public static function unlinkEquipmentFromLogement($equipmentId, $propertyId)
+    {
+        $db = ConnectDB::getConnection();
+        $sql = "DELETE FROM selected_equipments WHERE foreign_key_equipments = :equipment_id AND foreign_key_property = :logement_id";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':equipment_id', $equipmentId, PDO::PARAM_INT);
+        $stmt->bindValue(':logement_id', $propertyId, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 }

@@ -78,4 +78,18 @@ class ReviewsController
         header("Location: /admin/reviews");
         exit();
     }
+    public function AllReviews()
+    {
+        $userId = $_SESSION['user']['ID'];
+        $reviews = ReviewsModel::getAllReviewsByUser($userId);
+        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $twig = new \Twig\Environment($loader);
+        $template = $twig->load('pages/Reviews.html.twig');
+        echo $template->render(
+            [
+                'title' => "Tous les avis de l'utilisateur",
+                'reviews' => $reviews,
+            ]
+        );
+    }
 }

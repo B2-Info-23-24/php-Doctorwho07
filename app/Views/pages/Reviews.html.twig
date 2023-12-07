@@ -1,0 +1,39 @@
+{% extends 'templates/header.html.twig' %}
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/accueil.css" />
+  <link rel="stylesheet" href="/public/css/style.css" />
+{% endblock %}
+{% block body %}
+  <body>
+    <div class="container">
+      {% if not reviews %}
+        <tr>
+          <td colspan="7">Vous n'avez pas encore ecris d'avis.</td>
+        </tr>
+      {% else %}
+        <table>
+          <tbody>
+            <tr>
+              <td>Nom du logement</td>
+              <td>Titre</td>
+              <td>Commentaire</td>
+              <td>Note</td>
+            </tr>
+            {% for review in reviews %}
+              <tr>
+                <td>{{ review['PropertyTitle'] }}</td>
+                <td>{{ review['Title'] }}</td>
+                <td>{{ review['Comment'] }}</td>
+                <td>{{ review['Rating'] }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+  </body>
+{% endblock %}

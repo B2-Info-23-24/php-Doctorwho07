@@ -27,6 +27,28 @@
         <input type="text" id="location" name="location" placeholder="Emplacement" value="{{ property.Location }}" required /><br />
         <label for="city">Ville:</label><br />
         <input type="text" id="city" name="city" placeholder="Ville" value="{{ property.City }}" required /><br />
+        <select name="lodgingType" required>
+          <option selected hidden value="0">Choisissez un type</option>
+          {% for propertyType in propertiesTypes %}
+            <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="equipment_{{ propertyEquipment.ID }}">Les equipements :</label>
+        {% for propertyEquipment in propertiesEquipments %}
+          <div>
+            <input type="checkbox" id="equipment_{{ propertyEquipment.ID }}" name="equipments[]" value="{{ propertyEquipment.ID }}" />
+            <label for="equipment_{{ propertyEquipment.ID }}">{{ propertyEquipment.Type }}</label>
+          </div>
+        {% endfor %}
+        <label for="service_{{ propertyService.ID }}">Les services :</label>
+        {% for propertyService in propertiesServices %}
+          <div>
+            <input type="checkbox" id="service_{{ propertyService.ID }}" name="services[]" value="{{ propertyService.ID }}" />
+            <label for="service_{{ propertyService.ID }}">{{ propertyService.Type }}</label>
+          </div>
+        {% endfor %}
+
         <input type="submit" value="Enregistrer les modifications" />
       </form>
     </div>

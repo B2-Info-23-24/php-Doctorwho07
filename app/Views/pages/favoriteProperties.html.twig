@@ -10,51 +10,50 @@
 {% block body %}
   <body>
     <div class="container">
-      <table>
-        <thead>
-          <tr>
-            <th colspan="2">The Properties Table</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Title</td>
-            <td>Description</td>
-            <td>Image</td>
-            <td>Price</td>
-            <td>Location</td>
-            <td>City</td>
-            <td>favoris</td>
-          </tr>
-          {% for property in properties %}
-            {% if property.isFavorite %}
-              <tr>
-                <td>{{ property.Title }}</td>
-                <td>{{ property.Description }}</td>
-                <td>
-                  <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
-                </td>
-                <td>{{ property.Price }}</td>
-                <td>{{ property.Location }}</td>
-                <td>{{ property.City }}</td>
-                <td>
-                  {% if property.isFavorite %}
-                    <form action="/revokeFavorite" method="post">
-                      <input type="hidden" name="ID" value="{{ property.ID }}" />
-                      <button type="submit">Retirer des favoris</button>
-                    </form>
-                  {% else %}
-                    <form action="/favorite" method="post">
-                      <input type="hidden" name="ID" value="{{ property.ID }}" />
-                      <button type="submit">Ajouter aux favoris</button>
-                    </form>
-                  {% endif %}
-                </td>
-              </tr>
-            {% endif %}
-          {% endfor %}
-        </tbody>
-      </table>
+      {% if property in properties == null %}
+        <p>Aucun logement en favoris pour le moment.</p>
+      {% else %}
+        <table>
+          <tbody>
+            <tr>
+              <td>Title</td>
+              <td>Description</td>
+              <td>Image</td>
+              <td>Price</td>
+              <td>Location</td>
+              <td>City</td>
+              <td>favoris</td>
+            </tr>
+            {% for property in properties %}
+              {% if property.isFavorite %}
+                <tr>
+                  <td>{{ property.Title }}</td>
+                  <td>{{ property.Description }}</td>
+                  <td>
+                    <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
+                  </td>
+                  <td>{{ property.Price }}</td>
+                  <td>{{ property.Location }}</td>
+                  <td>{{ property.City }}</td>
+                  <td>
+                    {% if property.isFavorite %}
+                      <form action="/revokeFavorite" method="post">
+                        <input type="hidden" name="ID" value="{{ property.ID }}" />
+                        <button type="submit">Retirer des favoris</button>
+                      </form>
+                    {% else %}
+                      <form action="/favorite" method="post">
+                        <input type="hidden" name="ID" value="{{ property.ID }}" />
+                        <button type="submit">Ajouter aux favoris</button>
+                      </form>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
     </div>
   </body>
 {% endblock %}
