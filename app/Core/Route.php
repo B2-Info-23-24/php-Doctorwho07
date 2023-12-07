@@ -55,15 +55,22 @@ class Route
             '/admin/home' => ['controller' => $PanelAdmin, 'method' => 'home'],
             '/admin/users' => ['controller' => $PanelAdmin, 'method' => 'users'],
             '/admin/admin' => ['controller' => $PanelAdmin, 'method' => 'admin'],
-            '/admin/properties' => ['controller' => $PanelAdmin, 'method' => 'properties'],
             '/admin/reservation' => ['controller' => $PanelAdmin, 'method' => 'reservation'],
-            '/admin/addProperty' => ['controller' => $Publish, 'method' => 'addProperty'],
             '/admin/addUser' => ['controller' => $Publish, 'method' => 'addUser'],
             '/property_push' => ['controller' => $Publish, 'method' => 'pushProperty'],
             '/user_push' => ['controller' => $Publish, 'method' => 'pushUser'],
             '/admin/grantAdminRole' => ['controller' => $PanelAdmin, 'method' => 'grantAdminRole'],
             '/admin/revokeAdminRole' => ['controller' => $PanelAdmin, 'method' => 'revokeAdminRole'],
+
+
             '/admin/deleteUsers' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
+            '/admin/modifyUser' => ['controller' => $User, 'method' => 'modifyUser'],
+            '/updateUser' => ['controller' => $User, 'method' => 'updateUser'],
+            //---------- Properties ---------//
+            '/admin/properties' => ['controller' => $PanelAdmin, 'method' => 'properties'],
+            '/admin/addProperty' => ['controller' => $Publish, 'method' => 'addProperty'],
+            '/admin/modifyProperty' => ['controller' => $Properties, 'method' => 'modifyProperty'],
+            '/updateProperty' => ['controller' => $Properties, 'method' => 'updateProperty'],
             '/admin/deleteProperties' => ['controller' => $PanelAdmin, 'method' => 'deleteProperty'],
             //---------- Equipment ---------//
             '/admin/equipments' => ['controller' => $AdminEquipment, 'method' => 'index'],
@@ -98,6 +105,16 @@ class Route
         if (strpos($route, '/property/') === 0) {
             $propertyId = substr($route, strlen('/property/'));
             $Properties->showProperty($propertyId);
+            return;
+        }
+        if (strpos($route, '/admin/modifyProperty/') === 0) {
+            $propertyId = intval(substr($route, strlen('/admin/modifyProperty/')));
+            $Properties->modifyProperty($propertyId);
+            return;
+        }
+        if (strpos($route, '/admin/modifyUser/') === 0) {
+            $userId = intval(substr($route, strlen('/admin/modifyUser/')));
+            $User->modifyUser($userId);
             return;
         }
         if (strpos($route, '/admin/deleteType') === 0) {

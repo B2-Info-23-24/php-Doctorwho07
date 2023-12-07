@@ -49,6 +49,7 @@ class ReviewsModel
     }
     public static function updateReview($reviewId, $title, $comment, $rating, $userId)
     {
+        // var_dump("review" . $reviewId, "title" . $title, "comment" . $comment, "rating" . $rating, "userid" . $userId);
         $db = ConnectDB::getConnection();
         $sql = "UPDATE reviews SET Title = ?, Comment = ?, Rating = ? WHERE ID = ? AND foreign_key_user = ?";
         $query = $db->prepare($sql);

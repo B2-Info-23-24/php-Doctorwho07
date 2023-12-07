@@ -34,4 +34,43 @@ class PropertiesController
             ]
         );
     }
+    public function modifyProperty($propertyId)
+    {
+        $property = PropertiesModel::GetPropertiesById($propertyId);
+        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $twig = new \Twig\Environment($loader);
+        $template = $twig->load('pages/PropertyModify.html.twig');
+
+        echo $template->render([
+            'title' => "Modifier la propriété",
+            'property' => $property,
+        ]);
+    }
+
+    public function updateProperty()
+    {
+        $propertyId = $_POST['propertyId'];
+        $title = $_POST['title'];
+        $description = $_POST['description'];
+        $image = $_POST['image'];
+        $price = $_POST['price'];
+        $location = $_POST['location'];
+        $city = $_POST['city'];
+
+        $success = PropertiesModel::UpdatePropertiesById($propertyId, [
+            'Title' => $title,
+            'Description' => $description,
+            'Image' => $image,
+            'Price' => $price,
+            'Location' => $location,
+            'City' => $city,
+        ]);
+
+        if ($success) {
+            header("Location: /admin/properties");
+            exit();
+        } else {
+            echo "Échec de la mise à jour de la propriété.";
+        }
+    }
 }

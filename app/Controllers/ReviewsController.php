@@ -60,18 +60,22 @@ class ReviewsController
     }
     public function updateReview()
     {
-        $reviewId = intval($_POST['ID']) ?? null;
-        $email = $_POST['Author'] ?? null;
-        $title = $_POST['Title'] ?? '';
-        $comment = $_POST['Comment'] ?? '';
-        $rating = $_POST['Rating'] ?? 0;
-        $userId = UserModel::GetUserIdByEmail($email);
-        $success = ReviewsModel::updateReview($reviewId, $title, $comment, $rating, $userId);
-        if ($success) {
-            header("Location: /admin/reviews");
-            exit();
-        } else {
-            echo "Échec de la mise à jour de l'avis.";
+        foreach ($_POST as $key => $value) {
+            if (strpos($key, 'Title_') !== false) {
+                $reviewId = substr($key, strpos($key, '_') + 1);
+                $title = $_POST['Title_' . $reviewId];
+                $email = $_POST['Author_' . $reviewId];
+                $comment = $_POST['Comment_' . $reviewId];
+                $rating = $_POST['Rating_' . $reviewId];
+                $userId = UserModel::GetUserIdByEmail($email);
+                $success = ReviewsModel::updateReview($reviewId, $title, $comment, $rating, $userId);
+
+                if (!$success) {
+                    echo "Échec de la mise à jour de l'avis avec ID : $reviewId";
+                }
+            }
         }
+        header("Location: /admin/reviews");
+        exit();
     }
 }

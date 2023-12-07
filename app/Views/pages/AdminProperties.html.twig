@@ -15,27 +15,25 @@
     <form action="/admin/deleteProperties" method="post">
       <table>
         <tr>
-          <th>ID</th>
           <th>Title</th>
           <th>Description</th>
           <th>Photo</th>
           <th>Prix par nuitée</th>
-          <th>Adresse</th>
           <th>Ville</th>
+          <th>Action</th>
+          <th>Supprimer</th>
         </tr>
         {% for property in properties %}
           <tr>
-            <td>{{ property.ID }}</td>
             <td>{{ property.Title }}</td>
             <td>{{ property.Description }}</td>
             <td>
               <img src="/public/images/{{ property.Image }}" width="50px" alt="photo" />
             </td>
             <td>{{ property.Price }}</td>
-            <td>{{ property.Location }}</td>
             <td>{{ property.City }}</td>
             <td>
-              <a href="/property/{{ property.ID }}">Détails</a>
+              <a href="/admin/modifyProperty/{{ property.ID }}">Modifier</a>
             </td>
             <td>
               <input type="checkbox" name="propertiesIDs[]" value="{{ property.ID }}" />

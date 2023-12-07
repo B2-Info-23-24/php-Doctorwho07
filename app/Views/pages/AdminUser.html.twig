@@ -15,25 +15,21 @@
     <form action="/admin/deleteUsers" method="post">
       <table>
         <tr>
-          <th>ID</th>
           <th>Nom</th>
           <th>Prénom</th>
           <th>Email</th>
           <th>Téléphone</th>
-          <th>IsAdmin</th>
           <th>Informations</th>
           <th>Supprimer</th>
         </tr>
         {% for user in users %}
           <tr>
-            <td>{{ user.ID }}</td>
             <td>{{ user.Lastname }}</td>
-            <td>{{ user.FirstName }}</td>
+            <td>{{ user.Firstname }}</td>
             <td>{{ user.Email }}</td>
             <td>{{ user.Phone }}</td>
-            <td>{{ user.IsAdmin }}</td>
             <td>
-              <a href="/user/{{ user.ID }}">Voir l'utilisateur</a>
+              <a href="/admin/modifyUser/{{ user.ID }}">Modifier</a>
             </td>
             <td>
               <input type="checkbox" name="userIDs[]" value="{{ user.ID }}" />

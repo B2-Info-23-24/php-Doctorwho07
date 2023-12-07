@@ -119,22 +119,19 @@ class UserModel
     {
         $db = ConnectDB::getConnection();
         $currentUserData = UserModel::GetUserById($userId);
-
-        if (!$currentUserData) {
-            return false; // Utilisateur non trouvé
-        }
-
         $updateFields = [];
         $updateValues = [];
         foreach ($newUserData as $key => $value) {
-            if (array_key_exists($key, $currentUserData)) {
+            if ($key === 'Password') {
+                $hashedPassword = AdminModel::HashPassword($value);
+                $updateFields[] = "Password = ?";
+                $updateValues[] = $hashedPassword;
+            } elseif (array_key_exists($key, $currentUserData)) {
                 $updateFields[] = "$key = ?";
                 $updateValues[] = $value;
             }
         }
-
-        $updateValues[] = $userId; // Ajout de userId pour la clause WHERE
-
+        $updateValues[] = $userId;
         $sql = "UPDATE users SET " . implode(", ", $updateFields) . " WHERE ID = ?";
         $query = $db->prepare($sql);
         $success = $query->execute($updateValues);

@@ -52,7 +52,6 @@ class PropertiesModel
     {
         $db = ConnectDB::getConnection();
         $IdPropertyType = intval($propertyType);
-        $address = $location . "," . $city;
 
         try {
             $db->beginTransaction();
@@ -60,7 +59,7 @@ class PropertiesModel
             $sql = "INSERT INTO properties (Title, Description, Image, Price, Location, City, foreign_key_lodging_type) 
                 VALUES (?, ?, ?, ?, ?, ?, ?)";
             $propertyQuery = $db->prepare($sql);
-            $propertyQuery->execute([$title, $description, $image, $price, $address, strtolower($city), $IdPropertyType]);
+            $propertyQuery->execute([$title, $description, $image, $price, $location, strtolower($city), $IdPropertyType]);
 
             $lastInsertedId = $db->lastInsertId();
 
