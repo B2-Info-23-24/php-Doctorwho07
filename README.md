@@ -6,6 +6,12 @@ A platform for housing rentals offering a variety of accommodations from apartme
 
 The Troc Mon Toit application aims to digitize the rental services of an agency, offering a diverse selection of accommodations with advanced search functionalities. Users can view available lodgings, filter by city, type of lodging, amenities, and services, and make secure reservations.
 
+## Project Screenshot
+
+<img width="1512" alt="Capture d’écran 2023-12-07 à 23 40 01" src="https://github.com/B2-Info-23-24/php-Doctorwho07/assets/112888518/230e78ce-985d-4da9-81fb-67955fa67293">
+<img width="1512" alt="Capture d’écran 2023-12-07 à 23 41 17" src="https://github.com/B2-Info-23-24/php-Doctorwho07/assets/112888518/f5207e0d-4ff4-4b12-9c18-11481929f4ff">
+
+
 ## Key Features
 
 - **Lodging Display:** Presentation of lodgings with images, filterable by city, type, price, amenities, and services.
@@ -96,6 +102,4 @@ DB_HOST=mysql
 ## Authors
 
 - [@DoctorWho](https://github.com/Doctorwho07)
-
-<img width="1512" alt="Capture d’écran 2023-12-07 à 23 40 01" src="https://github.com/B2-Info-23-24/php-Doctorwho07/assets/112888518/230e78ce-985d-4da9-81fb-67955fa67293">
 
