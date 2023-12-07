@@ -34,7 +34,8 @@
           {% endfor %}
         </select>
 
-        <label for="equipment_{{ propertyEquipment.ID }}">Les equipements :</label>
+        {# je n'ai pas eu le temps de le faire fonctionner #}
+        {# <label for="equipment_{{ propertyEquipment.ID }}">Les equipements :</label>
         {% for propertyEquipment in propertiesEquipments %}
           <div>
             <input type="checkbox" id="equipment_{{ propertyEquipment.ID }}" name="equipments[]" value="{{ propertyEquipment.ID }}" />
@@ -47,7 +48,7 @@
             <input type="checkbox" id="service_{{ propertyService.ID }}" name="services[]" value="{{ propertyService.ID }}" />
             <label for="service_{{ propertyService.ID }}">{{ propertyService.Type }}</label>
           </div>
-        {% endfor %}
+        {% endfor %} #}
 
         <input type="submit" value="Enregistrer les modifications" />
       </form>
