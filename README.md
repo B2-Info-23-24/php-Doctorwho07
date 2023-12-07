@@ -23,17 +23,18 @@ L'application Troc Mon Toit vise à digitaliser les services de location d'une a
 
 ## Technologies Utilisées
 
-- **Langages :** PHP
-- **Outils :** Dotenv, Faker
-- **Environnement :** Docker
-- **Modèles :** Twig pour la génération de templates
-- **Automatisation :** Makefile pour l'exécution de Faker
+- **PHP :** Langage de programmation utilisé pour la logique back-end.
+- **Twig :** Moteur de template utilisé pour générer les vues HTML.
+- **.env :** Utilisé pour la gestion des variables d'environnement et la configuration.
+- **Faker :** Outil utilisé pour générer des données aléatoires à des fins de test.
+- **Makefile :** Utilisé pour automatiser des tâches courantes ou des scripts.
+- **GitHub :** Plateforme de gestion de versions utilisée pour héberger le code source et collaborer sur le projet.
+
 
 ## Installation
 
 Pour installer le projet, utilisez npm avec les commandes suivantes :
 
 ```bash
-npm install my-project
-cd my-project
+
 ```
