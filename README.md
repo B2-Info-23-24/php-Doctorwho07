@@ -31,10 +31,46 @@ L'application Troc Mon Toit vise à digitaliser les services de location d'une a
 - **GitHub :** Plateforme de gestion de versions utilisée pour héberger le code source et collaborer sur le projet.
 
 
+
 ## Installation
 
-Pour installer le projet, utilisez npm avec les commandes suivantes :
+### Depuis le Repo Git
+
+Pour installer le projet depuis le repository Git, utilisez la commande suivante dans votre terminal :
 
 ```bash
+git clone [https://github.com/nom_utilisateur/nom_projet.git](https://github.com/B2-Info-23-24/php-Doctorwho07.git)https://github.com/B2-Info-23-24/php-Doctorwho07.git
+```
+
+### Installation de Faker sous macOS et WSL
+
+Veillez a bien choisir la version en fonction d'apache web
 
 ```
+composer require fzaninotto/faker
+```
+
+### Installation de composer avec les fichiers de configuration
+
+```
+composer install
+```
+
+## Execution
+
+### Initialisation Faker
+
+Se rendre a la racine des fichiers, où se trouve docker-compose.yml
+
+```
+make faker
+```
+
+### Initialisation du Projet
+
+Se rendre a la racine des fichiers, où se trouve docker-compose.yml
+
+```
+docker-compose up -d
+```
+
