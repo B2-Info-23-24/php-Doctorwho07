@@ -8,6 +8,7 @@ class ServicesController
 {
     public function index()
     {
+        $admin = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
         $services = ServiceModel::getAllServices();
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
@@ -16,6 +17,7 @@ class ServicesController
             [
                 'title' => "Tous les services",
                 'services' => $services,
+                'admin' => $admin,
             ]
         );
     }

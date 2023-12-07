@@ -19,6 +19,7 @@
   overflow: scroll;
   left: 0;
 }
+
 .form-group {
   margin: 0 0 1rem 0;
   display: flex;
@@ -105,12 +106,12 @@
   margin: 2px;
 }
 .price {
-    display: flex   ;
+  display: flex;
 }
 h3 {
-    margin: 0 0 1rem 0;
-    padding: 15px;
-    width: 100%;
-    max-width: 20rem;
-    margin-bottom: auto;
+  margin: 0 0 1rem 0;
+  padding: 15px;
+  width: 100%;
+  max-width: 20rem;
+  margin-bottom: auto;
 }

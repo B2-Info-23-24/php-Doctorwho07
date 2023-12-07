@@ -69,4 +69,26 @@ class ReviewsModel
 
         return $reviews;
     }
+    public static function getAveragePropertyRating()
+    {
+        $connexion = ConnectDB::getConnection();
+        $query = "SELECT AVG(Rating) AS AverageRating FROM reviews";
+        $statement = $connexion->prepare($query);
+        $statement->execute();
+        $averageRating = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $averageRating['AverageRating'];
+    }
+    public static function getAveragePropertyRatings()
+    {
+        $connexion = ConnectDB::getConnection();
+        $query = "SELECT foreign_key_property, AVG(Rating) AS AverageRating
+              FROM reviews
+              GROUP BY foreign_key_property";
+        $statement = $connexion->prepare($query);
+        $statement->execute();
+        $averageRatings = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        return $averageRatings;
+    }
 }

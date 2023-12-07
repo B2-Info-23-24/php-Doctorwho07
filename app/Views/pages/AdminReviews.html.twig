@@ -3,11 +3,14 @@
   {{ title }}
 {% endblock %}
 {% block css %}
-
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/accueil.css" />
+  <link rel="stylesheet" href="/public/css/style.css" />
 {% endblock %}
 {% block body %}
   <body>
     <div class="container">
+      <h1>Publier un nouvel avis</h1>
       <form action="/admin/addReview" method="post">
         <select type="text" id="propertyId" name="propertyId" placeholder="Logement" required /><br />
         {% for property in allProperties %}
@@ -25,6 +28,7 @@
       </form>
       {% for review in reviews %}
         <div>
+          <hr />
           {{ review.Author }}
           {{ review.Title }}
           {{ review.Comment }}

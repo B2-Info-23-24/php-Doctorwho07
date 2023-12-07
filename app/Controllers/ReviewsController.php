@@ -12,6 +12,7 @@ class ReviewsController
         $reviews = ReviewsModel::getAllReviews();
         $allUserEmails = UserModel::getAllUserEmails();
         $allProperties = PropertiesModel::GetAllProperties();
+        $admin = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/AdminReviews.html.twig');
@@ -21,6 +22,7 @@ class ReviewsController
                 'reviews' => $reviews,
                 'allUserEmails' => $allUserEmails,
                 'allProperties' => $allProperties,
+                'admin' => $admin,
             ]
         );
     }

@@ -57,7 +57,7 @@
       <h1>{{ property['Title'] }}</h1>
       <p>Title: {{ property['Title'] }}</p>
       <p>Description: {{ property['Description'] }}</p>
-      <img src="/public/images/{{ property['Image'] }}" width="50px" />
+      <img src="/public/images/{{ property['Image'] }}" width="800rem" />
       <p>Price: {{ property['Price'] }}€</p>
       <p>Location: {{ property['Location'] }}</p>
       <p>City: {{ property['City'] }}</p>
@@ -74,20 +74,36 @@
       </p>
 
       <div id="calendar"></div>
-      <h2>Avis sur ce logement</h2>
+      <h2>Avis sur cette propriété</h2>
       {% if reviews %}
-        <ul>
+        {% set totalRating = 0 %}
+        {% set numberOfReviews = reviews|length %}
+
+        {% for review in reviews %}
+          {% set totalRating = totalRating + review['Rating'] %}
+        {% endfor %}
+        {% set averageRating = totalRating / numberOfReviews %}
+        <p>Moyenne des notes : {{ averageRating|round(1)|default('Aucun avis pour le moment') }}</p>
+      {% else %}
+        <p>Aucun avis pour le moment.</p>
+      {% endif %}
+
+      <ul>
+        {% if reviews %}
           {% for review in reviews %}
             <li>
               <strong>{{ review['Title'] }}</strong> - {{ review['Comment'] }} ({{ review['Rating'] }}/5)
             </li>
           {% endfor %}
-        </ul>
-      {% else %}
-        <p>Aucun avis pour le moment.</p>
-      {% endif %}
+        {% else %}
+          <p>Aucun avis pour le moment.</p>
+        {% endif %}
+      </ul>
 
       {% if connected %}
+        <p>
+          <span>Faites attention, sélectionner des dates qui chevauchent une autre réservation annulera votre réservation.</span>
+        </p>
         <form action="/order" method="post">
           <input type="hidden" name="propertyId" value="{{ property['ID'] }}" />
           <input type="text" id="startDate" name="startDate" placeholder="startDate" required min="{{ 'now'|date('Y-m-d') }}" /><br />
@@ -97,13 +113,15 @@
         {% if propertyIsFavorite %}
           <p>Cette propriété est dans vos favoris.</p>
           <form action="/revokeFavorite" method="post" id="revokeFavorite">
-            <input type="hidden" name="ID" value="{{ ID }}" />
+            <input type="hidden" name="path" value="/property/{{ property['ID'] }}" />
+            <input type="hidden" name="ID" value="{{ property['ID'] }}" />
             <button type="submit">Retirer des favoris</button>
           </form>
         {% else %}
           <p>Cette propriété n'est pas dans vos favoris.</p>
           <form action="/favorite" method="post" id="favorite">
-            <input type="hidden" name="ID" value="{{ ID }}" />
+            <input type="hidden" name="path" value="/property/{{ property['ID'] }}" />
+            <input type="hidden" name="ID" value="{{ property['ID'] }}" />
             <button type="submit">Ajouter aux favoris</button>
           </form>
         {% endif %}

@@ -3,12 +3,14 @@
   {{ title }}
 {% endblock %}
 {% block css %}
-
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/style.css" />
 {% endblock %}
 {% block body %}
   <body>
     <div class="container">
       <form action="/admin/addType" method="post">
+        <label for="type">Nom du nouveau type :</label>
         <input type="text" name="type" placeholder="Nom du type" required />
         <button type="submit">Ajouter</button>
       </form>

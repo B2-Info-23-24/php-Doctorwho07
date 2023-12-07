@@ -3,12 +3,15 @@
   {{ title }}
 {% endblock %}
 {% block css %}
-
+  <link rel="stylesheet" href="/public/css/navbar.css" />
+  <link rel="stylesheet" href="/public/css/accueil.css" />
+  <link rel="stylesheet" href="/public/css/style.css" />
 {% endblock %}
 {% block body %}
   <body>
     <div class="container">
       <form action="/admin/addService" method="post">
+        <label for="serviceName">Nom du nouveau service :</label>
         <input type="text" name="serviceName" placeholder="Nom du service" required />
         <button type="submit">Ajouter</button>
       </form>

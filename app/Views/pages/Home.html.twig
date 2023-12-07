@@ -74,11 +74,13 @@
               {% if connected %}
                 {% if property.isFavorite %}
                   <form action="/revokeFavorite" method="post">
+                    <input type="hidden" name="path" value="/" />
                     <input type="hidden" name="ID" value="{{ property.ID }}" />
                     <button class="revoke" type="submit">Retirer des favoris</button>
                   </form>
                 {% else %}
                   <form action="/favorite" method="post">
+                    <input type="hidden" name="path" value="/" />
                     <input type="hidden" name="ID" value="{{ property.ID }}" />
                     <button class="fav" type="submit">Ajouter aux favoris</button>
                   </form>

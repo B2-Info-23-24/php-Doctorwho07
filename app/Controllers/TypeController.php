@@ -9,6 +9,8 @@ class TypeController
     public function type()
     {
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $admin = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
+
         $twig = new \Twig\Environment($loader);
         $propertiesTypes = PropertiesTypeModel::getAllPropertiesType();
         $template = $twig->load('pages/AdminType.html.twig');
@@ -16,6 +18,7 @@ class TypeController
             [
                 'title' => "Home",
                 'propertiesTypes' => $propertiesTypes,
+                'isAdmin' => $admin,
             ]
         );
     }

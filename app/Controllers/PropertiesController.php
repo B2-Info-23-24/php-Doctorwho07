@@ -18,8 +18,10 @@ class PropertiesController
             $propertyIsFavorite = false;
         }
         $propertyDetails = PropertiesModel::getPropertyDetailsById($propertyId);
+        $admin = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
         $reservedDatesJSON = PropertiesModel::getReservedDatesForProperty($propertyId);
         $reviewsForProperty = ReviewsModel::getReviewsForProperty($propertyId);
+        $averageRatings = ReviewsModel::getAveragePropertyRatings();
         $reservedDates = json_encode($reservedDatesJSON);
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
@@ -31,6 +33,8 @@ class PropertiesController
                 'connected' => $connected,
                 'reservedDates' => $reservedDates,
                 'reviews' => $reviewsForProperty,
+                'averageRating' => $averageRatings,
+                'admin' => $admin,
             ]
         );
     }
@@ -39,6 +43,7 @@ class PropertiesController
         $propertiesTypes = PropertiesTypeModel::getAllPropertiesType();
         $propertiesEquipments = PropertiesModel::getAllEquipments();
         $propertiesServices = PropertiesModel::getAllServices();
+        $admin = isset($_SESSION['user']) ? $_SESSION['user']['IsAdmin'] : 0;
         $property = PropertiesModel::GetPropertiesById($propertyId);
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
@@ -50,6 +55,7 @@ class PropertiesController
             'propertiesTypes' => $propertiesTypes,
             'propertiesEquipments' => $propertiesEquipments,
             'propertiesServices' => $propertiesServices,
+            'admin' => $admin,
         ]);
     }
 

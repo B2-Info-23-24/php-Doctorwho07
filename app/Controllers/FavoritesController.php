@@ -10,11 +10,11 @@ class FavoritesController
     {
         $userId = $_SESSION['user']['ID'] ?? null;
         $propertyId = $_POST['ID'] ?? null;
-
+        $path = $_POST['path'] ?? null;
         if ($userId && $propertyId) {
             FavoriteModel::addToFavorites($userId, $propertyId);
         }
-        header("Location: /");
+        header("Location: $path");
         exit();
     }
 
@@ -22,11 +22,11 @@ class FavoritesController
     {
         $userId = $_SESSION['user']['ID'] ?? null;
         $propertyId = $_POST['ID'] ?? null;
-
+        $path = $_POST['path'] ?? null;
         if ($userId && $propertyId) {
             FavoriteModel::removeFromFavorites($userId, $propertyId);
         }
-        header("Location: /");
+        header("Location: $path");
         exit();
     }
     public function isPropertyFavorited()

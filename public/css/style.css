@@ -15,7 +15,9 @@ a:hover {
   padding: 0;
   font-family: Arial, sans-serif;
 }
-
+span {
+  color: red;
+}
 input {
   position: relative;
   cursor: text;
