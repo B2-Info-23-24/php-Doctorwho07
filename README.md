@@ -1,66 +1,64 @@
 # Troc Mon Toit
 
-Une plateforme pour la location de logements offrant une variété d'hébergements allant des appartements aux igloos, avec des fonctionnalités de filtrage avancées et un processus de réservation sécurisé.
+A platform for housing rentals offering a variety of accommodations from apartments to igloos, with advanced filtering features and a secure reservation process.
 
-## Description du Projet
+## Project Description
 
-L'application Troc Mon Toit vise à digitaliser les services de location d'une agence, offrant une sélection diversifiée de logements avec des fonctionnalités de recherche avancées. Les utilisateurs peuvent consulter les logements disponibles, filtrer par ville, type de logement, équipements et services, et effectuer des réservations sécurisées.
+The Troc Mon Toit application aims to digitize the rental services of an agency, offering a diverse selection of accommodations with advanced search functionalities. Users can view available lodgings, filter by city, type of lodging, amenities, and services, and make secure reservations.
 
-## Fonctionnalités Principales
+## Key Features
 
-- **Affichage des Logements :** Présentation des logements avec images, filtrables par ville, type, prix, équipements et services.
-- **Favoris Utilisateur :** Possibilité pour les utilisateurs connectés d'ajouter des logements en favoris et d'accéder à cette liste.
-- **Détails du Logement :** Affichage détaillé avec prix par nuit, commentaires et notes des locataires, disponibilités de réservation.
-- **Réservations :** Les utilisateurs connectés peuvent réserver un logement en choisissant des dates cohérentes, calculant automatiquement le prix total et bloquant les réservations simultanées.
-- **Notation des Logements :** Les utilisateurs peuvent laisser une évaluation après la fin du séjour.
+- **Lodging Display:** Presentation of lodgings with images, filterable by city, type, price, amenities, and services.
+- **User Favorites:** Ability for logged-in users to add lodgings to favorites and access this list.
+- **Lodging Details:** Detailed view with price per night, tenant comments and ratings, reservation availability.
+- **Reservations:** Logged-in users can book a lodging by choosing coherent dates, automatically calculating the total price, and preventing simultaneous reservations.
+- **Lodging Reviews:** Users can leave a review after their stay.
 
-## Éléments Spécifiques
+## Specific Elements
 
-- **Types de Logement :** CRUD pour gérer les différents types de logements.
-- **Équipements et Services :** CRUD pour gérer les équipements et services disponibles pour les logements.
-- **Gestion des Utilisateurs :** CRUD pour les données basiques des utilisateurs, historique des favoris, avis et réservations.
-- **Panel Administratif :** Accès protégé par identification pour gérer les caractéristiques, avis, utilisateurs et disponibilités des logements.
+- **Lodging Types:** CRUD to manage different lodging types.
+- **Amenities and Services:** CRUD to manage available amenities and services for lodgings.
+- **User Management:** CRUD for basic user data, favorites, reviews, and reservations.
+- **Admin Panel:** Protected access for managing features, reviews, users, and lodging availabilities.
 
-## Technologies Utilisées
+## Technologies Used
 
-- **PHP :** Langage de programmation utilisé pour la logique back-end.
-- **Twig :** Moteur de template utilisé pour générer les vues HTML.
-- **.env :** Utilisé pour la gestion des variables d'environnement et la configuration.
-- **Faker :** Outil utilisé pour générer des données aléatoires à des fins de test.
-- **Makefile :** Utilisé pour automatiser des tâches courantes ou des scripts.
-- **GitHub :** Plateforme de gestion de versions utilisée pour héberger le code source et collaborer sur le projet.
-
-
+- **PHP:** Programming language used for backend logic.
+- **Twig:** Template engine used to generate HTML views.
+- **.env:** Used for managing environment variables and configuration.
+- **Faker:** Tool used to generate random data for testing purposes.
+- **Makefile:** Used to automate common tasks or scripts.
+- **GitHub:** Version control platform used to host the source code and collaborate on the project.
 
 ## Installation
 
-### Depuis le Repo Git
+### From Git Repository
 
-Pour installer le projet depuis le repository Git, utilisez la commande suivante dans votre terminal :
+To install the project from the Git repository, use the following command in your terminal:
 
-```bash
+```
 git clone [https://github.com/nom_utilisateur/nom_projet.git](https://github.com/B2-Info-23-24/php-Doctorwho07.git)https://github.com/B2-Info-23-24/php-Doctorwho07.git
 ```
 
-### Installation de Faker sous macOS et WSL
+###  Installing Faker on macOS and WSL
 
-Veillez a bien choisir la version en fonction d'apache web
+Ensure to choose the appropriate version based on the Apache web server
 
 ```
 composer require fzaninotto/faker
 ```
 
-### Installation de composer avec les fichiers de configuration
+### Composer Installation with Configuration Files
 
 ```
 composer install
 ```
 
-## Execution
+##  Execution
 
-### Initialisation Faker
+###  Faker Initialization
 
-Se rendre a la racine des fichiers, où se trouve docker-compose.yml
+Navigate to the root directory, where the docker-compose.yml file is located
 
 ```
 make faker
