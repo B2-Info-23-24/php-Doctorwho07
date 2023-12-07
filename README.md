@@ -64,11 +64,33 @@ Navigate to the root directory, where the docker-compose.yml file is located
 make faker
 ```
 
-### Initialisation du Projet
+###  Project Initialization
 
-Se rendre a la racine des fichiers, où se trouve docker-compose.yml
+Navigate to the root directory, where the docker-compose.yml file is located
 
 ```
 docker-compose up -d
 ```
+
+###  Project Configuration (if necessary)
+
+Navigate to Beekeeper after connecting to the database
+
+```
+INSERT INTO services (Type) VALUES ('Transferts aéroport'),('Petit-déjeuner'),('Service de ménage'),('Location de voiture'),('Visites guidées'),('Cours de cuisine'),('Loisirs');
+INSERT INTO lodging_types (Type) VALUES ('Appartements'),('Maisons'),('Chalets'),('Villas'),('Péniches'),('Yourtes'),('Cabanes'),('Igloos'),('Tentes'),('Cars');
+INSERT INTO equipments (Type) VALUES ('Connexion Wi-Fi'),('Climatiseur'),('Chauffage'),('Machine à laver'),('Sèche-linge'),('Télévision'),('Fer à repasser / Planche à repasser'),('Nintendo Switch'),('PS5'),('Terrasse'),('Balcon'),('Piscine'),('Jardin');
+```
+
+###  Database Connection Information
+
+Go to the .env file and retrieve the database information
+
+```
+DB_NAME=db_test
+DB_USER=Docker
+DB_PASSWORD=super-secure-password
+DB_HOST=mysql
+```
+
 
