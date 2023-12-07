@@ -6,44 +6,46 @@
 
 {% endblock %}
 {% block body %}
-  <h2>Gérer les avis</h2>
-
-  <form action="/admin/addReview" method="post">
-    <select type="text" id="propertyId" name="propertyId" placeholder="Logement" required /><br />
-    {% for property in allProperties %}
-      <option value="{{ property.ID }}">{{ property.Title }}</option>
-    {% endfor %}
-    <input type="text" id="Title" name="Title" placeholder="Titre" required /><br />
-    <select id="Author" name="Author" required>
-      {% for email in allUserEmails %}
-        <option value="{{ email }}">{{ email }}</option>
-      {% endfor %}
-    </select><br />
-    <input type="text" id="Comment" name="Comment" placeholder="Commentaire" required /><br />
-    <input type="range" id="Rating" name="Rating" placeholder="Note" required step="1" min="0" max="5" /><br />
-    <button type="submit">Ajouter</button>
-  </form>
-  {% for review in reviews %}
-    <div>
-      {{ review.Author }}
-      {{ review.Title }}
-      {{ review.Comment }}
-      {{ review.Rating }}
-      {{ review.foreign_key_property }}
-      {{ review.foreign_key_user }}
-      <a href="/admin/deleteReview/{{ review.ID }}">Supprimer</a>
-      <form action="/admin/updateReview" method="post">
-        <input type="hidden" name="ID" value="{{ review.ID }}" />
-        <input type="text" id="Title_{{ review.ID }}" name="Title_{{ review.ID }}" placeholder="Titre" required /><br />
-        <select id="Author_{{ review.ID }}" name="Author_{{ review.ID }}" required>
+  <body>
+    <div class="container">
+      <form action="/admin/addReview" method="post">
+        <select type="text" id="propertyId" name="propertyId" placeholder="Logement" required /><br />
+        {% for property in allProperties %}
+          <option value="{{ property.ID }}">{{ property.Title }}</option>
+        {% endfor %}
+        <input type="text" id="Title" name="Title" placeholder="Titre" required /><br />
+        <select id="Author" name="Author" required>
           {% for email in allUserEmails %}
             <option value="{{ email }}">{{ email }}</option>
           {% endfor %}
         </select><br />
-        <input type="text" id="Comment_{{ review.ID }}" name="Comment_{{ review.ID }}" placeholder="Commentaire" required /><br />
-        <input type="range" id="Rating_{{ review.ID }}" name="Rating_{{ review.ID }}" placeholder="Note" required step="1" min="0" max="5" /><br />
-        <button type="submit">Modifier</button>
+        <input type="text" id="Comment" name="Comment" placeholder="Commentaire" required /><br />
+        <input type="range" id="Rating" name="Rating" placeholder="Note" required step="1" min="0" max="5" /><br />
+        <button type="submit">Ajouter</button>
       </form>
+      {% for review in reviews %}
+        <div>
+          {{ review.Author }}
+          {{ review.Title }}
+          {{ review.Comment }}
+          {{ review.Rating }}
+          {{ review.foreign_key_property }}
+          {{ review.foreign_key_user }}
+          <a href="/admin/deleteReview/{{ review.ID }}">Supprimer</a>
+          <form action="/admin/updateReview" method="post">
+            <input type="hidden" name="ID" value="{{ review.ID }}" />
+            <input type="text" id="Title_{{ review.ID }}" name="Title_{{ review.ID }}" placeholder="Titre" required /><br />
+            <select id="Author_{{ review.ID }}" name="Author_{{ review.ID }}" required>
+              {% for email in allUserEmails %}
+                <option value="{{ email }}">{{ email }}</option>
+              {% endfor %}
+            </select><br />
+            <input type="text" id="Comment_{{ review.ID }}" name="Comment_{{ review.ID }}" placeholder="Commentaire" required /><br />
+            <input type="range" id="Rating_{{ review.ID }}" name="Rating_{{ review.ID }}" placeholder="Note" required step="1" min="0" max="5" /><br />
+            <button type="submit">Modifier</button>
+          </form>
+        </div>
+      {% endfor %}
     </div>
-  {% endfor %}
+  </body>
 {% endblock %}

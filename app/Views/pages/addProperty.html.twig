@@ -10,41 +10,42 @@
 {% endblock %}
 {% block body %}
   <body>
-    <h2>Publier un Logement</h2>
-    <form action="/property_push" method="post" enctype="multipart/form-data">
-      <input type="text" id="Title" name="Title" placeholder="Titre" required /><br />
-      <input type="text" id="Description" name="Description" placeholder="Description" required /><br />
-      <input type="number" id="Price" name="Price" placeholder="Prix par nuitée" required /><br />
-      <input type="text" id="Location" name="Location" placeholder="Adresse" required /><br />
-      <input type="text" id="City" name="City" placeholder="Ville" required /><br />
-      <select name="PropertyType" required>
-        <option selected hidden>Choisissez un type</option>
-        {% for propertyType in propertiesTypes %}
-          <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
-        {% endfor %}
-      </select>
-      <div class="form-group">
-        <label for="equipment">Les équipements</label>
-        {% for propertyEquipment in propertiesEquipments %}
-          <div>
-            <input type="checkbox" id="equipment_{{ propertyEquipment.ID }}" name="equipment[]" value="{{ propertyEquipment.ID }}" />
-            <label for="equipment_{{ propertyEquipment.ID }}">{{ propertyEquipment.Type }}</label>
-          </div>
-        {% endfor %}
-      </div>
+    <div class="container">
+      <form action="/property_push" method="post" enctype="multipart/form-data">
+        <input type="text" id="Title" name="Title" placeholder="Titre" required /><br />
+        <input type="text" id="Description" name="Description" placeholder="Description" required /><br />
+        <input type="number" id="Price" name="Price" placeholder="Prix par nuitée" required /><br />
+        <input type="text" id="Location" name="Location" placeholder="Adresse" required /><br />
+        <input type="text" id="City" name="City" placeholder="Ville" required /><br />
+        <select name="PropertyType" required>
+          <option selected hidden>Choisissez un type</option>
+          {% for propertyType in propertiesTypes %}
+            <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
+          {% endfor %}
+        </select>
+        <div class="form-group">
+          <label for="equipment">Les équipements</label>
+          {% for propertyEquipment in propertiesEquipments %}
+            <div>
+              <input type="checkbox" id="equipment_{{ propertyEquipment.ID }}" name="equipment[]" value="{{ propertyEquipment.ID }}" />
+              <label for="equipment_{{ propertyEquipment.ID }}">{{ propertyEquipment.Type }}</label>
+            </div>
+          {% endfor %}
+        </div>
 
-      <div class="form-group">
-        <label for="services">Les services</label>
-        {% for propertyService in propertiesServices %}
-          <div>
-            <input type="checkbox" id="service_{{ propertyService.ID }}" name="services[]" value="{{ propertyService.ID }}" />
-            <label for="service_{{ propertyService.ID }}">{{ propertyService.Type }}</label>
-          </div>
-        {% endfor %}
-      </div>
+        <div class="form-group">
+          <label for="services">Les services</label>
+          {% for propertyService in propertiesServices %}
+            <div>
+              <input type="checkbox" id="service_{{ propertyService.ID }}" name="services[]" value="{{ propertyService.ID }}" />
+              <label for="service_{{ propertyService.ID }}">{{ propertyService.Type }}</label>
+            </div>
+          {% endfor %}
+        </div>
 
-      <input type="file" name="Image" accept="image/*" />
-      <input type="submit" value="Publier" />
-    </form>
+        <input type="file" name="Image" accept="image/*" />
+        <input type="submit" value="Publier" />
+      </form>
+    </div>
   </body>
 {% endblock %}

@@ -11,7 +11,11 @@ class RegisterController
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/register.html.twig');
-        echo $template->display();
+        echo $template->display(
+            [
+                'title' => 'Inscription',
+            ]
+        );
     }
 
     public function push()

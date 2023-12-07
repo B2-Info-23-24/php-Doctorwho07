@@ -14,7 +14,7 @@ class AdminPanelController
         $template = $twig->load('pages/AdminPanel.html.twig');
         echo $template->display(
             [
-                'Title' => "Panneau d'administration",
+                'title' => "Panneau d'administration",
                 'admin' => $admin,
             ]
         );
@@ -27,7 +27,7 @@ class AdminPanelController
         $template = $twig->load('pages/AdminUser.html.twig');
         echo $template->display(
             [
-                'title' => "Home",
+                'title' => "Utilisateurs",
                 'users' => UserModel::GetAllUsers(),
                 'admin' => $admin,
             ]
@@ -41,7 +41,7 @@ class AdminPanelController
         $template = $twig->load('pages/AdminProperties.html.twig');
         echo $template->display(
             [
-                'title' => "Home",
+                'title' => "Logements",
                 'properties' => PropertiesModel::GetAllProperties(),
                 'admin' => $admin,
             ]
@@ -55,7 +55,7 @@ class AdminPanelController
         $template = $twig->load('pages/AdminAdmin.html.twig');
         echo $template->display(
             [
-                'title' => "Home",
+                'title' => "Administrateurs",
                 'users' => UserModel::GetAllUsers(),
                 'admin' => $admin,
             ]
@@ -100,6 +100,10 @@ class AdminPanelController
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
         $template = $twig->load('pages/addUser.html.twig');
-        echo $template->display();
+        echo $template->display(
+            [
+                'title' => "Ajouter un utilisateur",
+            ]
+        );
     }
 }

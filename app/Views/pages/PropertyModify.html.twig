@@ -12,22 +12,23 @@
 
 {% block body %}
   <body>
-    <h1>Modifier la propriété</h1>
-    <form action="/updateProperty" method="post">
-      <input type="hidden" name="propertyId" value="{{ property.ID }}" />
-      <label for="title">Titre:</label><br />
-      <input type="text" id="title" name="title" placeholder="Titre" value="{{ property.Title }}" required /><br />
-      <label for="description">Description:</label><br />
-      <textarea id="description" name="description" placeholder="Description" required>{{ property.Description }}</textarea><br />
-      <label for="image">URL de l'image:</label><br />
-      <input type="text" id="image" name="image" placeholder="URL de l'image" value="{{ property.Image }}" required /><br />
-      <label for="price">Prix:</label><br />
-      <input type="number" id="price" name="price" placeholder="Prix" value="{{ property.Price }}" required /><br />
-      <label for="location">Emplacement:</label><br />
-      <input type="text" id="location" name="location" placeholder="Emplacement" value="{{ property.Location }}" required /><br />
-      <label for="city">Ville:</label><br />
-      <input type="text" id="city" name="city" placeholder="Ville" value="{{ property.City }}" required /><br />
-      <input type="submit" value="Enregistrer les modifications" />
-    </form>
+    <div class="container">
+      <form action="/updateProperty" method="post">
+        <input type="hidden" name="propertyId" value="{{ property.ID }}" />
+        <label for="title">Titre:</label><br />
+        <input type="text" id="title" name="title" placeholder="Titre" value="{{ property.Title }}" required /><br />
+        <label for="description">Description:</label><br />
+        <textarea id="description" name="description" placeholder="Description" required>{{ property.Description }}</textarea><br />
+        <label for="image">URL de l'image:</label><br />
+        <input type="text" id="image" name="image" placeholder="URL de l'image" value="{{ property.Image }}" required /><br />
+        <label for="price">Prix:</label><br />
+        <input type="number" id="price" name="price" placeholder="Prix" value="{{ property.Price }}" required /><br />
+        <label for="location">Emplacement:</label><br />
+        <input type="text" id="location" name="location" placeholder="Emplacement" value="{{ property.Location }}" required /><br />
+        <label for="city">Ville:</label><br />
+        <input type="text" id="city" name="city" placeholder="Ville" value="{{ property.City }}" required /><br />
+        <input type="submit" value="Enregistrer les modifications" />
+      </form>
+    </div>
   </body>
 {% endblock %}

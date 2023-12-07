@@ -10,43 +10,44 @@
 {% endblock %}
 {% block body %}
   <body>
-    <h2>{{ Title }}</h2>
-    <a href="/admin/addProperty">Publier un nouveau logement</a>
-    <form action="/admin/searchProperty" method="post">
-      <input type="text" name="searchTerm" placeholder="Rechercher par titre ou ville" />
-      <button type="submit">Rechercher</button>
-    </form>
-    <a href="/admin/properties">reinitialiser</a>
-    <form action="/admin/deleteProperties" method="post">
-      <table>
-        <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Photo</th>
-          <th>Prix par nuitée</th>
-          <th>Ville</th>
-          <th>Action</th>
-          <th>Supprimer</th>
-        </tr>
-        {% for property in properties %}
+    <div class="container">
+      <a href="/admin/addProperty">Publier un nouveau logement</a>
+      <form action="/admin/searchProperty" method="post">
+        <input type="text" name="searchTerm" placeholder="Rechercher par titre ou ville" />
+        <button type="submit">Rechercher</button>
+      </form>
+      <a href="/admin/properties">reinitialiser</a>
+      <form action="/admin/deleteProperties" method="post">
+        <table>
           <tr>
-            <td>{{ property.Title }}</td>
-            <td>{{ property.Description }}</td>
-            <td>
-              <img src="/public/images/{{ property.Image }}" width="50px" alt="photo" />
-            </td>
-            <td>{{ property.Price }}</td>
-            <td>{{ property.City }}</td>
-            <td>
-              <a href="/admin/modifyProperty/{{ property.ID }}">Modifier</a>
-            </td>
-            <td>
-              <input type="checkbox" name="propertiesIDs[]" value="{{ property.ID }}" />
-            </td>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Photo</th>
+            <th>Prix par nuitée</th>
+            <th>Ville</th>
+            <th>Action</th>
+            <th>Supprimer</th>
           </tr>
-        {% endfor %}
-      </table>
-      <button type="submit">Supprimer les logements sélectionnés</button>
-    </form>
+          {% for property in properties %}
+            <tr>
+              <td>{{ property.Title }}</td>
+              <td>{{ property.Description }}</td>
+              <td>
+                <img src="/public/images/{{ property.Image }}" width="50px" alt="photo" />
+              </td>
+              <td>{{ property.Price }}</td>
+              <td>{{ property.City }}</td>
+              <td>
+                <a href="/admin/modifyProperty/{{ property.ID }}">Modifier</a>
+              </td>
+              <td>
+                <input type="checkbox" name="propertiesIDs[]" value="{{ property.ID }}" />
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+        <button type="submit">Supprimer les logements sélectionnés</button>
+      </form>
+    </div>
   </body>
 {% endblock %}

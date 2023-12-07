@@ -10,34 +10,35 @@
 {% endblock %}
 {% block body %}
   <body>
-    <h2>{{ Title }}</h2>
-    <a href="/admin/addUser">Ajouter un nouvel utilisateur</a>
-    <form action="/admin/deleteUsers" method="post">
-      <table>
-        <tr>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Email</th>
-          <th>Téléphone</th>
-          <th>Informations</th>
-          <th>Supprimer</th>
-        </tr>
-        {% for user in users %}
+    <div class="container">
+      <a href="/admin/addUser">Ajouter un nouvel utilisateur</a>
+      <form action="/admin/deleteUsers" method="post">
+        <table>
           <tr>
-            <td>{{ user.Lastname }}</td>
-            <td>{{ user.Firstname }}</td>
-            <td>{{ user.Email }}</td>
-            <td>{{ user.Phone }}</td>
-            <td>
-              <a href="/admin/modifyUser/{{ user.ID }}">Modifier</a>
-            </td>
-            <td>
-              <input type="checkbox" name="userIDs[]" value="{{ user.ID }}" />
-            </td>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Téléphone</th>
+            <th>Informations</th>
+            <th>Supprimer</th>
           </tr>
-        {% endfor %}
-      </table>
-      <button type="submit">Supprimer les utilisateurs sélectionnés</button>
-    </form>
+          {% for user in users %}
+            <tr>
+              <td>{{ user.Lastname }}</td>
+              <td>{{ user.Firstname }}</td>
+              <td>{{ user.Email }}</td>
+              <td>{{ user.Phone }}</td>
+              <td>
+                <a href="/admin/modifyUser/{{ user.ID }}">Modifier</a>
+              </td>
+              <td>
+                <input type="checkbox" name="userIDs[]" value="{{ user.ID }}" />
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+        <button type="submit">Supprimer les utilisateurs sélectionnés</button>
+      </form>
+    </div>
   </body>
 {% endblock %}

@@ -1,0 +1,59 @@
+
+/* Style pour les paragraphes */
+.container p {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #333; /* Couleur du texte */
+}
+.info {
+  font-size: 18px;
+  display: flex ;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Style pour les liens */
+.container a {
+  display: inline-block;
+  margin: 10px;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #fff; /* Couleur du texte */
+  background-color: #3498db; /* Couleur de fond des liens */
+  border-radius: 5px;
+  transition: background-color 0.3s ease; /* Transition au survol */
+}
+
+.container a:hover {
+  background-color: #2980b9; /* Couleur au survol */
+}
+
+/* Style pour le formulaire */
+.container form {
+  margin-top: 20px;
+}
+
+.container input[type="email"],
+.container input[type="password"] {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.container input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e74c3c; /* Couleur de fond du bouton */
+  color: #fff; /* Couleur du texte du bouton */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transition au survol */
+}
+
+.container input[type="submit"]:hover {
+  background-color: #c0392b; /* Couleur au survol */
+}

@@ -6,22 +6,25 @@
 
 {% endblock %}
 {% block body %}
-  <h2>Gérer les Types</h2>
-  <form action="/admin/addType" method="post">
-    <input type="text" name="type" placeholder="Nom du type" required />
-    <button type="submit">Ajouter</button>
-  </form>
-  <ul>
-    {% for type in propertiesTypes %}
-      <li>
-        {{ type.Type }}
-        <a href="/admin/deleteType/{{ type.ID }}">Supprimer</a>
-        <form action="/admin/updateType" method="post">
-          <input type="hidden" name="id" value="{{ type.ID }}" />
-          <input type="text" name="name" placeholder="Nouveau nom" required />
-          <button type="submit">Modifier</button>
-        </form>
-      </li>
-    {% endfor %}
-  </ul>
+  <body>
+    <div class="container">
+      <form action="/admin/addType" method="post">
+        <input type="text" name="type" placeholder="Nom du type" required />
+        <button type="submit">Ajouter</button>
+      </form>
+      <ul>
+        {% for type in propertiesTypes %}
+          <li>
+            {{ type.Type }}
+            <a href="/admin/deleteType/{{ type.ID }}">Supprimer</a>
+            <form action="/admin/updateType" method="post">
+              <input type="hidden" name="id" value="{{ type.ID }}" />
+              <input type="text" name="name" placeholder="Nouveau nom" required />
+              <button type="submit">Modifier</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
 {% endblock %}

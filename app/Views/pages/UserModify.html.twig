@@ -12,20 +12,21 @@
 
 {% block body %}
   <body>
-    <h1>Modifier l'utilisateur</h1>
-    <form action="/updateUser" method="post">
-      <input type="hidden" name="userId" value="{{ user.ID }}" />
-      <label for="title">Nom:</label><br />
-      <input type="text" id="Lastname" name="Lastname" placeholder="Nom" value="{{ user.Lastname }}" required /><br />
-      <label for="description">Description:</label><br />
-      <textarea id="Firstname" name="Firstname" placeholder="Prenom" required>{{ user.Firstname }}</textarea><br />
-      <label for="Phone">Téléphone:</label><br />
-      <input type="number" id="Phone" name="Phone" placeholder="Numéro de téléphone" value="{{ user.Phone }}" required /><br />
-      <label for="Email">Email :</label><br />
-      <input type="text" id="Email" name="Email" placeholder="Email" value="{{ user.Email }}" required /><br />
-      <label for="Password">Nouveau mot de passe:</label><br />
-      <input type="text" id="Password" name="Password" placeholder="Mot de passe" value="{{ user.Password }}" required /><br />
-      <input type="submit" value="Enregistrer les modifications" />
-    </form>
+    <div class="container">
+      <form action="/updateUser" method="post">
+        <input type="hidden" name="userId" value="{{ user.ID }}" />
+        <label for="title">Nom:</label><br />
+        <input type="text" id="Lastname" name="Lastname" placeholder="Nom" value="{{ user.Lastname }}" required /><br />
+        <label for="Firstname">Prenom:</label><br />
+        <textarea id="Firstname" name="Firstname" placeholder="Prenom" required>{{ user.Firstname }}</textarea><br />
+        <label for="Phone">Téléphone:</label><br />
+        <input type="number" id="Phone" name="Phone" placeholder="Numéro de téléphone" value="{{ user.Phone }}" required /><br />
+        <label for="Email">Email :</label><br />
+        <input type="text" id="Email" name="Email" placeholder="Email" value="{{ user.Email }}" required /><br />
+        <label for="Password">Nouveau mot de passe:</label><br />
+        <input type="text" id="Password" name="Password" placeholder="Mot de passe" value="{{ user.Password }}" required /><br />
+        <input type="submit" value="Enregistrer les modifications" />
+      </form>
+    </div>
   </body>
 {% endblock %}

@@ -9,14 +9,16 @@
 {% endblock %}
 {% block body %}
   <body>
-    <div class="container">
+    <div class="containera">
       <div class="cardfilters">
         <h3>Filtres</h3>
         <form action="/" method="post">
           <div class="form-group">
             <label for="price">Prix par nuit</label>
-            <input type="number" id="minprice" name="minprice" min="0" max="10000" placeholder="Minimum" />
-            <input type="number" id="maxprice" name="maxprice" min="0" max="10000" placeholder="Maximum" />
+            <div class="price">
+              <input type="number" id="minprice" name="minprice" min="0" max="10000" placeholder="Minimum" />
+              <input type="number" id="maxprice" name="maxprice" min="0" max="10000" placeholder="Maximum" />
+            </div>
           </div>
           <div class="form-group">
             <label for="Type">Ville</label>
@@ -55,29 +57,35 @@
             {% endfor %}
           </div>
           <input class="submit" type="submit" value="Envoyer" />
+          <a href="/">Reinitialiser</a>
         </form>
       </div>
       <div class="cardlist">
         {% for property in properties %}
-          <div class="card property">
-            <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
-            <h4>{{ property.Title }}</h4>
-            <p>{{ property.Description }}</p>
-            <p>Price: {{ property.Price }}</p>
-            <p>City: {{ property.City }}</p>
-            {% if connected %}
-              {% if property.isFavorite %}
-                <form action="/revokeFavorite" method="post">
-                  <input type="hidden" name="ID" value="{{ property.ID }}" />
-                  <button type="submit">Retirer des favoris</button>
-                </form>
-              {% else %}
-                <form action="/favorite" method="post">
-                  <input type="hidden" name="ID" value="{{ property.ID }}" />
-                  <button type="submit">Ajouter aux favoris</button>
-                </form>
+          <div class="cardproperty">
+            <img src="/public/images/{{ property.Image }}" alt="Property Image" />
+            <div class="text">
+              <h4>{{ property.Title }}</h4>
+              <p>{{ property.Description }}</p>
+              <p>{{ property.Price }}€</p>
+              <p>{{ property.City }}</p>
+            </div>
+            <div class="link">
+              {% if connected %}
+                {% if property.isFavorite %}
+                  <form action="/revokeFavorite" method="post">
+                    <input type="hidden" name="ID" value="{{ property.ID }}" />
+                    <button class="revoke" type="submit">Retirer des favoris</button>
+                  </form>
+                {% else %}
+                  <form action="/favorite" method="post">
+                    <input type="hidden" name="ID" value="{{ property.ID }}" />
+                    <button class="fav" type="submit">Ajouter aux favoris</button>
+                  </form>
+                {% endif %}
               {% endif %}
-            {% endif %}
+              <a class="img" href="/property/{{ property.ID }}">En savoir +</a>
+            </div>
           </div>
         {% endfor %}
       </div>

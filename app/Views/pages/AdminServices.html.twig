@@ -6,24 +6,26 @@
 
 {% endblock %}
 {% block body %}
-  <h2>Gérer les Services</h2>
+  <body>
+    <div class="container">
+      <form action="/admin/addService" method="post">
+        <input type="text" name="serviceName" placeholder="Nom du service" required />
+        <button type="submit">Ajouter</button>
+      </form>
 
-  <form action="/admin/addService" method="post">
-    <input type="text" name="serviceName" placeholder="Nom du service" required />
-    <button type="submit">Ajouter</button>
-  </form>
-
-  <ul>
-    {% for service in services %}
-      <li>
-        {{ service.Type }}
-        <a href="/admin/deleteService/{{ service.ID }}">Supprimer</a>
-        <form action="/admin/updateService" method="post">
-          <input type="hidden" name="id" value="{{ service.ID }}" />
-          <input type="text" name="name" placeholder="Nouveau nom" required />
-          <button type="submit">Modifier</button>
-        </form>
-      </li>
-    {% endfor %}
-  </ul>
+      <ul>
+        {% for service in services %}
+          <li>
+            {{ service.Type }}
+            <a href="/admin/deleteService/{{ service.ID }}">Supprimer</a>
+            <form action="/admin/updateService" method="post">
+              <input type="hidden" name="id" value="{{ service.ID }}" />
+              <input type="text" name="name" placeholder="Nouveau nom" required />
+              <button type="submit">Modifier</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
 {% endblock %}

@@ -9,57 +9,54 @@
 {% endblock %}
 {% block body %}
   <body>
-    {% if not reservations %}
-      <tr>
-        <td colspan="7">Vous n'avez pas encore réservé de logement.</td>
-      </tr>
-    {% else %}
-      <table>
-        <thead>
-          <tr>
-            <th colspan="2">The Properties Table</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Nom du logement</td>
-            <td>Dates</td>
-            <td>Date de réservation</td>
-            <td>Nombre de nuitées</td>
-            <td>Montant total</td>
-            <td>Ville</td>
-            <td>avis</td>
-          </tr>
-
-          {% for reservation in reservations %}
+    <div class="container">
+      {% if not reservations %}
+        <tr>
+          <td colspan="7">Vous n'avez pas encore réservé de logement.</td>
+        </tr>
+      {% else %}
+        <table>
+          <tbody>
             <tr>
-              <td>{{ propertiesDetails[reservation.foreign_key_property].Title }}</td>
-              <td>{{ reservation.Start }} - {{ reservation.End }}</td>
-              <td>{{ reservation.DateOrder }}</td>
-              <td>{{ reservation.NumberOfNights }}</td>
-              <td>{{ reservation.Price }}</td>
-              <td>{{ reservation.City }}</td>
-              <td>
-                {% if reservation.End <= ('now'|date('Y-m-d')) %}
-                  {% if not userHasCommented[reservation.foreign_key_property] %}
-                    <form action="/publishReview" method="post">
-                      <input type="hidden" name="propertyId" value="{{ reservation.foreign_key_property }}" />
-                      <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
-                      <input type="text" id="Comment" name="Comment" placeholder="Comment" required /><br />
-                      <input type="range" id="Rating" name="Rating" placeholder="Rating" required step="1" min="0" max="5" /><br />
-                      <button type="submit">envoyer</button>
-                    </form>
-                  {% else %}
-                    Vous avez déjà commenté ce logement.
-                  {% endif %}
-                {% else %}
-                  Le sejour n'est pas terminé.
-                {% endif %}
-              </td>
+              <td>Nom du logement</td>
+              <td>Dates</td>
+              <td>Date de réservation</td>
+              <td>Nombre de nuitées</td>
+              <td>Montant total</td>
+              <td>Ville</td>
+              <td>avis</td>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% endif %}
+
+            {% for reservation in reservations %}
+              <tr>
+                <td>{{ propertiesDetails[reservation.foreign_key_property].Title }}</td>
+                <td>{{ reservation.Start }} - {{ reservation.End }}</td>
+                <td>{{ reservation.DateOrder }}</td>
+                <td>{{ reservation.NumberOfNights }}</td>
+                <td>{{ reservation.Price }}</td>
+                <td>{{ reservation.City }}</td>
+                <td>
+                  {% if reservation.End <= ('now'|date('Y-m-d')) %}
+                    {% if not userHasCommented[reservation.foreign_key_property] %}
+                      <form action="/publishReview" method="post">
+                        <input type="hidden" name="propertyId" value="{{ reservation.foreign_key_property }}" />
+                        <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
+                        <input type="text" id="Comment" name="Comment" placeholder="Comment" required /><br />
+                        <input type="range" id="Rating" name="Rating" placeholder="Rating" required step="1" min="0" max="5" /><br />
+                        <button type="submit">envoyer</button>
+                      </form>
+                    {% else %}
+                      Vous avez déjà commenté ce logement.
+                    {% endif %}
+                  {% else %}
+                    Le sejour n'est pas terminé.
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
   </body>
 {% endblock %}

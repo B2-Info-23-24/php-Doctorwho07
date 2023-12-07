@@ -1,32 +1,34 @@
-.container {
+.containera {
   display: flex;
   margin: 0 0 1rem 0;
 }
 
+.cardfilters form {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
 .cardfilters {
-  background-color: rgba(101, 220, 157, 0.882);
-  border-radius: 25px;
+  border-right: 1px solid rgba(72, 72, 72, 0.532);
   height: 89vh;
   position: fixed;
   margin-top: 8vh;
   width: 13vw;
   padding: 15px;
+  overflow: scroll;
+  left: 0;
 }
 .form-group {
   margin: 0 0 1rem 0;
   display: flex;
   flex-direction: column;
-}
-
-.cardlist {
-  margin-top: 8vh;
-  margin-left: 13vw;
-  padding: 2%;
+  justify-content: space-around;
 }
 
 .card {
   margin: 0 0 1rem 0;
-  background-color: rgba(101, 220, 157, 0.882);
+  background-color: rgb(72, 187, 105);
   border-radius: 25px;
   padding: 15px;
   width: 100%;
@@ -34,8 +36,81 @@
 
 .submit {
   margin: 0 0 1rem 0;
-  background-color: rgba(101, 220, 157, 0.882);
-  border-radius: 25px;
+  background-color: rgb(72, 187, 105);
+  border-radius: 20px;
   padding: 15px;
   width: 100%;
+  border: 0;
+}
+.submit:hover {
+  background-color: rgba(34, 112, 70, 0.882);
+  color: white;
+  border-color: black;
+  cursor: pointer;
+}
+.cardlist {
+  margin-top: 8vh;
+  margin-left: 15vw;
+  display: flex;
+  flex-direction: wrap;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cardproperty {
+  margin: 20px;
+  width: fit-content;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.cardproperty .fav {
+  margin: 0 0 1rem 0;
+  background-color: rgb(72, 187, 105);
+  border-radius: 10px;
+  padding: 15px;
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+}
+
+.cardproperty .text {
+  margin: 0 0 1rem 0;
+  padding: 15px;
+  width: 100%;
+  max-width: 20rem;
+  margin-bottom: auto;
+}
+.cardproperty .revoke {
+  margin: 0 0 1rem 0;
+  background-color: rgba(247, 41, 41, 0.882);
+  border-radius: 10px;
+  padding: 15px;
+  width: 100%;
+  border-color: black;
+  border: 0;
+  cursor: pointer;
+}
+.cardproperty img {
+  border-radius: 1rem;
+  width: 20rem;
+  height: 20rem;
+  object-fit: cover;
+}
+
+.cardproperty p {
+  margin: 2px;
+}
+.price {
+    display: flex   ;
+}
+h3 {
+    margin: 0 0 1rem 0;
+    padding: 15px;
+    width: 100%;
+    max-width: 20rem;
+    margin-bottom: auto;
 }
