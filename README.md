@@ -93,4 +93,9 @@ DB_PASSWORD=super-secure-password
 DB_HOST=mysql
 ```
 
+## Authors
+
+- [@DoctorWho](https://github.com/Doctorwho07)
+
+<img width="1512" alt="Capture d’écran 2023-12-07 à 23 40 01" src="https://github.com/B2-Info-23-24/php-Doctorwho07/assets/112888518/230e78ce-985d-4da9-81fb-67955fa67293">
 
