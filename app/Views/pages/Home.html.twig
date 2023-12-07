@@ -58,7 +58,7 @@
       <div class="card-list properties">
         {% for property in properties %}
           <div class="card property">
-            <img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" />
+            <a href="/property/{{ property.ID }}"><img src="/public/images/{{ property.Image }}" alt="Property Image" width="100" /></a>
             <h4>{{ property.Title }}</h4>
             <p>{{ property.Description }}</p>
             <p>Price: {{ property.Price }}</p>
