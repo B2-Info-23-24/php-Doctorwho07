@@ -62,7 +62,7 @@ class Route
             '/admin/grantAdminRole' => ['controller' => $PanelAdmin, 'method' => 'grantAdminRole'],
             '/admin/revokeAdminRole' => ['controller' => $PanelAdmin, 'method' => 'revokeAdminRole'],
 
-
+            //---------- Users ---------//
             '/admin/deleteUsers' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
             '/admin/modifyUser' => ['controller' => $User, 'method' => 'modifyUser'],
             '/updateUser' => ['controller' => $User, 'method' => 'updateUser'],
@@ -92,7 +92,11 @@ class Route
             '/admin/addType' => ['controller' => $AdminType, 'method' => 'addType'],
             '/admin/deleteType' => ['controller' => $AdminType, 'method' => 'deleteType'],
             '/admin/updateType' => ['controller' => $AdminType, 'method' => 'updateType'],
-            '/info' => ['controller' => $Home, 'method' => 'info']
+            '/info' => ['controller' => $Home, 'method' => 'info'],
+
+            //---------- Search ---------//
+            '/admin/searchProperty' => ['controller' => $Properties, 'method' => 'searchProperty'],
+
         ];
         if (strpos($route, '/admin/') === 0 && !isset($_SESSION['user']['IsAdmin'])) {
             header("Location: /");

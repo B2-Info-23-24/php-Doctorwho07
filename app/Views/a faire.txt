@@ -1,9 +1,7 @@
 // search bar
-// admin panel a check (modifer utilisateur et property)
 // connexion par telephone
 // mettre les img dans un fichier a part 
 // jwt
-// commentaire pour un seul logement a check pour une seule reservation
 // commentaire uniquement apres avoir passe la date de fin de reservation
 // lorsqu'il na pas de reservation en favoris
 // lorsqu'il na pas fait de reservation
