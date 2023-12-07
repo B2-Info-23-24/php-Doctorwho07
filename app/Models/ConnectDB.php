@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use Dotenv, PDO;
+use Dotenv, PDOException, PDO;
 
 class ConnectDB
 {
@@ -14,7 +14,12 @@ class ConnectDB
         $user = $_ENV['DB_USER'];
         $password = $_ENV['DB_PASSWORD'];
         $DB = $_ENV['DB_NAME'];
-        $db = new PDO("mysql:host=$serverDB;dbname=$DB", $user, $password);
-        return $db;
+
+        try {
+            $connexion = new PDO("mysql:host=$serverDB;dbname=$DB", $user, $password);
+            return $connexion;
+        } catch (PDOException $e) {
+            echo "Erreur de connexion : " . $e->getMessage();
+        }
     }
 }

@@ -1,98 +1,19 @@
-/* Réduction du code en regroupant les styles communs */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
   margin: 0;
   padding: 0;
 }
-
-.container {
-  width: 80%;
-  margin: 0 auto;
+a {
+  font-size: 1.4em;
+  text-decoration: none;
+  color: black;
+  margin: 2px;
+  text-transform: capitalize;
 }
 
-.filters {
-  float: left;
-  width: 30%;
-  margin-right: 2%;
-  background-color: #fff;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.filters h3 {
-  font-size: 20px;
-  margin-bottom: 15px;
-}
-
-.filters .form-group {
-  margin-bottom: 15px;
-}
-
-.filters label {
-  font-weight: bold;
-}
-
-.filters input[type="number"],
-.filters select {
-  width: calc(50% - 5px);
-  margin-right: 5px;
-}
-
-.properties {
-  float: left;
-  width: 67%;
-  background-color: #fff;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.properties table {
-  width: 100%;
-}
-
-.properties table td {
-  padding: 8px;
-  border-bottom: 1px solid #ccc;
-}
-
-.properties table td:first-child {
-  font-weight: bold;
-}
-
-.date-range-picker {
-  position: relative;
-  width: 300px;
-  margin: 20px auto;
-}
-
-#dateRangeInput {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+a:hover {
   cursor: pointer;
+  color: rgb(153, 198, 175);
 }
-
-/* Style du calendrier (à adapter selon la librairie utilisée) */
-.calendar {
-  position: absolute;
-  top: 40px;
-  left: 0;
-  display: none;
-  padding: 10px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  z-index: 1000;
-}
-
-.calendar.active {
-  display: block;
-}
-
-/* Style des jours sélectionnés */
-.calendar .selected {
-  background-color: #367bff;
-  color: #fff;
+* {
+  font-family: sans-serif;
 }

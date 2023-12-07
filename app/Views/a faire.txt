@@ -1,9 +1,6 @@
-// connexion par telephone
 // mettre les img dans un fichier a part 
 // jwt
-// commentaire uniquement apres avoir passe la date de fin de reservation
 // lorsqu'il na pas de logement en favoris
-// chevauchement de dates
 // modifer le type, equipement et services d'un logement 
 
 select commandes.* from commande inner join commande_produit on commandes.id = commande_produit.commandeId where commande_produit.productId = 1

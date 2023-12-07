@@ -5,33 +5,53 @@
 {% block css %}
   <link rel="stylesheet" href="/public/css/navbar.css" />
   <link rel="stylesheet" href="/public/css/style.css" />
-  <!-- Inclure jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <!-- Inclure jQuery UI (avec le composant datepicker) -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 {% endblock %}
 {% block body %}
   <body>
     <div id="reserved-dates" data-reserved-dates="{{ reservedDates|e('html_attr') }}"></div>
-
     <script>
       var reservedDates = JSON.parse(document.getElementById('reserved-dates').getAttribute('data-reserved-dates'))
+      
+      var firstDateSelected = false // Variable pour suivre si la première date est sélectionnée
       
       function disableReservedDates(date) {
         var currentDate = $.datepicker.formatDate('yy-mm-dd', date)
       
-        for (var i = 0; i < reservedDates.length; i++) {
-          var startDate = $.datepicker.formatDate('yy-mm-dd', new Date(reservedDates[i].Start))
-          var endDate = $.datepicker.formatDate('yy-mm-dd', new Date(reservedDates[i].End))
+        if (!firstDateSelected) {
+          for (var i = 0; i < reservedDates.length; i++) {
+            var startDate = $.datepicker.formatDate('yy-mm-dd', new Date(reservedDates[i].Start))
+            var endDate = $.datepicker.formatDate('yy-mm-dd', new Date(reservedDates[i].End))
+            if ((currentDate >= startDate && currentDate <= endDate) || (currentDate <= startDate && currentDate >= endDate)) {
+              return [false]
+            }
+          }
+          return [true]
+        } else {
+          // Si la première date a été sélectionnée, on désactive les dates postérieures à la première réservation
+          var selectedDate = new Date($('.datepicker').val())
+          var selectedDateStr = $.datepicker.formatDate('yy-mm-dd', selectedDate)
       
-          if (currentDate >= startDate && currentDate <= endDate) {
+          var inputDate = new Date(date)
+          var inputDateStr = $.datepicker.formatDate('yy-mm-dd', inputDate)
+      
+          if (inputDate > selectedDate && inputDateStr !== selectedDateStr) {
             return [false]
+          } else {
+            return [true]
           }
         }
-        return [true]
       }
+      
+      // Événement pour marquer la première date sélectionnée
+      $('.datepicker').datepicker({
+        onSelect: function (dateText) {
+          firstDateSelected = true
+        },
+        beforeShowDay: disableReservedDates
+      })
     </script>
     <h1>{{ property['Title'] }}</h1>
     <p>Title: {{ property['Title'] }}</p>

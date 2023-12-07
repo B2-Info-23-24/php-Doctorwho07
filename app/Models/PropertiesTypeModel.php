@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use PDO, PDOException;
+use PDO;
 
 class PropertiesTypeModel
 {

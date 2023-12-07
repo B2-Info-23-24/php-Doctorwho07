@@ -40,16 +40,20 @@
               <td>{{ reservation.Price }}</td>
               <td>{{ reservation.City }}</td>
               <td>
-                {% if not userHasCommented[reservation.foreign_key_property] %}
-                  <form action="/publishReview" method="post">
-                    <input type="hidden" name="propertyId" value="{{ reservation.foreign_key_property }}" />
-                    <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
-                    <input type="text" id="Comment" name="Comment" placeholder="Comment" required /><br />
-                    <input type="range" id="Rating" name="Rating" placeholder="Rating" required step="1" min="0" max="5" /><br />
-                    <button type="submit">envoyer</button>
-                  </form>
+                {% if reservation.End <= ('now'|date('Y-m-d')) %}
+                  {% if not userHasCommented[reservation.foreign_key_property] %}
+                    <form action="/publishReview" method="post">
+                      <input type="hidden" name="propertyId" value="{{ reservation.foreign_key_property }}" />
+                      <input type="text" id="Title" name="Title" placeholder="Title" required /><br />
+                      <input type="text" id="Comment" name="Comment" placeholder="Comment" required /><br />
+                      <input type="range" id="Rating" name="Rating" placeholder="Rating" required step="1" min="0" max="5" /><br />
+                      <button type="submit">envoyer</button>
+                    </form>
+                  {% else %}
+                    Vous avez déjà commenté ce logement.
+                  {% endif %}
                 {% else %}
-                  Vous avez déjà commenté ce logement.
+                  Le sejour n'est pas terminé.
                 {% endif %}
               </td>
             </tr>

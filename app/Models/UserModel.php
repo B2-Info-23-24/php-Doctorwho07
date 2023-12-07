@@ -31,19 +31,20 @@ class UserModel
         $emails = $query->fetchAll(PDO::FETCH_COLUMN);
         return $emails;
     }
-
     static function CheckUserExists($email)
     {
-        try {
-            $db = ConnectDB::getConnection();
-            $sql = "SELECT COUNT(*) FROM users WHERE Email = ?";
-            $query = $db->prepare($sql);
-            $query->execute([$email]);
-            $count = $query->fetchColumn();
+        $connexion = ConnectDB::getConnection();
 
-            return $count > 0;
+        try {
+            $sql = "SELECT COUNT(*) FROM users WHERE Email = :email";
+            $stmt = $connexion->prepare($sql);
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            $result = $stmt->fetchColumn();
+
+            return $result > 0;
         } catch (PDOException $e) {
-            var_dump("Database error: " . $e->getMessage());
+            echo "Erreur lors de la vérification de l'utilisateur : " . $e->getMessage();
             return false;
         }
     }
@@ -62,13 +63,25 @@ class UserModel
     static function AddUser($lastname, $firstname, $phone, $email, $password)
     {
         $db = ConnectDB::getConnection();
-        $hashedPassword = AdminModel::HashPassword($password);
-        $isAdmin = 0;
-        $sql = "INSERT INTO users (Lastname, Firstname,phone, Email, IsAdmin, Password) VALUES ('$lastname', '$firstname','$phone', '$email', '$isAdmin', '$hashedPassword')";
-        $query = $db->prepare($sql);
-        $query->execute();
-        return true;
+        $userExists = UserModel::CheckUserExists($email);
+
+        if ($userExists) {
+            echo "Adresse email déjà utilisée. Veuillez en choisir une autre.";
+            return false;
+        } else {
+            $hashedPassword = AdminModel::HashPassword($password);
+            $isAdmin = 0;
+            try {
+                $sql = "INSERT INTO users (Lastname, Firstname,phone, Email, IsAdmin, Password) VALUES ('$lastname', '$firstname','$phone', '$email', '$isAdmin', '$hashedPassword')";
+                $db->exec($sql);
+                return true;
+            } catch (PDOException $e) {
+                echo "Erreur lors de l'ajout de l'utilisateur : " . $e->getMessage();
+                return false;
+            }
+        }
     }
+
     static function DeleteUser($email, $password)
     {
         $db = ConnectDB::getConnection();
