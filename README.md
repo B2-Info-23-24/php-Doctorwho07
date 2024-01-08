@@ -169,13 +169,13 @@ make start
 ```bash
 make faker
 ```
-### ⚠️ If you encounter an error in step 11, please type the following command and then repeat step 11:**
+### ⚠️ If you encounter an error in step 11, please type the following command and then repeat step 11:
 ```bash
 make reset
 ```
 These errors are not abnormal. They occur in the rare case when Faker generates redundant data, which creates database errors.
 
-12. **You can exit the docker container's command prompt:**
+12. You can exit the docker container's command prompt:
 ```bash
 exit
 ```
@@ -199,8 +199,8 @@ INSERT INTO equipments (Type) VALUES ('Connexion Wi-Fi'),('Climatiseur'),('Chauf
 ```
 ### Open your navigator and go to http://localhost:8080
 <br>To access the administrator panel, you can use the following account:
-<br>- Email : `admin@admin.com`**
-<br>- Password : `admin`**
+<br>- Email : `admin@admin.com`
+<br>- Password : `admin`
 
 
 ## Authors
