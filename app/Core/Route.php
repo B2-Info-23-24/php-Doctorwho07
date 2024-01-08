@@ -66,7 +66,7 @@ class Route
 
             //---------- Users ---------//
             '/admin/deleteUsers' => ['controller' => $PanelAdmin, 'method' => 'deleteUsers'],
-            '/admin/modifyUser' => ['controller' => $User, 'method' => 'modifyUser'],
+            '/admin/modifyUser' => ['controller' => $PanelAdmin, 'method' => 'modifyUser'],
             '/updateUser' => ['controller' => $User, 'method' => 'updateUser'],
             //---------- Properties ---------//
             '/admin/properties' => ['controller' => $PanelAdmin, 'method' => 'properties'],
@@ -120,7 +120,7 @@ class Route
         }
         if (strpos($route, '/admin/modifyUser/') === 0) {
             $userId = intval(substr($route, strlen('/admin/modifyUser/')));
-            $User->modifyUser($userId);
+            $PanelAdmin->modifyUser($userId);
             return;
         }
         if (strpos($route, '/admin/deleteType') === 0) {

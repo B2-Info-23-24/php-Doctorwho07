@@ -36,8 +36,7 @@ class PropertiesModel
         $updateValues[] = $propertyId;
         $sql = "UPDATE properties SET " . implode(", ", $updateFields) . " WHERE ID = ?";
         $query = $db->prepare($sql);
-        $success = $query->execute($updateValues);
-        return $success;
+        return  $query->execute($updateValues);
     }
     static function DeletePropertiesById($propertyId)
     {

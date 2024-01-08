@@ -106,4 +106,34 @@ class AdminPanelController
             ]
         );
     }
+    public function modifyUser($userId)
+    {
+        $user = UserModel::GetUserById($userId);
+        $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
+        $twig = new \Twig\Environment($loader);
+        $template = $twig->load('pages/AdminUserModify.html.twig');
+        echo $template->render([
+            'title' => "Modifier l'utilisateur",
+            'user' => $user,
+        ]);
+    }
+    public function updateUser()
+    {
+        $userId = $_POST['userId'];
+        $lastname = $_POST['Lastname'];
+        $firstname = $_POST['Firstname'];
+        $phone = $_POST['Phone'];
+        $email = $_POST['Email'];
+        $password = $_POST['Password'];
+
+        UserModel::UpdateUserById($userId, [
+            'Lastname' => $lastname,
+            'Firstname' => $firstname,
+            'Phone' => $phone,
+            'Email' => $email,
+            'Password' => $password,
+        ]);
+        header("Location: /admin/users");
+        exit();
+    }
 }

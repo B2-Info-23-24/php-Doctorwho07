@@ -16,9 +16,9 @@ class TypeController
         $template = $twig->load('pages/AdminType.html.twig');
         echo $template->display(
             [
-                'title' => "Home",
+                'title' => "Property Type",
                 'propertiesTypes' => $propertiesTypes,
-                'isAdmin' => $admin,
+                'admin' => $admin,
             ]
         );
     }

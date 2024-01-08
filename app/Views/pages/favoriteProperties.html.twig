@@ -10,7 +10,7 @@
 {% block body %}
   <body>
     <div class="container">
-      {% if property in properties == null %}
+      {% if (properties|length) == 0 %}
         <p>Aucun logement en favoris pour le moment.</p>
       {% else %}
         <table>

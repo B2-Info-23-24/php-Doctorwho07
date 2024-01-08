@@ -18,7 +18,7 @@
         <label for="title">Titre:</label><br />
         <input type="text" id="title" name="title" placeholder="Titre" value="{{ property.Title }}" required /><br />
         <label for="description">Description:</label><br />
-        <textarea id="description" name="description" placeholder="Description" required>{{ property.Description }}</textarea><br />
+        <input id="description" name="description" placeholder="Description" required value="{{ property.Description }}" /><br />
         <label for="image">URL de l'image:</label><br />
         <input type="text" id="image" name="image" placeholder="URL de l'image" value="{{ property.Image }}" required /><br />
         <label for="price">Prix:</label><br />
@@ -27,20 +27,30 @@
         <input type="text" id="location" name="location" placeholder="Emplacement" value="{{ property.Location }}" required /><br />
         <label for="city">Ville:</label><br />
         <input type="text" id="city" name="city" placeholder="Ville" value="{{ property.City }}" required /><br />
+
         <select name="lodgingType" required>
-          <option selected hidden value="0">Choisissez un type</option>
           {% for propertyType in propertiesTypes %}
-            <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
+            {% if propertyType.ID == property.LodgingType %}
+              <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
+            {% else %}
+              <option value="{{ propertyType.ID }}">{{ propertyType.Type }}</option>
+            {% endif %}
           {% endfor %}
         </select>
 
-        {# je n'ai pas eu le temps de le faire fonctionner #}
         {# <label for="equipment_{{ propertyEquipment.ID }}">Les equipements :</label>
         {% for propertyEquipment in propertiesEquipments %}
-          <div>
-            <input type="checkbox" id="equipment_{{ propertyEquipment.ID }}" name="equipments[]" value="{{ propertyEquipment.ID }}" />
-            <label for="equipment_{{ propertyEquipment.ID }}">{{ propertyEquipment.Type }}</label>
-          </div>
+          {% if propertyEquipment.ID == property.Equipments %}
+            <div>
+              <input type="checkbox" id="equipment_{{ propertyEquipment.ID }}" name="equipments[]" value="{{ propertyEquipment.ID }}" checked />
+              <label for="equipment_{{ propertyEquipment.ID }}">{{ propertyEquipment.Type }}</label>
+            </div>
+          {% else %}
+            <div>
+              <input type="checkbox" id="equipment_{{ propertyEquipment.ID }}" name="equipments[]" value="{{ propertyEquipment.ID }}" />
+              <label for="equipment_{{ propertyEquipment.ID }}">{{ propertyEquipment.Type }}</label>
+            </div>
+          {% endif %}
         {% endfor %}
         <label for="service_{{ propertyService.ID }}">Les services :</label>
         {% for propertyService in propertiesServices %}

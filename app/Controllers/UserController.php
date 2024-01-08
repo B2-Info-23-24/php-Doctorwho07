@@ -124,7 +124,7 @@ class UserController
         $user = UserModel::GetUserById($userId);
         $loader = new \Twig\Loader\FilesystemLoader('App/Views/');
         $twig = new \Twig\Environment($loader);
-        $template = $twig->load('pages/UserModify.html.twig');
+        $template = $twig->load('pages/AccountModify.html.twig');
 
         echo $template->render([
             'title' => "Modifier l'utilisateur",
@@ -141,19 +141,14 @@ class UserController
         $email = $_POST['Email'];
         $password = $_POST['Password'];
 
-        $success = UserModel::UpdateUserById($userId, [
+        UserModel::UpdateUserById($userId, [
             'Lastname' => $lastname,
             'Firstname' => $firstname,
             'Phone' => $phone,
             'Email' => $email,
             'Password' => $password,
         ]);
-
-        if ($success) {
-            header("Location: /admin/users");
-            exit();
-        } else {
-            echo "Échec de la mise à jour de la propriété.";
-        }
+        header("Location: /user");
+        exit();
     }
 }
