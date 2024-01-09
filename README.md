@@ -166,11 +166,9 @@ composer dump-autoload
 exit
 ```
 
-### Execute the following commands one by one to initialize the project:**
+### Execute the following commands one by one to initialize the project:
 ```bash
-make start
-```
-```bash
+cd src
 make faker
 ```
 These errors are not abnormal. They occur in the rare case when Faker generates redundant data, which creates database errors.
