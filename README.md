@@ -73,6 +73,7 @@ DB_HOST=mysql
 ### Create a file `docker-compose.yml` inside the folder `alexis-php` (outside of `src` then) and paste the following content:
 
 ```
+cd ..
 nano docker-compose.yml
 ```
 write this
