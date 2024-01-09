@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use Dotenv, PDOException, PDO;
+use Dotenv, PDOException, PDO, Exception;
 
 class ConnectDB
 {
@@ -10,7 +10,8 @@ class ConnectDB
     {
         $dotenv = Dotenv\Dotenv::createImmutable('./');
         $dotenv->load();
-        $serverDB = "mysql";
+        $serverDB = $_ENV['DB_HOST'] ?? "mysql";
+
         $user = $_ENV['DB_USER'];
         $password = $_ENV['DB_PASSWORD'];
         $DB = $_ENV['DB_NAME'];
@@ -20,6 +21,15 @@ class ConnectDB
             return $connexion;
         } catch (PDOException $e) {
             echo "Erreur de connexion : " . $e->getMessage();
+            $serverDB = "mysql";
+
+            try {
+                $connexion = new PDO("mysql:host=$serverDB;dbname=$DB", $user, $password);
+                return $connexion;
+            } catch (PDOException $e) {
+                echo "Erreur de connexion à la base de données par défaut : " . $e->getMessage();
+                return null;
+            }
         }
     }
 }
