@@ -194,6 +194,8 @@ Navigate to Beekeeper after connecting to the database
 INSERT INTO services (Type) VALUES ('Transferts aéroport'),('Petit-déjeuner'),('Service de ménage'),('Location de voiture'),('Visites guidées'),('Cours de cuisine'),('Loisirs');
 INSERT INTO lodging_types (Type) VALUES ('Appartements'),('Maisons'),('Chalets'),('Villas'),('Péniches'),('Yourtes'),('Cabanes'),('Igloos'),('Tentes'),('Cars');
 INSERT INTO equipments (Type) VALUES ('Connexion Wi-Fi'),('Climatiseur'),('Chauffage'),('Machine à laver'),('Sèche-linge'),('Télévision'),('Fer à repasser / Planche à repasser'),('Nintendo Switch'),('PS5'),('Terrasse'),('Balcon'),('Piscine'),('Jardin');
+INSERT INTO users (Lastname, Firstname, Phone, Email, IsAdmin, Password) VALUES 
+    ('Admin_Lastname', 'Admin_Firstname', '+1234567890', 'admin@admin', 1, 'admin')
 ```
 ### Open your navigator and go to http://localhost:8080
 <br>To access the administrator panel, you can use the following account:
