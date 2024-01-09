@@ -81,5 +81,12 @@ class InitDB
             FOREIGN KEY (foreign_key_property) REFERENCES properties(id) ON DELETE CASCADE,
             foreign_key_services INT,
             FOREIGN KEY (foreign_key_services) REFERENCES services(id) ON DELETE CASCADE)");
+        $password = password_hash('admin', PASSWORD_DEFAULT);
+        $query = "INSERT INTO users (Lastname, Firstname, Phone, Email, IsAdmin, Password) 
+          SELECT 'Admin_Lastname', 'Admin_Firstname', '+1234567890', 'admin@admin', 1, '$password'
+          FROM dual 
+          WHERE NOT EXISTS (SELECT * FROM users WHERE Email = 'admin@admin')";
+
+        $connexion->exec($query);
     }
 }
