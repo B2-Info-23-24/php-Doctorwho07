@@ -162,6 +162,9 @@ composer update
 ```bash
 composer dump-autoload
 ```
+```bash
+exit
+```
 
 ### Execute the following commands one by one to initialize the project:**
 ```bash
@@ -169,10 +172,6 @@ make start
 ```
 ```bash
 make faker
-```
-### ⚠️ If you encounter an error in step 11, please type the following command and then repeat step 11:
-```bash
-make reset
 ```
 These errors are not abnormal. They occur in the rare case when Faker generates redundant data, which creates database errors.
 
