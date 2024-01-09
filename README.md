@@ -65,9 +65,9 @@ nano src/.env
 ```
 write this : 
 ```
-DB_NAME=NonoDatabase
-DB_USER=Nono
-DB_PASSWORD=NonoPassword
+DB_NAME=db_test
+DB_USER=Docker
+DB_PASSWORD=super-secure-password
 DB_HOST=mysql
 ```
 ### Create a file `docker-compose.yml` inside the folder `alexis-php` (outside of `src` then) and paste the following content:
