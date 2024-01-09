@@ -10,7 +10,7 @@ class ConnectDB
     {
         $dotenv = Dotenv\Dotenv::createImmutable('./');
         $dotenv->load();
-        $serverDB = $_ENV['DB_HOST'];
+        $serverDB = "mysql";
         $user = $_ENV['DB_USER'];
         $password = $_ENV['DB_PASSWORD'];
         $DB = $_ENV['DB_NAME'];
