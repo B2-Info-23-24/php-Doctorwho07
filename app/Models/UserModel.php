@@ -36,18 +36,15 @@ class UserModel
         $connexion = ConnectDB::getConnection();
 
         try {
-            $sql = "SELECT COUNT(*) FROM users WHERE Email = :email";
-            $stmt = $connexion->prepare($sql);
-            $stmt->bindParam(':email', $email);
-            $stmt->execute();
-            $result = $stmt->fetchColumn();
-
-            return $result > 0;
+            $sql = "SELECT ID FROM users WHERE Email = '$email'";
+            $result = $connexion->query($sql)->fetchColumn();
+            return $result;
         } catch (PDOException $e) {
             echo "Erreur lors de la vérification de l'utilisateur : " . $e->getMessage();
             return false;
         }
     }
+
 
     static function GetUserIdByEmail($email)
     {
