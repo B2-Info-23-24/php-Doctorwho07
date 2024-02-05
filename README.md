@@ -50,7 +50,7 @@ To install the project from the Git repository, use the following command in you
 Create a folder `alexis-php`
 
 ```
-git clone [https://github.com/B2-Info-23-24/php-Doctorwho07.git]
+git clone https://github.com/B2-Info-23-24/php-Doctorwho07.git
 ```
 
 ### Rename the cloned folder into `src`. Or you can use the following command:
