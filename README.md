@@ -50,12 +50,11 @@ To install the project from the Git repository, use the following command in you
 Create a folder `alexis-php`
 
 ```
-git clone [https://github.com/B2-Info-23-24/php-Doctorwho07.git]
+git clone https://github.com/B2-Info-23-24/php-Doctorwho07.git
 ```
 
 ### Rename the cloned folder into `src`. Or you can use the following command:
 ```
-mkdir src
 mv php-Doctorwho07 src
 ```
 
@@ -148,7 +147,7 @@ docker-compose up -d
 
 ### Enter into the Docker container's command prompt:**
 ```
-docker exec -it projetphp-web-1 /bin/bash
+docker exec -it alexis-php-web-1 /bin/bash
 ```
 
 ### Install the necessary packages by executing the following commands one by one:**
