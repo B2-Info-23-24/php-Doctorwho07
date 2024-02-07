@@ -147,7 +147,7 @@ docker-compose up -d
 
 ### Enter into the Docker container's command prompt:**
 ```
-docker exec -it projetphp-web-1 /bin/bash
+docker exec -it alexis-php-web-1 /bin/bash
 ```
 
 ### Install the necessary packages by executing the following commands one by one:**
