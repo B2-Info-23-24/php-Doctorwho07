@@ -68,7 +68,7 @@ write this :
 DB_NAME=db_test
 DB_USER=Docker
 DB_PASSWORD=super-secure-password
-DB_HOST=localhost:3306
+DB_HOST=mysql
 ```
 ### Create a file `docker-compose.yml` inside the folder `alexis-php` (outside of `src` then) and paste the following content:
 
