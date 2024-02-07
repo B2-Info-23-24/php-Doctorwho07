@@ -55,7 +55,6 @@ git clone https://github.com/B2-Info-23-24/php-Doctorwho07.git
 
 ### Rename the cloned folder into `src`. Or you can use the following command:
 ```
-mkdir src
 mv php-Doctorwho07 src
 ```
 
