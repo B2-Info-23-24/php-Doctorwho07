@@ -162,6 +162,9 @@ composer update
 composer dump-autoload
 ```
 ```bash
+make faker
+```
+```bash
 exit
 ```
 
