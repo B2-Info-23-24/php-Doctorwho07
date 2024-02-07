@@ -168,18 +168,6 @@ make faker
 exit
 ```
 
-### Execute the following commands one by one to initialize the project:
-```bash
-cd src
-make faker
-```
-These errors are not abnormal. They occur in the rare case when Faker generates redundant data, which creates database errors.
-
-12. You can exit the docker container's command prompt:
-```bash
-exit
-```
-
 ###  Project Initialization
 
 Navigate to the root directory, where the docker-compose.yml file is located
