@@ -1,0 +1,23 @@
+{
+  "name": "alexisrouches/src",
+  "autoload": {
+    "psr-4": {
+      "Core\\": "App/Core/",
+      "Controllers\\": "App/Controllers/",
+      "Models\\": "App/Models/",
+      "Views\\": "App/Views/",
+      "Pages\\": "App/Views/pages"
+    }
+  },
+  "authors": [
+    {
+      "name": "Doctorwho07",
+      "email": "alexis.rouches@icloud.com"
+    }
+  ],
+  "require": {
+    "twig/twig": "^3.0",
+    "vlucas/phpdotenv": "^5.6",
+    "fakerphp/faker": "^1.23"
+  }
+}
